@@ -36,3 +36,9 @@ lerna-debug.log*
 
 # ENV value
 .env
+
+# Script
+src/scripts
+
+# TypeOrm
+src/migration

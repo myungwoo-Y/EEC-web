@@ -1,9 +1,7 @@
 import { configService } from 'src/config/config.service';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { config } from 'dotenv';
 import { User } from 'src/model/user.entity';
 
-config();
 
 export default new DataSource({
   type: 'postgres',

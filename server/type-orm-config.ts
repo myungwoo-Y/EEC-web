@@ -1,5 +1,5 @@
 import { configService } from 'src/config/config.service';
-import { DataSource, DataSourceOptions } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { User } from 'src/model/user.entity';
 
 

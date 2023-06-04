@@ -5,6 +5,7 @@ interface InputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any;
   placeholder?: string;
   type: 'email' | 'password';
+  value: string;
 }
 
 export default function Input({
@@ -12,16 +13,18 @@ export default function Input({
   placeholder = '',
   onChange,
   type,
+  value
 }: InputProps) {
   return (
     <>
       <input
         className={
-          className + ' border-[1px] border-gray-300 rounded-md w-72 py-1 px-2'
+          className + ' border-[1px] border-gray-300 rounded-md w-72 py-1 px-3 bg-[#F5F7F9] focus:bg-white focus:border-primary'
         }
         type={type}
         onChange={onChange}
         placeholder={placeholder}
+        value={value}
       />
     </>
   );

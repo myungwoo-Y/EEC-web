@@ -5,12 +5,14 @@ import { setCredentials } from "@/features/auth/authSlice";
 import { useLoginMutation } from "@/services/auth";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
+  const { push } = useRouter();
 
   const handleLogin = async () => {
     try {
@@ -20,8 +22,10 @@ export default function Login() {
       }).unwrap();
   
       dispatch(setCredentials(user));
+
+      push('/');
     } catch (e) {
-      console.error(e);
+      alert('로그인을 다시 시도해주세요');
     }
   }
 
@@ -36,6 +40,8 @@ export default function Login() {
             type="email"
             className="w-96"
             onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            placeholder="email"
           />
         </div>
         <div className="mt-2">
@@ -44,6 +50,8 @@ export default function Login() {
             type="password"
             className="w-96"
             onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            placeholder="password"
           />
         </div>
         <button 

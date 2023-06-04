@@ -1,6 +1,7 @@
 import './globals.css';
 import SideBar from '@/components/SideBar';
 import Link from 'next/link';
+import Nav from '@/components/Nav';
 
 export const metadata = {
   title: 'Create Next App',
@@ -18,20 +19,7 @@ export default function RootLayout({
         <div className="flex">
           <SideBar />
           <div className="bg-[#EDEFF3] w-full flex flex-col pb-6">
-            <div className="flex w-full h-14 py-4 flex-row-reverse px-6">
-              <div>
-                <i />
-                <Link href="/login">
-                  로그인
-                </Link>
-              </div>
-              <div className="mr-3">
-                <i />
-                <Link href="/signup">
-                  회원가입
-                </Link>
-              </div>
-            </div>
+            <Nav />
             <div className="bg-white mx-6 rounded-sm h-full">
               {children}
             </div>

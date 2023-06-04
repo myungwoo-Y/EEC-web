@@ -1,31 +1,32 @@
-import React from 'react';
+import React, { HTMLInputTypeAttribute } from 'react';
 
 interface InputProps {
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any;
   placeholder?: string;
-  type: 'email' | 'password';
+  type: HTMLInputTypeAttribute;
   value: string;
+  label?: string;
 }
 
 export default function Input({
   className = '',
   placeholder = '',
+  label = '',
   onChange,
   type,
-  value
+  value,
 }: InputProps) {
   return (
-    <>
+    <div className={className}>
+      <label className="block mb-1">{label}</label>
       <input
-        className={
-          className + ' border-[1px] border-gray-300 rounded-md w-72 py-1 px-3 bg-[#F5F7F9] focus:bg-white focus:border-primary'
-        }
+        className='border-[1px] border-gray-300 rounded-md py-1 px-3 bg-[#F5F7F9] focus:bg-white focus:border-primary w-full'
         type={type}
         onChange={onChange}
         placeholder={placeholder}
         value={value}
       />
-    </>
+    </div>
   );
 }

@@ -1,7 +1,7 @@
 import './globals.css';
 import SideBar from '@/components/SideBar';
-import Link from 'next/link';
 import Nav from '@/components/Nav';
+import { Providers } from '@/redux/provider';
 
 export const metadata = {
   title: 'Create Next App',
@@ -16,15 +16,15 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <div className="flex">
-          <SideBar />
-          <div className="bg-[#EDEFF3] w-full flex flex-col pb-6">
-            <Nav />
-            <div className="bg-white mx-6 rounded-sm h-full">
-              {children}
+        <Providers>
+          <div className="flex">
+            <SideBar />
+            <div className="bg-[#EDEFF3] w-full flex flex-col pb-6">
+              <Nav />
+              <div className="bg-white mx-6 rounded-sm h-full">{children}</div>
             </div>
           </div>
-        </div>
+        </Providers>
       </body>
     </html>
   );

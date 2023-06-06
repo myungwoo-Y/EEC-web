@@ -1,0 +1,64 @@
+export function validateEmail(value: string) {
+  if (!value) {
+    return '이메일을 입력해주세요';
+  }
+  return '';
+}
+
+export function validatePassword(value: string) {
+  if (!value) {
+    return '비밀번호를 입력해주세요';
+  }
+  return '';
+}
+
+export function validateConfirmPassword(password: string, confirmPassword: string) {
+  if (!confirmPassword) {
+    return '비밀번호를 한번 더 입력해주세요';
+  } else if (password !== confirmPassword) {
+    return '비밀번호가 서로 같지 않습니다'
+  }
+  return '';
+}
+
+export function validateClassification(value: string) {
+  if (!value) {
+    return '계정 구분을 선택해주세요';
+  }
+  return '';
+}
+
+export function validateDepartment(value: string) {
+  if (!value) {
+    return '소속을 입력해주세요';
+  }
+  return '';
+}
+
+export function validateJobLevel(value: string) {
+  if (!value) {
+    return '직급을 입력해주세요';
+  }
+  return '';
+}
+
+export function validateName(value: string) {
+  if (!value) {
+    return '이름을 입력해주세요';
+  }
+  return '';
+}
+
+export function validatePhoneNumber(value: string) {
+  if (!value) {
+    return '핸드폰 번호를 입력해주세요';
+  }
+  return '';
+}
+
+export function validateClassOrder(value: string) {
+  if (!value) {
+    return '기수를 선택해주세요';
+  }
+  return '';
+}

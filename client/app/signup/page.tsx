@@ -3,27 +3,49 @@
 import Input from '@/components/Input';
 import Select from '@/components/Select';
 import { addSlashToStr } from '@/lib/date';
+import { shallowEqual } from '@/lib/object';
+import {
+  validateClassification,
+  validateClassOrder,
+  validateConfirmPassword,
+  validateDepartment,
+  validateEmail,
+  validateJobLevel,
+  validateName,
+  validatePassword,
+  validatePhoneNumber,
+} from '@/lib/validation/userValidate';
 import React, { useState } from 'react';
-
-const initUser = {
-  email: '',
-  password: '',
-  classification: '',
-  name: '',
-  birthday: new Date(),
-  phone_number: '',
-  department: '',
-  job_level: '',
-  class_order: ''
-}
+import { initErrorMsgMap, initUser } from './model';
 
 function Signup() {
   const [newUser, setNewUser] = useState(initUser);
   const [confirPassword, setConfirmPassword] = useState('');
   const [birthday, setBirthday] = useState('');
+  const [errorMsgMap, setErrorMsgMap] = useState(initErrorMsgMap);
 
-  const handleSubmit = () => {
-    console.log(newUser);
+  const clearErrorMsg = (key: keyof typeof errorMsgMap) => {
+    setErrorMsgMap({...errorMsgMap, [key]: ''})
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const newErrorMsgMap = {...errorMsgMap};
+
+    newErrorMsgMap.email = validateEmail(newUser.email)
+    newErrorMsgMap.password = validatePassword(newUser.password);
+    newErrorMsgMap.confirmPassword = validateConfirmPassword(newUser.password, confirPassword);
+    newErrorMsgMap.classification = validateClassification(newUser.classification);
+    newErrorMsgMap.department = validateDepartment(newUser.department);
+    newErrorMsgMap.job_level = validateJobLevel(newUser.job_level);
+    newErrorMsgMap.name = validateName(newUser.name);
+    newErrorMsgMap.phone_number = validatePhoneNumber(newUser.phone_number);
+    newErrorMsgMap.class_order = validateClassOrder(newUser.class_order);
+    
+    if (!shallowEqual(errorMsgMap, newErrorMsgMap)) {
+      setErrorMsgMap(newErrorMsgMap);
+    }
   }
 
   return (
@@ -39,7 +61,11 @@ function Signup() {
           placeholder="아이디 / 이메일"
           value={newUser.email}
           label="아이디"
-          onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+          onChange={(e) => {
+            setNewUser({ ...newUser, email: e.target.value })
+            clearErrorMsg('email');
+          }}
+          error={errorMsgMap.email}
         />
         <Input
           type="password"
@@ -47,7 +73,11 @@ function Signup() {
           placeholder="비밀번호를 입력해주세요"
           value={newUser.password}
           label="비밀번호"
-          onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+          onChange={(e) => {
+            setNewUser({ ...newUser, password: e.target.value })
+            clearErrorMsg('password')
+          }}
+          error={errorMsgMap.password}
         />
         <Input
           type="password"
@@ -56,17 +86,21 @@ function Signup() {
           value={confirPassword}
           onChange={(e) => {
             setConfirmPassword(e.target.value);
+            clearErrorMsg('confirmPassword')
           }}
           label="비밀번호 확인"
+          error={errorMsgMap.confirmPassword}
         />
         <Select
           className="mt-4"
           label="구분"
-          onChange={(e) =>
+          error={errorMsgMap.classification}
+          onChange={(e) =>{
             setNewUser({ ...newUser, classification: e.target.value })
-          }
+            clearErrorMsg('classification')
+          }}
         >
-          <option value='' disabled selected>
+          <option value='' disabled>
             계정 구분을 선택해주세요
           </option>
           <option value="S">수강생</option>
@@ -77,7 +111,11 @@ function Signup() {
           className="w-96 mt-4"
           value={newUser.name}
           label="이름"
-          onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+          onChange={(e) => {
+            setNewUser({ ...newUser, name: e.target.value })
+            clearErrorMsg('name');
+          }}
+          error={errorMsgMap.name}
         />
         <Input
           type="text"
@@ -85,10 +123,12 @@ function Signup() {
           placeholder="6자리 숫자"
           value={birthday}
           label="생년월일"
+          error={errorMsgMap.birthday}
           onChange={(e) => {
             const birthday = e.target.value;
 
             setBirthday(birthday);
+            clearErrorMsg('birthday');
 
             if (birthday && birthday.length >= 6) {
               const birthdayDate = addSlashToStr(birthday, 2);
@@ -99,39 +139,47 @@ function Signup() {
         <Input
           type="text"
           className="w-96 mt-4"
-          placeholder="'-'(하이픈)을 제외하고 입력"
+          placeholder="'-'(하이픈)을 제외해주세요"
           value={newUser.phone_number}
           label="핸드폰번호"
-          onChange={(e) =>
+          error={errorMsgMap.phone_number}
+          onChange={(e) => {
             setNewUser({ ...newUser, phone_number: e.target.value })
-          }
+            clearErrorMsg('phone_number');
+          }}
         />
         <Input
           type="text"
           className="w-96 mt-4"
           value={newUser.department}
           label="소속"
-          onChange={(e) =>
+          error={errorMsgMap.department}
+          onChange={(e) => {
             setNewUser({ ...newUser, department: e.target.value })
-          }
+            clearErrorMsg('department');
+          }}
         />
         <Input
           type="text"
           className="w-96 mt-4"
           value={newUser.job_level}
           label="직급"
-          onChange={(e) =>
+          error={errorMsgMap.job_level}
+          onChange={(e) => {
             setNewUser({ ...newUser, job_level: e.target.value })
-          }
+            clearErrorMsg('job_level');
+          }}
         />
         <Select
           className="mt-4"
           label="기수"
-          onChange={(e) =>
+          error={errorMsgMap.class_order}
+          onChange={(e) => {
             setNewUser({ ...newUser, class_order: e.target.value })
-          }
+            clearErrorMsg('class_order');
+          }}
         >
-          <option value='' disabled selected>기수를 선택해 주세요</option>
+          <option value='' disabled>기수를 선택해 주세요</option>
           <option value="1">1기</option>
           <option value="2">2기</option>
           <option value="3">3기</option>

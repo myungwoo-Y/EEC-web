@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 function SideBar() {
   return (
-    <div className="bg-secondary h-screen">
+    <div className="bg-secondary min-h-screen max-h-fit">
       <div className="px-8 pt-7 mb-16">
         <Image 
           src="https://nowzone.b-cdn.net/eec/logo.png"

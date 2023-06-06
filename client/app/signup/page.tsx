@@ -50,7 +50,7 @@ function Signup() {
 
   return (
     <div className="flex flex-col items-center justify-center h-full mt-5">
-      <form className="pb-24" onSubmit={handleSubmit}>
+      <form className="pb-24" onSubmit={handleSubmit} >
         <p className="text-3xl font-semibold">회원가입</p>
         <p className="text-lg mt-2 text-gray-400">
           아래의 정보들을 입력해주세요
@@ -59,6 +59,7 @@ function Signup() {
           type="email"
           className="w-96 mt-4"
           placeholder="아이디 / 이메일"
+          autoComplete="off"
           value={newUser.email}
           label="아이디"
           onChange={(e) => {
@@ -69,6 +70,7 @@ function Signup() {
         />
         <Input
           type="password"
+          autoComplete="new-password"
           className="w-96 mt-4"
           placeholder="비밀번호를 입력해주세요"
           value={newUser.password}
@@ -81,6 +83,7 @@ function Signup() {
         />
         <Input
           type="password"
+          autoComplete="new-password"
           className="w-96 mt-4"
           placeholder="한번 더 입력해주세요"
           value={confirPassword}
@@ -109,6 +112,7 @@ function Signup() {
         <Input
           type="text"
           className="w-96 mt-4"
+          autoComplete="name"
           value={newUser.name}
           label="이름"
           onChange={(e) => {
@@ -118,14 +122,16 @@ function Signup() {
           error={errorMsgMap.name}
         />
         <Input
-          type="text"
+          type="number"
           className="w-96 mt-4"
           placeholder="6자리 숫자"
+          maxLength={6}
           value={birthday}
           label="생년월일"
           error={errorMsgMap.birthday}
           onChange={(e) => {
-            const birthday = e.target.value;
+            const { value, maxLength } = e.target;
+            const birthday = value.slice(0, maxLength);
 
             setBirthday(birthday);
             clearErrorMsg('birthday');
@@ -137,14 +143,17 @@ function Signup() {
           }}
         />
         <Input
-          type="text"
+          type="number"
           className="w-96 mt-4"
           placeholder="'-'(하이픈)을 제외해주세요"
           value={newUser.phone_number}
           label="핸드폰번호"
           error={errorMsgMap.phone_number}
           onChange={(e) => {
-            setNewUser({ ...newUser, phone_number: e.target.value })
+            setNewUser({
+              ...newUser,
+              phone_number: e.target.value.slice(0, 11),
+            });
             clearErrorMsg('phone_number');
           }}
         />

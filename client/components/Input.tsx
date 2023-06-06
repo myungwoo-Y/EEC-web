@@ -1,14 +1,12 @@
 import React, { HTMLInputTypeAttribute } from 'react';
 
-interface InputProps {
-  className?: string;
+interface InputProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any;
-  placeholder?: string;
   type: HTMLInputTypeAttribute;
   value: string;
   label?: string;
   error?: string;
-  maxLength?: number;
+  autoComplete?: string;
 }
 
 export default function Input({

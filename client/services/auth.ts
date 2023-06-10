@@ -1,6 +1,6 @@
 import { User } from '@/../server/src/model/user.entity'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { RootState } from '../redux/store'
+import { addTokenToHeader, getBaseHost } from './common';
 
 
 export interface UserResponse {
@@ -15,13 +15,9 @@ export interface LoginRequest {
 
 export const authApi = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8080/auth',
+    baseUrl: `${getBaseHost()}/auth`,
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`)
-      }
-      return headers
+      return addTokenToHeader(headers, getState);
     },
   }),
   endpoints: (builder) => ({

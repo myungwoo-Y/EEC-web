@@ -1,4 +1,4 @@
-export const initUser = {
+export const CreateUser = {
   email: '',
   password: '',
   classification: '',
@@ -10,8 +10,8 @@ export const initUser = {
   class_order: '',
 };
 
-export const initErrorMsgMap = {
-  ...initUser,
+export const ErrorMsgMap = {
+  ...CreateUser,
   birthday: '',
   confirmPassword: '',
 };

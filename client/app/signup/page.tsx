@@ -15,14 +15,16 @@ import {
   validatePassword,
   validatePhoneNumber,
 } from '@/lib/validation/userValidate';
+import { useAddUserMutation } from '@/services/user';
 import React, { useState } from 'react';
-import { initErrorMsgMap, initUser } from './model';
+import { ErrorMsgMap, CreateUser } from './model';
 
 function Signup() {
-  const [newUser, setNewUser] = useState(initUser);
+  const [newUser, setNewUser] = useState(CreateUser);
   const [confirPassword, setConfirmPassword] = useState('');
   const [birthday, setBirthday] = useState('');
-  const [errorMsgMap, setErrorMsgMap] = useState(initErrorMsgMap);
+  const [errorMsgMap, setErrorMsgMap] = useState(ErrorMsgMap);
+  const [addUser, { isLoading, isError, isSuccess }] = useAddUserMutation();
 
   const clearErrorMsg = (key: keyof typeof errorMsgMap) => {
     setErrorMsgMap({...errorMsgMap, [key]: ''})
@@ -45,7 +47,10 @@ function Signup() {
     
     if (!shallowEqual(errorMsgMap, newErrorMsgMap)) {
       setErrorMsgMap(newErrorMsgMap);
+      return;
     }
+
+    addUser(newUser);
   }
 
   return (

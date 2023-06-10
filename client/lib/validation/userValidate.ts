@@ -1,7 +1,12 @@
-export function validateEmail(value: string) {
+export function validateEmail(value: string, user: any) {
   if (!value) {
     return '이메일을 입력해주세요';
   }
+  
+  if (user) {
+    return '중복된 이메일 입니다'
+  }
+  
   return '';
 }
 

@@ -15,8 +15,8 @@ import {
   validatePassword,
   validatePhoneNumber,
 } from '@/lib/validation/userValidate';
-import { useAddUserMutation } from '@/services/user';
-import React, { useState } from 'react';
+import { useAddUserMutation, useLazyGetUserQuery } from '@/services/user';
+import React, { useEffect, useState } from 'react';
 import { ErrorMsgMap, CreateUser } from './model';
 
 function Signup() {
@@ -25,17 +25,20 @@ function Signup() {
   const [birthday, setBirthday] = useState('');
   const [errorMsgMap, setErrorMsgMap] = useState(ErrorMsgMap);
   const [addUser, { isLoading, isError, isSuccess }] = useAddUserMutation();
+  const [triggerUserByEmail, userResult] = useLazyGetUserQuery();
+
+  const user = userResult.data;
 
   const clearErrorMsg = (key: keyof typeof errorMsgMap) => {
     setErrorMsgMap({...errorMsgMap, [key]: ''})
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrorMsgMap = {...errorMsgMap};
 
-    newErrorMsgMap.email = validateEmail(newUser.email)
+    newErrorMsgMap.email = await validateEmail(newUser.email, user);
     newErrorMsgMap.password = validatePassword(newUser.password);
     newErrorMsgMap.confirmPassword = validateConfirmPassword(newUser.password, confirPassword);
     newErrorMsgMap.classification = validateClassification(newUser.classification);
@@ -63,13 +66,20 @@ function Signup() {
         <Input
           type="email"
           className="w-96 mt-4"
-          placeholder="아이디 / 이메일"
+          placeholder="이메일"
           autoComplete="off"
           value={newUser.email}
-          label="아이디"
+          label="이메일"
           onChange={(e) => {
             setNewUser({ ...newUser, email: e.target.value })
             clearErrorMsg('email');
+          }}
+          onBlur={async (e) => {
+            const res = await triggerUserByEmail(e.target.value);
+            setErrorMsgMap({
+              ...errorMsgMap,
+              email: validateEmail(newUser.email, res.data) as string
+            })
           }}
           error={errorMsgMap.email}
         />

@@ -8,6 +8,7 @@ export const CreateUser = {
   department: '',
   job_level: '',
   class_order: '',
+  agreement_terms: true
 };
 
 export const ErrorMsgMap = {

@@ -1,6 +1,5 @@
 import { User } from '@/../server/src/model/user.entity'
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { addTokenToHeader, getBaseHost } from './common';
+import { emptySplitApi } from './base';
 
 
 export interface UserResponse {
@@ -13,22 +12,17 @@ export interface LoginRequest {
   password: string
 }
 
-export const authApi = createApi({
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${getBaseHost()}/auth`,
-    prepareHeaders: (headers, { getState }) => {
-      return addTokenToHeader(headers, getState);
-    },
-  }),
+export const authApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<UserResponse, LoginRequest>({
       query: (credentials) => ({
-        url: 'login',
+        url: '/auth/login',
         method: 'POST',
         body: credentials,
       }),
     }),
   }),
+  overrideExisting: false,
 })
 
 export const { useLoginMutation } = authApi;

@@ -4,7 +4,7 @@ import type { User } from '../../../server/src/model/user.entity';
 import type { RootState } from '../../redux/store';
 
 type AuthState = {
-  user: User | null
+  user: Partial<User> | null
   token: string | null
 }
 
@@ -24,10 +24,15 @@ const slice = createSlice({
     ) => {
       state.user = user
       state.token = token
+
+      if (token) {
+        localStorage.setItem('token', token);
+      }
     },
     removeCredentials: (state) => {
       state.user = null;
       state.token = null;
+      localStorage.removeItem('token');
     }
   },
 })

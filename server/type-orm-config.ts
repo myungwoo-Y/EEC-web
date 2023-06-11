@@ -1,8 +1,8 @@
 import { configService } from 'src/config/config.service';
 import { DataSource } from 'typeorm';
 import { User } from 'src/model/user.entity';
-import { Board } from 'src/model/board.entity';
-import { BoardCategory } from 'src/model/boardCategory.entity';
+import { Post } from 'src/model/post.entity';
+import { PostCategory } from 'src/model/postCategory.entity';
 
 
 export default new DataSource({
@@ -12,7 +12,7 @@ export default new DataSource({
   username: configService.getValue('POSTGRES_USER'),
   password: configService.getValue('POSTGRES_PASSWORD'),
   database: configService.getValue('POSTGRES_DATABASE'),
-  entities: [User, Board, BoardCategory],
+  entities: [User, Post, PostCategory],
   migrationsTableName: 'eec_web_migration',
   migrations: ['migrations/*{.ts,.js}'],
   synchronize: false,

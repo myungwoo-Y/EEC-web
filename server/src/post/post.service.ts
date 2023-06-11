@@ -18,6 +18,9 @@ export class PostService {
   async getCategories() {
     const categories = this.postCategoryRepository.find();
 
-    return (await categories).map(category => category.name);
+    return (await categories).map(category => ({
+      name: category.name,
+      id: category.id
+    }));
   }
 }

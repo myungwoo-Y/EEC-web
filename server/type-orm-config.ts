@@ -11,7 +11,7 @@ export default new DataSource({
   password: configService.getValue('POSTGRES_PASSWORD'),
   database: configService.getValue('POSTGRES_DATABASE'),
   entities: [User],
-  migrationsTableName: 'eec_web_migration',
-  migrations: ['src/migration/**/*{.ts,.js}'],
+  migrationsTableName: 'eec_web_local',
+  migrations: ['migrations/*{.ts,.js}'],
   synchronize: false,
 });

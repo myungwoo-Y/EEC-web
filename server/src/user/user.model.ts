@@ -25,8 +25,13 @@ export class CreateUserDto {
   job_level: string;
 
   @IsNotEmpty()
-  class_order: string;
+  class_order: string;  
 
   @IsBoolean()
   agreement_terms: boolean;
+}
+
+export class FindByEmailDTO {
+  @IsEmail()
+  email: string;
 }

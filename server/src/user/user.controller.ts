@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post } from "@nestjs/common";
+import { Body, Controller, Get, NotFoundException, Param, Post } from "@nestjs/common";
 import { User } from "src/model/user.entity";
 import { CreateUserDto } from "./user.model";
 import { UserService } from "./user.service";
@@ -8,10 +8,10 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('/:email')
-  public async findOneUser(@Param('email', ParseIntPipe) email: string): Promise<User> {
+  public async findByEmail(@Param('email') email: string): Promise<Partial<User>> {
     const result = await this.userService.findOne(email);
     if (!result) {
-      throw new NotFoundException('NotFoundData');
+      return null;
     }
 
     return result;

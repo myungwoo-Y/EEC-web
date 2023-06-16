@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToOne, OneToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { PostCategory } from './postCategory.entity';
 import { User } from './user.entity';
@@ -14,11 +14,14 @@ export class Post extends BaseEntity {
   @Column({ type: 'integer', default: 0 })
   viewCount: number;
 
+  @Column({ type: 'boolean', default: false})
+  is_answer: boolean;
+
   @OneToOne((type) => User)
-  @JoinTable()
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;
 
-  @OneToOne((type) => PostCategory)
+  @ManyToOne((type) => PostCategory)
   @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
   category: PostCategory;
 }

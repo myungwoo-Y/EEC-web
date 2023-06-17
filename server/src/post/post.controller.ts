@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 import { PostService } from './post.service';
 
-@Controller('posts')
+@Controller()
 export class PostsController {
   constructor(
     private postService: PostService
@@ -19,8 +19,13 @@ export class PostsController {
     return this.postService.getCategories();
   }
 
-  @Get('/:categoryId')
+  @Get('/categories/:categoryId')
   getPosts(@Param('categoryId') categoryId: string) {
     return this.postService.getPosts(categoryId);
+  }
+
+  @Get('/posts/:postId')
+  getPost(@Param('postId') postId: string) {
+    return this.postService.getPost(postId);
   }
 }

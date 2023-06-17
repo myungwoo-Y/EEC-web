@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { PostCategory } from './postCategory.entity';
 import { User } from './user.entity';
@@ -24,4 +24,8 @@ export class Post extends BaseEntity {
   @ManyToOne((type) => PostCategory)
   @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
   category: PostCategory;
+
+  @Column({ type: 'integer'})
+  @Generated('increment')
+  post_id: number;
 }

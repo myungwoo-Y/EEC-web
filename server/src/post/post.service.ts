@@ -10,9 +10,8 @@ export class PostService {
     @InjectRepository(Post)
     private postRepository: Repository<Post>,
     @InjectRepository(PostCategory)
-    private postCategoryRepository: Repository<PostCategory>
+    private postCategoryRepository: Repository<PostCategory>,
   ) {}
-
 
   createCategory(name: string) {
     return this.postCategoryRepository.insert({ name });
@@ -21,19 +20,38 @@ export class PostService {
   async getCategories() {
     const categories = this.postCategoryRepository.find();
 
-    return (await categories).map(category => ({
+    return (await categories).map((category) => ({
       name: category.name,
       id: category.id,
-      category_id: category.category_id
+      category_id: category.category_id,
     }));
   }
 
   async getPosts(categoryId) {
-    return this.postRepository.createQueryBuilder('p')
-    .select(['p.title', 'p.id', 'p.content', 'p.createDateTime', 'p.viewCount', 'p.is_answer', 'c.name', 'u.name'])
-    .leftJoin('p.user', 'u')
-    .leftJoin('p.category', 'c')
-    .where(`c.category_id = ${categoryId}`)
-    .getMany();
+    return this.postRepository
+      .createQueryBuilder('p')
+      .select([
+        'p.title',
+        'p.id',
+        'p.content',
+        'p.createDateTime',
+        'p.viewCount',
+        'p.is_answer',
+        'p.post_id',
+        'c.name',
+        'u.name',
+        'u.id',
+      ])
+      .leftJoin('p.user', 'u')
+      .leftJoin('p.category', 'c')
+      .where(`c.category_id = ${categoryId}`)
+      .getMany();
+  }
+
+  async getPost(postId: string) {
+    console.log(postId);
+    return this.postRepository.findOneBy({
+      post_id: parseInt(postId),
+    });
   }
 }

@@ -1,15 +1,22 @@
 "use client"
 
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HomeIcon, ClipboardDocumentListIcon, PencilIcon, PresentationChartBarIcon, DocumentMagnifyingGlassIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import { useGetCategoriesQuery } from '@/services/post';
+import { useDispatch } from 'react-redux';
+import { setCategories } from '@/features/post/postSlice';
 
 
 function SideBar() {
   const { data: categories } = useGetCategoriesQuery('');
   const [isSelectBoard, setIsSelectBoard] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setCategories({categories: categories || []}));
+  }, [categories, dispatch])
   
   return (
     <div className="bg-secondary min-h-screen max-h-fit">
@@ -40,9 +47,8 @@ function SideBar() {
       >
         <PencilIcon width="18" height="18" className="mr-2" /> 강의관리
       </Link>
-      <Link
-        href="/"
-        className="flex text-[16px] text-white items-center justify-around  my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl"
+      <div
+        className="flex text-[16px] text-white items-center justify-between  my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl"
         onClick={() => setIsSelectBoard(!isSelectBoard)}
       >
         <div className="flex items-center">
@@ -54,14 +60,14 @@ function SideBar() {
         ) : (
           <ChevronDownIcon width="18" height="18" className="float-right" />
         )}
-      </Link>
+      </div>
       {isSelectBoard &&
         categories &&
         categories.map((category) => {
           return (
             <Link
-              key={category.id}
-              href="/"
+              key={category.category_id}
+              href={`/category/${category.category_id}`}
               className="flex text-[16px] text-white items-center mx-3 px-3 pl-10 py-3 hover:bg-primary rounded-xl"
             >
               {category.name}

@@ -28,7 +28,7 @@ function Page({params: { slug }}: Props) {
           <tr className="border-b-2">
             <td className="py-5 px-1 w-28 bg-gray-100 text-center">제목</td>
             <td className="px-4">
-              <Input value={temp} type="text" />
+              <Input value={temp} type="text" onChange={(e) => setTemp(e.target.value)} />
             </td>
           </tr>
           <tr className="border-b-2">

@@ -1,5 +1,5 @@
-import { ArchiveBoxArrowDownIcon, ArrowDownOnSquareIcon, ArrowDownOnSquareStackIcon, ArrowUpOnSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
-import React, { Dispatch, SetStateAction } from 'react';
+import { ArrowDownOnSquareIcon, ArrowDownOnSquareStackIcon, ArrowUpOnSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 type UploadFilesProps = {
   files: File[];
@@ -7,12 +7,38 @@ type UploadFilesProps = {
 };
 
 function UploadFiles({ files, setFiles }: UploadFilesProps) {
+  const [checkedStatus, setCheckedStatus] = useState<boolean[]>([]);
+  console.log(checkedStatus);
+
+  useEffect(() => {
+    if (files.length > checkedStatus.length) {
+      setCheckedStatus([
+        ...checkedStatus,
+        false
+      ])
+    }
+  }, [files, checkedStatus])
+
+  const handleRemoveChecked = () => {
+    setFiles(files.filter((_, idx) => !checkedStatus[idx]));
+    setCheckedStatus(checkedStatus.filter(checked => !checked));
+  }
+
   return (
-    <div>
-      <div className="mt-2">
+    <div className="mb-3">
+      <div className="mt-3">
         {files.map((file, idx) => (
           <div key={idx} className="flex items-center mt-1">
-            <input type="checkbox" value="false" />
+            <input type="checkbox" checked={checkedStatus[idx] ?? false} className="mr-2 appearance-none" 
+              onChange={e => {
+                setCheckedStatus(checkedStatus.map((check, checkIdx) => {
+                  if (idx === checkIdx) {
+                    return e.target.checked;
+                  }
+                  return check;
+                }))
+              }}
+            />
             <div>
               {idx + 1}. {file.name}
             </div>
@@ -27,9 +53,21 @@ function UploadFiles({ files, setFiles }: UploadFilesProps) {
           <ArrowUpOnSquareIcon width={14} className="mr-1" />
           <p>업로드</p>
         </label>
-        <input id="file-upload" type="file" className="hidden" />
-        <button className="ml-2 w-24 flex items-center justify-center border-gray-400 border-[1px] rounded-md py-1">
-          <TrashIcon width={14} className="mr-1" />선택삭제
+        <input id="file-upload" type="file" className="hidden" 
+          onChange={e => {
+            if (e.target.files?.length) {
+              setFiles([
+                ...files,
+                e.target.files[0]
+              ])
+            }
+          }}
+        />
+        <button 
+          className="ml-2 w-24 flex items-center justify-center border-gray-400 border-[1px] rounded-md py-1"
+          onClick={handleRemoveChecked}
+        >
+          <TrashIcon width={14} className="mr-1" /> 선택삭제
         </button>
         <button className="ml-2 w-32 flex items-center justify-center border-gray-400 border-[1px] rounded-md py-1">
           <ArrowDownOnSquareIcon width={14} className="mr-1" /> 선택 다운로드

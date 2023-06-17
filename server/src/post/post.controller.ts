@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 import { PostService } from './post.service';
 
@@ -20,7 +20,12 @@ export class PostsController {
   }
 
   @Get('/categories/:categoryId')
-  getPosts(@Param('categoryId') categoryId: string) {
+  getCategorie(@Param('categoryId') categoryId) {
+    return this.postService.getCategory(categoryId);
+  }
+
+  @Get('/posts?')
+  getPosts(@Query('categoryId') categoryId: string) {
     return this.postService.getPosts(categoryId);
   }
 

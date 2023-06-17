@@ -1,4 +1,4 @@
-import { Categories, Posts } from '@/features/post/postSlice';
+import { Categories, Category, Posts } from '@/features/post/postSlice';
 import { emptySplitApi } from './base';
 import { PostClient } from '../features/post/postSlice';
 
@@ -9,9 +9,14 @@ export const postApi = emptySplitApi.injectEndpoints({
         url: 'categories',
       }),
     }),
+    getCategoryById: builder.query<Category, string>({
+      query: (id) => ({
+        url: `categories/${id}`
+      })
+    }),
     getPosts: builder.query<Posts, string>({
       query: (category) => ({
-        url: `categories/${category}`,
+        url: `posts?categoryId=${category}`,
       }),
     }),
     getPost: builder.query<PostClient, string>({
@@ -23,4 +28,4 @@ export const postApi = emptySplitApi.injectEndpoints({
 });
 
 
-export const { useGetCategoriesQuery, useGetPostQuery } = postApi;
+export const { useGetCategoriesQuery, useGetPostQuery, useGetCategoryByIdQuery } = postApi;

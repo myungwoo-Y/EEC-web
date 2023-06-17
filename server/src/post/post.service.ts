@@ -27,6 +27,12 @@ export class PostService {
     }));
   }
 
+  async getCategory(categoryId: string) {
+    return this.postCategoryRepository.findOneBy({
+      category_id: parseInt(categoryId)
+    });
+  }
+
   async getPosts(categoryId) {
     return this.postRepository
       .createQueryBuilder('p')
@@ -49,9 +55,27 @@ export class PostService {
   }
 
   async getPost(postId: string) {
-    console.log(postId);
-    return this.postRepository.findOneBy({
-      post_id: parseInt(postId),
+    return this.postRepository.findOne({
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        createDateTime: true,
+        user: {
+          name: true,
+          classification: true,
+        },
+        category: {
+          name: true
+        },
+      },
+      where: {
+        post_id: parseInt(postId)
+      },
+      relations: {
+        category: true,
+        user: true
+      }
     });
   }
 }

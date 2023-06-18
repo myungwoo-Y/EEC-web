@@ -2,6 +2,7 @@
 
 import Input from '@/components/Input'
 import Select from '@/components/Select'
+import TextEditor from '@/components/TextEditor';
 import UploadFiles from '@/components/UploadFiles';
 import { useGetCategoryByIdQuery } from '@/services/post';
 import { useRouter } from 'next/navigation';
@@ -51,7 +52,10 @@ function Page({params: { slug }}: Props) {
           </tr>
         </tbody>
       </table>
-      <div className="flex justify-center mt-10">
+      <TextEditor 
+        className="mt-6"
+      />
+      <div className="flex justify-center mt-10 mb-6">
         <div>
           <button 
             className="bg-gray-300 text-center px-6 py-3 rounded-md mr-2 font-semibold"

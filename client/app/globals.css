@@ -63,6 +63,7 @@ h2 {
 
 .ProseMirror {
   padding: 5px;
+  height: 100%;
 }
 
 .ProseMirror a {

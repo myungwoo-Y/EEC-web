@@ -17,9 +17,14 @@ type Props = {
 
 function Page({params: { slug }}: Props) {
   const { data } = useGetCategoryByIdQuery(slug);
-  const [temp, setTemp] = useState<string>('');
+  const [title, settitle] = useState('');
   const [files, setFiles] = useState<File[]>([]);
+  const [content, setContent] = useState('');
   const router = useRouter();
+
+  const submitPost = () => {
+
+  }
 
   return (
     <div className="pt-10 px-12">
@@ -29,15 +34,15 @@ function Page({params: { slug }}: Props) {
           <tr className="border-b-2">
             <td className="py-5 px-1 w-28 bg-gray-100 text-center">제목</td>
             <td className="px-4">
-              <Input value={temp} type="text" onChange={(e) => setTemp(e.target.value)} />
+              <Input value={title} type="text" onChange={(e) => settitle(e.target.value)} />
             </td>
           </tr>
           <tr className="border-b-2">
             <td className="py-5 px-1 w-28 bg-gray-100 text-center">공개여부</td>
             <td className="px-4">
               <Select>
-                <option>전체공개</option>
-                <option>비공개</option>
+                <option value="true">전체공개</option>
+                <option value="false">비공개</option>
               </Select>
             </td>
           </tr>
@@ -54,6 +59,7 @@ function Page({params: { slug }}: Props) {
       </table>
       <TextEditor 
         className="mt-6"
+        setContent={setContent}
       />
       <div className="flex justify-center mt-10 mb-6">
         <div>
@@ -63,7 +69,10 @@ function Page({params: { slug }}: Props) {
           >
             취소
           </button>
-          <button className="bg-primary text-center px-6 py-3 rounded-md text-white font-semibold">
+          <button 
+            className="bg-primary text-center px-6 py-3 rounded-md text-white font-semibold"
+            onClick={submitPost}
+          >
             저장
           </button>
         </div>

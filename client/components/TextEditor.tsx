@@ -20,6 +20,7 @@ import ListOrderedIcon from 'remixicon-react/ListOrderedIcon';
 
 type TextEditorProps = {
   className?: string;
+  setContent: (param: string) => any;
 };
 
 const MenuBar = ({ editor }: { editor: Editor | null }) => {
@@ -28,8 +29,8 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
   }
 
   const setLink = useCallback(() => {
-    const previousUrl = editor.getAttributes('link').href
-    const url = window.prompt('URL', previousUrl)
+    const previousUrl = editor.getAttributes('link').href;
+    const url = window.prompt('URL', previousUrl);
 
     // cancelled
     if (url === null) {
@@ -121,8 +122,11 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
   );
 };
 
-const TextEditor = ({ className = '' }: TextEditorProps) => {
+const TextEditor = ({ className = '', setContent }: TextEditorProps) => {
   const editor = useEditor({
+    onUpdate: ({ editor }) => {
+      setContent(editor.getHTML());
+    },
     extensions: [
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       TextStyle,
@@ -146,36 +150,7 @@ const TextEditor = ({ className = '' }: TextEditorProps) => {
         openOnClick: true,
       }),
     ],
-    content: `
-      <h2>
-        Hi there,
-      </h2>
-      <p>
-        this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-      </p>
-      <ul>
-        <li>
-          That’s a bullet list with one …
-        </li>
-        <li>
-          … or two list items.
-        </li>
-      </ul>
-      <p>
-        Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-      </p>
-      <pre><code class="language-css">body {
-  display: none;
-}</code></pre>
-      <p>
-        I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-      </p>
-      <blockquote>
-        Wow, that’s amazing. Good work, boy! 👏
-        <br />
-        — Mom
-      </blockquote>
-    `,
+    content: ''
   });
 
   return (
@@ -183,19 +158,8 @@ const TextEditor = ({ className = '' }: TextEditorProps) => {
       <MenuBar editor={editor} />
       <EditorContent
         editor={editor}
-        className="p-2 border-t-[1px] border-gray-200"
+        className="p-2 border-t-[1px] border-gray-200 overflow-y-scroll h-96"
       />
-      <style jsx>{`
-        h1 {
-          font-size: 32px;
-          font-weight: bold;
-        }
-
-        h2 {
-          font-size: 24px;
-          font-weight: bold;
-        }
-      `}</style>
     </div>
   );
 };

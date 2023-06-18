@@ -50,3 +50,22 @@ input[type="checkbox"]:checked::before {
   transform: scale(1);
 }
 /* END reset check box */
+
+h1 {
+  font-size: 32px; 
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.ProseMirror {
+  padding: 5px;
+}
+
+.ProseMirror a {
+  text-decoration: underline;
+  color: #2362BA;
+}

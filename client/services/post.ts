@@ -11,8 +11,8 @@ export const postApi = emptySplitApi.injectEndpoints({
     }),
     getCategoryById: builder.query<Category, string>({
       query: (id) => ({
-        url: `categories/${id}`
-      })
+        url: `categories/${id}`,
+      }),
     }),
     getPosts: builder.query<Posts, string>({
       query: (category) => ({
@@ -21,11 +21,21 @@ export const postApi = emptySplitApi.injectEndpoints({
     }),
     getPost: builder.query<PostClient, string>({
       query: (postId) => ({
-        url: `posts/${postId}`
-      })
-    })
+        url: `posts/${postId}`,
+      }),
+    }),
+    addPost: builder.mutation<
+      PostClient,
+      FormData
+    >({
+      query: (formData) => ({
+        url: 'post',
+        body: formData,
+        method: 'POST',
+    }),
+    }),
   }),
 });
 
 
-export const { useGetCategoriesQuery, useGetPostQuery, useGetCategoryByIdQuery } = postApi;
+export const { useGetCategoriesQuery, useGetPostQuery, useGetCategoryByIdQuery, useAddPostMutation } = postApi;

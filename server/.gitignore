@@ -42,3 +42,6 @@ src/scripts
 
 # TypeOrm
 src/migration
+
+# Upload files
+upload

@@ -17,6 +17,9 @@ export class Post extends BaseEntity {
   @Column({ type: 'boolean', default: false})
   is_answer: boolean;
 
+  @Column({ type: 'boolean', default: true})
+  is_open: boolean;
+
   @OneToOne((type) => User)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: User;

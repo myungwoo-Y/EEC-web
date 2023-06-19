@@ -4,7 +4,7 @@ import Input from '@/components/Input'
 import Select from '@/components/Select'
 import TextEditor from '@/components/TextEditor';
 import UploadFiles from '@/components/UploadFiles';
-import { useGetCategoryByIdQuery } from '@/services/post';
+import { useAddPostMutation, useGetCategoryByIdQuery } from '@/services/post';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
@@ -17,11 +17,12 @@ type Props = {
 
 
 function Page({params: { slug }}: Props) {
-  const { data } = useGetCategoryByIdQuery(slug);
-  const [title, settitle] = useState('');
+  const { data: category } = useGetCategoryByIdQuery(slug);
   const [files, setFiles] = useState<File[]>([]);
   const [content, setContent] = useState('');
   const router = useRouter();
+
+  const [addPost, { isError, isSuccess }] = useAddPostMutation();
 
   const {
     register,
@@ -29,11 +30,18 @@ function Page({params: { slug }}: Props) {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {console.log(data)};
+  const onSubmit = (data: Record<string, any>) => {
+    const formData  = new FormData();
+    files.map(file => formData.append('files', file));
+    formData.append('title', data.title);
+    formData.append('content', content);;
+    formData.append('is_open', data.isOpen);
+    addPost(formData);
+  };
 
   return (
     <div className="pt-10 px-12">
-      <div className="font-bold text-2xl">{data?.name}</div>
+      <div className="font-bold text-2xl">{category?.name}</div>
       <table className="border-t-[1px] border-t-black w-full mt-10 border-x-[1px] p-2">
         <tbody>
           <tr className="border-b-2">
@@ -53,7 +61,7 @@ function Page({params: { slug }}: Props) {
             <td className="px-4">
               <Select
                 register={register}
-                name="공개"
+                name="isOpen"
                 option={{ required: true }}
               >
                 <option value="true">전체공개</option>

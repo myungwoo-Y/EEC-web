@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, Query, Req, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 import { PostService } from './post.service';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller()
 export class PostsController {
@@ -32,5 +33,19 @@ export class PostsController {
   @Get('/posts/:postId')
   getPost(@Param('postId') postId: string) {
     return this.postService.getPost(postId);
+  }
+  
+  @UseGuards(JwtAuthGuard)
+  @Post('/post')
+  @UseInterceptors(FilesInterceptor('files'))
+  uploadFile(@UploadedFiles(
+    new ParseFilePipe({
+      validators: [
+        new MaxFileSizeValidator({ maxSize: 1000000000 }), // 1GB
+      ],
+    }),
+  ) files: Array<Express.Multer.File>, @Req() req) {
+    console.log(files);
+    console.log(req.user);
   }
 }

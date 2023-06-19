@@ -14,7 +14,6 @@ type UploadFilesProps = {
 
 function UploadFiles({ files, setFiles }: UploadFilesProps) {
   const [checkedStatus, setCheckedStatus] = useState<boolean[]>([]);
-  console.log(checkedStatus);
 
   useEffect(() => {
     if (files.length > checkedStatus.length) {

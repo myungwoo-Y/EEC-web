@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from 'src/model/post.entity';
 import { PostCategory } from 'src/model/postCategory.entity';
 import { Repository } from 'typeorm';
+import { CreatePostDto } from './post.dto';
 
 @Injectable()
 export class PostService {
@@ -22,14 +23,13 @@ export class PostService {
 
     return (await categories).map((category) => ({
       name: category.name,
-      id: category.id,
-      category_id: category.category_id,
+      categoryId: category.categoryId,
     }));
   }
 
-  async getCategory(categoryId: string) {
+  async getCategory(categoryId: number) {
     return this.postCategoryRepository.findOneBy({
-      category_id: parseInt(categoryId)
+      categoryId: categoryId,
     });
   }
 
@@ -38,26 +38,25 @@ export class PostService {
       .createQueryBuilder('p')
       .select([
         'p.title',
-        'p.id',
+        'p.postId',
         'p.content',
         'p.createDateTime',
         'p.viewCount',
-        'p.is_answer',
-        'p.post_id',
+        'p.isAnswer',
         'c.name',
         'u.name',
-        'u.id',
+        'u.userId',
       ])
       .leftJoin('p.user', 'u')
       .leftJoin('p.category', 'c')
-      .where(`c.category_id = ${categoryId}`)
+      .where(`c.categoryId = ${categoryId}`)
       .getMany();
   }
 
   async getPost(postId: string) {
     return this.postRepository.findOne({
       select: {
-        id: true,
+        postId: true,
         title: true,
         content: true,
         createDateTime: true,
@@ -66,16 +65,33 @@ export class PostService {
           classification: true,
         },
         category: {
-          name: true
+          name: true,
         },
+        files: true
       },
       where: {
-        post_id: parseInt(postId)
+        postId: parseInt(postId),
       },
       relations: {
         category: true,
-        user: true
+        user: true,
+        files: true,
+      },
+    });
+  }
+
+  async createPost(createPost: CreatePostDto & { userId: number }): Promise<number> {
+
+    const newPost = await this.postRepository.insert({
+      title: createPost.title,
+      content: createPost.content,
+      category: {
+        categoryId: createPost.categoryId
+      },
+      user: {
+        userId: createPost.userId
       }
     });
+    return newPost.raw[0].postId;
   }
 }

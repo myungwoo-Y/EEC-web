@@ -1,13 +1,9 @@
 import {
   Column,
   CreateDateColumn,
-  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 export abstract class BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: number;
-
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
@@ -25,7 +21,4 @@ export abstract class BaseEntity {
 
   @Column({ type: 'varchar', length: 300, default: ''  })
   lastChangedBy: string;
-
-  @Column({ type: 'varchar', length: 300, nullable: true })
-  internalComment: string | null;
 }

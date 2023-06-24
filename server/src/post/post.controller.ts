@@ -1,12 +1,30 @@
-import { Body, Controller, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, Query, Req, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  MaxFileSizeValidator,
+  Param,
+  ParseFilePipe,
+  Post,
+  Query,
+  Req,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 import { PostService } from './post.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { CreatePostDto } from './post.dto';
+import FileService from 'src/file/file.service';
+import  { writeFile, mkdirSync } from 'fs';
+import { join } from 'path';
 
 @Controller()
 export class PostsController {
   constructor(
-    private postService: PostService
+    private postService: PostService,
+    private fileService: FileService,
   ) {}
 
   @UseGuards(JwtAuthGuard)
@@ -34,18 +52,44 @@ export class PostsController {
   getPost(@Param('postId') postId: string) {
     return this.postService.getPost(postId);
   }
-  
+
   @UseGuards(JwtAuthGuard)
   @Post('/post')
   @UseInterceptors(FilesInterceptor('files'))
-  uploadFile(@UploadedFiles(
-    new ParseFilePipe({
-      validators: [
-        new MaxFileSizeValidator({ maxSize: 1000000000 }), // 1GB
-      ],
-    }),
-  ) files: Array<Express.Multer.File>, @Req() req) {
-    console.log(files);
-    console.log(req.user);
+  async uploadFile(
+    @UploadedFiles(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 1000000000 }), // 1GB
+        ],
+        fileIsRequired: false,
+      }),
+    )
+    files: Array<Express.Multer.File>,
+    @Req() req,
+    @Body() createPostDto: CreatePostDto,
+  ) {
+    const postId = await this.postService.createPost({
+      ...createPostDto,
+      userId: req.user?.userId,
+    });
+
+    files.map(async (file) => {
+      const newFilePath = `/upload/${postId}/${file.originalname}`;
+      await mkdirSync(join(process.cwd(), `/upload/${postId}`), { recursive: true })
+      writeFile(join(process.cwd(), newFilePath), file.buffer, (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+      this.fileService.saveLocalFileData({
+        filename: file.originalname,
+        mimetype: file.mimetype,
+        path: newFilePath,
+        postId: postId,
+      });
+    });
+
+    return { postId };
   }
 }

@@ -4,11 +4,11 @@ export const CreateUser = {
   classification: '',
   name: '',
   birthday: new Date(),
-  phone_number: '',
+  phoneNumber: '',
   department: '',
-  job_level: '',
-  class_order: '',
-  agreement_terms: true
+  jobLevel: '',
+  classOrder: '',
+  agreementTerms: true
 };
 
 export const ErrorMsgMap = {

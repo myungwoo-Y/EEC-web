@@ -3,6 +3,7 @@ import { DataSource } from 'typeorm';
 import { User } from 'src/model/user.entity';
 import { Post } from 'src/model/post.entity';
 import { PostCategory } from 'src/model/postCategory.entity';
+import File from 'src/model/file.entity';
 
 
 export default new DataSource({
@@ -12,7 +13,7 @@ export default new DataSource({
   username: configService.getValue('POSTGRES_USER'),
   password: configService.getValue('POSTGRES_PASSWORD'),
   database: configService.getValue('POSTGRES_DATABASE'),
-  entities: [User, Post, PostCategory],
+  entities: [User, Post, PostCategory, File],
   migrationsTableName: 'eec_web_migration',
   migrations: ['migrations/*{.ts,.js}'],
   synchronize: false,

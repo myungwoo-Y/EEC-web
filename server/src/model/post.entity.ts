@@ -1,10 +1,15 @@
-import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from './base.entity';
+import File from './file.entity';
 import { PostCategory } from './postCategory.entity';
 import { User } from './user.entity';
 
 @Entity({ name: 'post' })
 export class Post extends BaseEntity {
+  @Column({ type: 'integer'})
+  @PrimaryGeneratedColumn('increment')
+  postId: number;
+
   @Column({ type: 'text' })
   content: string;
 
@@ -15,20 +20,19 @@ export class Post extends BaseEntity {
   viewCount: number;
 
   @Column({ type: 'boolean', default: false})
-  is_answer: boolean;
+  isAnswer: boolean;
 
   @Column({ type: 'boolean', default: true})
-  is_open: boolean;
+  isOpen: boolean;
 
-  @OneToOne((type) => User)
-  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
+  @ManyToOne((type) => User)
+  @JoinColumn({ name: 'userId', referencedColumnName: 'userId' })
   user: User;
 
   @ManyToOne((type) => PostCategory)
-  @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'categoryId', referencedColumnName: 'categoryId' })
   category: PostCategory;
 
-  @Column({ type: 'integer'})
-  @Generated('increment')
-  post_id: number;
+  @OneToMany(() => File, (file) => file.post)
+  files: File[]
 }

@@ -66,8 +66,8 @@ function SideBar() {
         categories.map((category) => {
           return (
             <Link
-              key={category.category_id}
-              href={`/category/${category.category_id}`}
+              key={category.categoryId}
+              href={`/category/${category.categoryId}`}
               className="flex text-[16px] text-white items-center mx-3 px-3 pl-10 py-3 hover:bg-primary rounded-xl"
             >
               {category.name}

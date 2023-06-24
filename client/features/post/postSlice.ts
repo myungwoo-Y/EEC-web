@@ -1,7 +1,7 @@
 import { RootState } from '@/redux/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Post } from '../../../server/src/model/post.entity';
-export type Category = { name: string; category_id: number };
+export type Category = { name: string; categoryId: number };
 export type Categories = Category[];
 export type PostClient = Omit<Post, 'createDateTime'> & { createDateTime: string }
 export type Posts = Partial<PostClient>[];
@@ -53,5 +53,5 @@ export default slice.reducer;
 export const selectCurrentCategoryName =
   (categoryId: number) => (state: RootState) =>
     state.posts.categories.filter(
-      (category) => category.category_id === categoryId
+      (category) => category.categoryId === categoryId
     )[0]?.name;

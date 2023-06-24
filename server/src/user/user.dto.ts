@@ -13,7 +13,7 @@ export class CreateUserDto {
   classification: string;
 
   @IsNotEmpty()
-  phone_number: string;
+  phoneNumber: string;
 
   @IsNotEmpty()
   birthday: Date;
@@ -22,13 +22,13 @@ export class CreateUserDto {
   department: string;
 
   @IsNotEmpty()
-  job_level: string;
+  jobLevel: string;
 
   @IsNotEmpty()
-  class_order: string;  
+  classOrder: string;  
 
   @IsBoolean()
-  agreement_terms: boolean;
+  agreementTerms: boolean;
 }
 
 export class FindByEmailDTO {

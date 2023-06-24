@@ -43,10 +43,10 @@ function Signup() {
     newErrorMsgMap.confirmPassword = validateConfirmPassword(newUser.password, confirPassword);
     newErrorMsgMap.classification = validateClassification(newUser.classification);
     newErrorMsgMap.department = validateDepartment(newUser.department);
-    newErrorMsgMap.job_level = validateJobLevel(newUser.job_level);
+    newErrorMsgMap.jobLevel = validateJobLevel(newUser.jobLevel);
     newErrorMsgMap.name = validateName(newUser.name);
-    newErrorMsgMap.phone_number = validatePhoneNumber(newUser.phone_number);
-    newErrorMsgMap.class_order = validateClassOrder(newUser.class_order);
+    newErrorMsgMap.phoneNumber = validatePhoneNumber(newUser.phoneNumber);
+    newErrorMsgMap.classOrder = validateClassOrder(newUser.classOrder);
     
     if (!shallowEqual(errorMsgMap, newErrorMsgMap)) {
       setErrorMsgMap(newErrorMsgMap);
@@ -161,15 +161,15 @@ function Signup() {
           type="number"
           className="w-96 mt-4"
           placeholder="'-'(하이픈)을 제외해주세요"
-          value={newUser.phone_number}
+          value={newUser.phoneNumber}
           label="핸드폰번호"
-          error={errorMsgMap.phone_number}
+          error={errorMsgMap.phoneNumber}
           onChange={(e) => {
             setNewUser({
               ...newUser,
-              phone_number: e.target.value.slice(0, 11),
+              phoneNumber: e.target.value.slice(0, 11),
             });
-            clearErrorMsg('phone_number');
+            clearErrorMsg('phoneNumber');
           }}
         />
         <Input
@@ -186,21 +186,21 @@ function Signup() {
         <Input
           type="text"
           className="w-96 mt-4"
-          value={newUser.job_level}
+          value={newUser.jobLevel}
           label="직급"
-          error={errorMsgMap.job_level}
+          error={errorMsgMap.jobLevel}
           onChange={(e) => {
-            setNewUser({ ...newUser, job_level: e.target.value })
-            clearErrorMsg('job_level');
+            setNewUser({ ...newUser, jobLevel: e.target.value })
+            clearErrorMsg('jobLevel');
           }}
         />
         <Select
           className="mt-4"
           label="기수"
-          error={errorMsgMap.class_order}
+          error={errorMsgMap.classOrder}
           onChange={(e) => {
-            setNewUser({ ...newUser, class_order: e.target.value })
-            clearErrorMsg('class_order');
+            setNewUser({ ...newUser, classOrder: e.target.value })
+            clearErrorMsg('classOrder');
           }}
         >
           <option value='' disabled>기수를 선택해 주세요</option>

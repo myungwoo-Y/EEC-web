@@ -32,10 +32,13 @@ function Page({params: { slug }}: Props) {
 
   const onSubmit = (data: Record<string, any>) => {
     const formData  = new FormData();
-    files.map(file => formData.append('files', file));
+    files.map(file => {
+      formData.append('files', file)
+    });
     formData.append('title', data.title);
-    formData.append('content', content);;
-    formData.append('is_open', data.isOpen);
+    formData.append('content', content);
+    formData.append('categoryId', category?.categoryId || '');
+    formData.append('isOpen', data.isOpen);
     addPost(formData);
   };
 

@@ -33,11 +33,11 @@ function Page({ params: { slug: categoryId } }: Props) {
         <tbody>
           {data?.map((post) => (
             <tr
-              key={post.id}
+              key={post.postId}
               className="border-y-[1px] hover:bg-gray-50"
-              onClick={() => router.push(`/post/${post.post_id}`)}
+              onClick={() => router.push(`/post/${post.postId}`)}
             >
-              <td className="text-center py-2">{post.post_id}</td>
+              <td className="text-center py-2">{post.postId}</td>
               <td>{post.title}</td>
               <td className="text-center">{post?.user?.name}</td>
               <td className="text-center">

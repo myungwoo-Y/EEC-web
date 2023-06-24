@@ -17,7 +17,7 @@ import { PostService } from './post.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreatePostDto } from './post.dto';
 import FileService from 'src/file/file.service';
-import  { writeFile, mkdirSync } from 'fs';
+import { writeFile, mkdirSync } from 'fs';
 import { join } from 'path';
 
 @Controller()
@@ -75,17 +75,20 @@ export class PostsController {
     });
 
     files.map(async (file) => {
-      const newFilePath = `/upload/${postId}/${file.originalname}`;
-      await mkdirSync(join(process.cwd(), `/upload/${postId}`), { recursive: true })
-      writeFile(join(process.cwd(), newFilePath), file.buffer, (err) => {
+      const fileName = Buffer.from(file.originalname, 'latin1').toString();
+      const newFilePath = `/upload/${postId}/`;
+      await mkdirSync(join(process.cwd(), `/upload/${postId}`), {
+        recursive: true,
+      });
+      writeFile(join(process.cwd(), newFilePath + fileName), file.buffer, (err) => {
         if (err) {
           console.log(err);
         }
       });
       this.fileService.saveLocalFileData({
-        filename: file.originalname,
+        filename: fileName,
         mimetype: file.mimetype,
-        path: newFilePath,
+        path: `/${postId}/${encodeURIComponent(fileName)}`,
         postId: postId,
       });
     });

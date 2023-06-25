@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from 'src/model/post.entity';
 import { PostCategory } from 'src/model/postCategory.entity';
 import { Repository } from 'typeorm';
-import { CreatePostDto } from './post.dto';
+import { CreatePostDto, UpdatePostDto } from './post.dto';
 
 @Injectable()
 export class PostService {
@@ -60,6 +60,8 @@ export class PostService {
         title: true,
         content: true,
         createDateTime: true,
+        isOpen: true,
+        isAnswer: true,
         user: {
           name: true,
           classification: true,
@@ -93,5 +95,12 @@ export class PostService {
       }
     });
     return newPost.raw[0].postId;
+  }
+
+  async updatePost(updatePost: UpdatePostDto & { userId: number }) {
+    await this.postRepository.update(updatePost.postId, {
+      title: updatePost.title,
+      content: updatePost.content,
+    });
   }
 }

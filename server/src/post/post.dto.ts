@@ -13,3 +13,22 @@ export class CreatePostDto {
   @IsString()
   categoryId: number;
 }
+
+
+export class UpdatePostDto {
+  @IsNotEmpty()
+  @IsString()
+  postId: number;
+
+  @IsNotEmpty()
+  @IsString()
+  title: string;
+
+  @IsNotEmpty()
+  @IsString()
+  content: string;
+
+  @IsNotEmpty()
+  @IsString()
+  categoryId: number;
+}

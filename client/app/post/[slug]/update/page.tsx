@@ -41,7 +41,11 @@ function Page({ params: { slug: postId } }: Props) {
     formData.append('content', content);
     formData.append('categoryId', post?.category.categoryId + '');
     formData.append('isOpen', data.isOpen);
-    updatePost(formData);
+    formData.append('postId', postId);
+    updatePost({
+      formData,
+      postId
+    });
   };
 
   useEffect(() => {
@@ -90,8 +94,8 @@ function Page({ params: { slug: postId } }: Props) {
                 <option value='' disabled>
                   공개 여부를 선택해주세요
                 </option>
-                <option value="true">전체공개</option>
-                <option value="false">비공개</option>
+                <option value="true" selected={post?.isOpen ? true : false}>전체공개</option>
+                <option value="false" selected={post?.isOpen ? false : true}>비공개</option>
               </Select>
             </td>
           </tr>

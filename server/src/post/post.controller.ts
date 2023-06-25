@@ -6,6 +6,7 @@ import {
   Param,
   ParseFilePipe,
   Post,
+  Put,
   Query,
   Req,
   UploadedFiles,
@@ -15,7 +16,7 @@ import {
 import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 import { PostService } from './post.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { CreatePostDto } from './post.dto';
+import { CreatePostDto, UpdatePostDto } from './post.dto';
 import FileService from 'src/file/file.service';
 import { writeFile, mkdirSync } from 'fs';
 import { join } from 'path';
@@ -56,7 +57,7 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   @Post('/post')
   @UseInterceptors(FilesInterceptor('files'))
-  async uploadFile(
+  async createPost(
     @UploadedFiles(
       new ParseFilePipe({
         validators: [
@@ -82,6 +83,44 @@ export class PostsController {
         mimetype: file.mimetype,
         path: file.filename,
         postId: postId,
+      });
+    });
+
+    return { postId };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('/post/:postId')
+  @UseInterceptors(FilesInterceptor('files'))
+  async updatePost(
+    @UploadedFiles(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 1000000000 }), // 1GB
+        ],
+        fileIsRequired: false,
+      }),
+    )
+    files: Array<Express.Multer.File>,
+    @Req() req,
+    @Param('postId') postId,
+    @Body() updatePostDto: UpdatePostDto,
+  ) {
+    await this.postService.updatePost({
+      ...updatePostDto,
+      userId: req.user?.userId,
+    });
+
+    await this.fileService.removeFilesByPostId(parseInt(postId));
+
+    files.map((file) => {
+      const fileName = Buffer.from(file.originalname, 'latin1').toString();
+
+      this.fileService.saveLocalFileData({
+        filename: fileName,
+        mimetype: file.mimetype,
+        path: file.filename,
+        postId,
       });
     });
 

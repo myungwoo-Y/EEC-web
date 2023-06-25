@@ -31,9 +31,9 @@ export const postApi = emptySplitApi.injectEndpoints({
         method: 'POST',
       }),
     }),
-    updatePost: builder.mutation<PostClient, FormData>({
-      query: (formData) => ({
-        url: 'post',
+    updatePost: builder.mutation<PostClient, { formData: FormData, postId: string }>({
+      query: ({ formData, postId }) => ({
+        url: `post/${postId}`,
         body: formData,
         method: 'PUT',
       }),

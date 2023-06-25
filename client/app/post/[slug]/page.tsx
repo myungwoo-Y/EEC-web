@@ -1,7 +1,9 @@
 'use client';
 
+import Download from '@/components/Download';
 import { downloadFile } from '@/lib/downloadFile';
 import { useGetPostQuery } from '@/services/post';
+import { PaperClipIcon } from '@heroicons/react/24/outline';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import React, { useEffect } from 'react';
@@ -44,17 +46,11 @@ function Post({ params: { slug: postId } }: Props) {
       </div>
       <div className="border-y-[1px] border-x-[1px] border-gray-200 px-4 py-4">
         {data?.files.map((file) => (
-          <a
+          <Download 
             key={file.fileId}
-            href='/download/12'
-            download={file.filename}
-            onClick={e => {
-              e.preventDefault();
-              downloadFile('123', file.filename);
-            }}
-          >
-            {file.filename}
-          </a>
+            fileName={file.filename}
+            path={'123'}
+          />
         ))}
       </div>
       <div className="border-y-[1px] border-x-[1px] border-gray-200 px-4 py-4">

@@ -5,11 +5,16 @@ import React from 'react';
 type DownloadProps = {
   path: string;
   fileName: string;
-}
+};
 
 function Download({ path, fileName }: DownloadProps) {
   return (
-    <div className="flex items-center cursor-pointer w-fit" onClick={() => downloadFile(path, fileName)}>
+    <div
+      className="flex items-center cursor-pointer w-fit"
+      onClick={() =>
+        downloadFile(`${process.env.NEXT_PUBLIC_SERVER_HOST}/${path}`, fileName)
+      }
+    >
       <PaperClipIcon width={16} className="mr-1" />
       <a
         href={`/${path}`}

@@ -1,7 +1,7 @@
 import { RootState } from "@/redux/store"
 
 export function getBaseHost() {
-  return `${window.location.protocol}//${window.location.hostname}:8080`;
+  return `${window.location.protocol}//${window.location.hostname}:${process.env.NEXT_PUBLIC_SERVER_PORT}`;
 }
 
 export function addTokenToHeader(headers: Headers, getState: () => unknown): Headers {

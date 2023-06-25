@@ -4,6 +4,7 @@ import Input from '@/components/Input';
 import Select from '@/components/Select';
 import TextEditor from '@/components/TextEditor';
 import UploadFiles from '@/components/UploadFiles';
+import { getFileFromUrl } from '@/lib/downloadFile';
 import { useGetPostQuery, useUpdatePostMutation } from '@/services/post';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -28,6 +29,7 @@ function Page({ params: { slug: postId } }: Props) {
     handleSubmit,
     formState: { errors },
     reset,
+    watch
   } = useForm();
 
   const onSubmit = (data: Record<string, any>) => {
@@ -43,15 +45,20 @@ function Page({ params: { slug: postId } }: Props) {
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    if (post) {
       reset({
         title: post?.title,
         content: post?.content,
         isOpen: post?.isOpen,
       });
-    }
-  }, [post, isSuccess, reset]);
+      setContent(post.content);
 
+      post.files.map(async (file) => {
+        const newFile = await getFileFromUrl(`${process.env.NEXT_PUBLIC_SERVER_HOST}/${file.path}`, file.filename);
+        setFiles(files => [...files, newFile]);
+      })
+    }
+  }, [post, reset]);
   return (
     <div className="pt-10 px-12">
       <div className="font-bold text-2xl">{post?.category.name}</div>
@@ -78,7 +85,11 @@ function Page({ params: { slug: postId } }: Props) {
                 register={register}
                 name="isOpen"
                 option={{ required: true }}
+                watch={watch}
               >
+                <option value='' disabled>
+                  공개 여부를 선택해주세요
+                </option>
                 <option value="true">전체공개</option>
                 <option value="false">비공개</option>
               </Select>
@@ -92,7 +103,7 @@ function Page({ params: { slug: postId } }: Props) {
           </tr>
         </tbody>
       </table>
-      <TextEditor className="mt-6" setContent={setContent} />
+      <TextEditor className="mt-6" setContent={setContent} content={content} />
       <div className="flex justify-center mt-10 mb-6">
         <div>
           <button

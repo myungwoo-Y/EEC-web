@@ -9,7 +9,7 @@ import TextStyle from '@tiptap/extension-text-style';
 import { EditorContent, useEditor, Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import BoldIcon from 'remixicon-react/BoldIcon';
 import ItalicIcon from 'remixicon-react/ItalicIcon';
 import StrikethroughIcon from 'remixicon-react/StrikethroughIcon';
@@ -20,6 +20,7 @@ import ListOrderedIcon from 'remixicon-react/ListOrderedIcon';
 
 type TextEditorProps = {
   className?: string;
+  content: string;
   setContent: (param: string) => any;
 };
 
@@ -122,9 +123,9 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
   );
 };
 
-const TextEditor = ({ className = '', setContent }: TextEditorProps) => {
+const TextEditor = ({ className = '', setContent, content }: TextEditorProps) => {
   const editor = useEditor({
-    onUpdate: ({ editor }) => {
+    onBlur: ({ editor }) => {
       setContent(editor.getHTML());
     },
     extensions: [
@@ -152,6 +153,11 @@ const TextEditor = ({ className = '', setContent }: TextEditorProps) => {
     ],
     content: ''
   });
+
+  useEffect(() => {
+    editor?.commands.setContent(content);
+  }, [content, editor])
+  
 
   return (
     <div className={`border-2 border-gray-300 rounded-md ${className}`}>

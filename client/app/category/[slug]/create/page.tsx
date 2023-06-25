@@ -28,6 +28,7 @@ function Page({params: { slug }}: Props) {
     register,
     handleSubmit,
     formState: { errors },
+    watch
   } = useForm();
 
   const onSubmit = (data: Record<string, any>) => {
@@ -66,6 +67,7 @@ function Page({params: { slug }}: Props) {
                 register={register}
                 name="isOpen"
                 option={{ required: true }}
+                watch={watch}
               >
                 <option value="true">전체공개</option>
                 <option value="false">비공개</option>
@@ -80,7 +82,7 @@ function Page({params: { slug }}: Props) {
           </tr>
         </tbody>
       </table>
-      <TextEditor className="mt-6" setContent={setContent} />
+      <TextEditor className="mt-6" setContent={setContent} content={content} />
       <div className="flex justify-center mt-10 mb-6">
         <div>
           <button

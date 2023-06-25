@@ -5,7 +5,6 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/solid';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import TextEditor from './TextEditor';
 
 type UploadFilesProps = {
   files: File[];

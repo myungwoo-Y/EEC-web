@@ -1,7 +1,10 @@
 'use client';
 
+import { downloadFile } from '@/lib/downloadFile';
 import { useGetPostQuery } from '@/services/post';
-import React from 'react';
+import { EditorContent, useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import React, { useEffect } from 'react';
 
 type Props = {
   params: {
@@ -11,6 +14,20 @@ type Props = {
 
 function Post({ params: { slug: postId } }: Props) {
   const { data } = useGetPostQuery(postId);
+  
+  const editor = useEditor({
+    extensions: [
+      StarterKit
+    ],
+    content: '',
+    editable: false,
+  });
+
+  useEffect(() => {
+    editor?.commands.setContent(data?.content || '');
+  }, [data, editor])
+
+
   return (
     <div className="pt-10 px-12">
       <div className="font-bold text-2xl">{data?.category.name}</div>
@@ -25,8 +42,23 @@ function Post({ params: { slug: postId } }: Props) {
       <div className="border-t-[1px] border-x-[1px] border-gray-200 px-4 py-2">
         작성자: {data?.user.name}
       </div>
-      <div className="border-y-[1px] border-x-[1px] border-gray-200 px-4 py-2">
-        {data?.content}
+      <div className="border-y-[1px] border-x-[1px] border-gray-200 px-4 py-4">
+        {data?.files.map((file) => (
+          <a
+            key={file.fileId}
+            href='/download/12'
+            download={file.filename}
+            onClick={e => {
+              e.preventDefault();
+              downloadFile('123', file.filename);
+            }}
+          >
+            {file.filename}
+          </a>
+        ))}
+      </div>
+      <div className="border-y-[1px] border-x-[1px] border-gray-200 px-4 py-4">
+        <EditorContent editor={editor} />
       </div>
       <div className="mt-12">
         <textarea
@@ -37,13 +69,17 @@ function Post({ params: { slug: postId } }: Props) {
           className="w-full border-gray-200 border-2 appearance-none mt-10 p-2 rounded-md active:border-primary resize-none h-24"
           placeholder="댓글을 입력해주세요"
         ></textarea>
-        <div className="bg-primary text-white rounded-md py-3 text-center mt-2">댓글쓰기</div>
+        <div className="bg-primary text-white rounded-md py-3 text-center mt-2">
+          댓글쓰기
+        </div>
       </div>
       <div className="mt-12">
         <div className="border-b-[1px] border-gray-200 pb-4">
           <div className="font-bold">양명우</div>
           <div className="mt-1 text-gray-400">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s,
           </div>
           <div className="mt-1 text-gray-400 text-sm">2023-06-15</div>
         </div>

@@ -37,7 +37,7 @@ function Page({params: { slug }}: Props) {
     });
     formData.append('title', data.title);
     formData.append('content', content);
-    formData.append('categoryId', category?.categoryId || '');
+    formData.append('categoryId', category?.categoryId + '');
     formData.append('isOpen', data.isOpen);
     addPost(formData);
   };

@@ -6,6 +6,7 @@ import { useGetPostQuery } from '@/services/post';
 import { PaperClipIcon } from '@heroicons/react/24/outline';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 type Props = {
@@ -16,7 +17,8 @@ type Props = {
 
 function Post({ params: { slug: postId } }: Props) {
   const { data } = useGetPostQuery(postId);
-  
+  const router = useRouter();
+
   const editor = useEditor({
     extensions: [
       StarterKit
@@ -29,10 +31,22 @@ function Post({ params: { slug: postId } }: Props) {
     editor?.commands.setContent(data?.content || '');
   }, [data, editor])
 
+  const onClickUpdate = () => {
+    router.push(`/post/${postId}/update`);
+  }
+
 
   return (
     <div className="pt-10 px-12">
-      <div className="font-bold text-2xl">{data?.category.name}</div>
+      <div className="font-bold text-2xl w-full flex justify-between">
+        {data?.category.name}
+        <button 
+          className="text-base bg-gray-400 rounded-md text-white p-2 font-semibold"
+          onClick={onClickUpdate}
+        >
+          업데이트
+        </button>
+      </div>
       <div className="bg-gray-100 py-4 flex items-center border-t-[1px] border-t-black mt-10">
         <div className="w-full text-xl font-semibold text-center">
           {data?.title}
@@ -46,10 +60,10 @@ function Post({ params: { slug: postId } }: Props) {
       </div>
       <div className="border-y-[1px] border-x-[1px] border-gray-200 px-4 py-4">
         {data?.files.map((file) => (
-          <Download 
+          <Download
             key={file.fileId}
             fileName={file.filename}
-            path={'123'}
+            path={file.path}
           />
         ))}
       </div>

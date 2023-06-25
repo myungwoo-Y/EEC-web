@@ -74,21 +74,13 @@ export class PostsController {
       userId: req.user?.userId,
     });
 
-    files.map(async (file) => {
+    files.map((file) => {
       const fileName = Buffer.from(file.originalname, 'latin1').toString();
-      const newFilePath = `/upload/${postId}/`;
-      await mkdirSync(join(process.cwd(), `/upload/${postId}`), {
-        recursive: true,
-      });
-      writeFile(join(process.cwd(), newFilePath + fileName), file.buffer, (err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
+
       this.fileService.saveLocalFileData({
         filename: fileName,
         mimetype: file.mimetype,
-        path: `/${postId}/${encodeURIComponent(fileName)}`,
+        path: file.filename,
         postId: postId,
       });
     });

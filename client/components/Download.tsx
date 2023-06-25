@@ -9,7 +9,7 @@ type DownloadProps = {
 
 function Download({ path, fileName }: DownloadProps) {
   return (
-    <div className="flex items-center cursor-pointer" onClick={() => downloadFile(path, fileName)}>
+    <div className="flex items-center cursor-pointer w-fit" onClick={() => downloadFile(path, fileName)}>
       <PaperClipIcon width={16} className="mr-1" />
       <a
         href={`/${path}`}

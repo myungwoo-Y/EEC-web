@@ -24,18 +24,27 @@ export const postApi = emptySplitApi.injectEndpoints({
         url: `posts/${postId}`,
       }),
     }),
-    addPost: builder.mutation<
-      PostClient,
-      FormData
-    >({
+    addPost: builder.mutation<PostClient, FormData>({
       query: (formData) => ({
         url: 'post',
         body: formData,
         method: 'POST',
+      }),
     }),
+    updatePost: builder.mutation<PostClient, FormData>({
+      query: (formData) => ({
+        url: 'post',
+        body: formData,
+        method: 'PUT',
+      }),
     }),
   }),
 });
 
-
-export const { useGetCategoriesQuery, useGetPostQuery, useGetCategoryByIdQuery, useAddPostMutation } = postApi;
+export const {
+  useGetCategoriesQuery,
+  useGetPostQuery,
+  useGetCategoryByIdQuery,
+  useAddPostMutation,
+  useUpdatePostMutation
+} = postApi;

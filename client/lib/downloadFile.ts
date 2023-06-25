@@ -9,12 +9,18 @@ export async function getFileFromUrl(path: string, fileName: string) {
   return file;
 }
 
-export async function downloadFile(path: string, fileName: string) {
-  const data = await getBlobFromUrl(path);
-  const url = window.URL.createObjectURL(new Blob([data]));
+export async function downloadFile(data: string | File, fileName = '') {
   const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', fileName);
+  if (typeof data === 'string') {
+    const fileData = await getBlobFromUrl(data);
+    const url = window.URL.createObjectURL(new Blob([fileData]));
+    link.href = url;
+    link.setAttribute('download', fileName);
+  } else {
+    const url = window.URL.createObjectURL(data);
+    link.href = url;
+    link.setAttribute('download', data.name);}
+  
   document.body.appendChild(link);
   link.click();
 }

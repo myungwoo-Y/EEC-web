@@ -1,3 +1,4 @@
+import { downloadFile } from '@/lib/downloadFile';
 import {
   ArrowDownOnSquareIcon,
   ArrowDownOnSquareStackIcon,
@@ -23,6 +24,20 @@ function UploadFiles({ files, setFiles }: UploadFilesProps) {
   const handleRemoveChecked = () => {
     setFiles(files.filter((_, idx) => !checkedStatus[idx]));
     setCheckedStatus(checkedStatus.filter((checked) => !checked));
+  };
+
+  const handleDownloadCheckedFiles = () => {
+    files.map((file, idx) => {
+      if (checkedStatus[idx]) {
+        downloadFile(file);
+      }
+    });
+  };
+
+  const handleDownloadFiles = () => {
+    files.map((file) => {
+      downloadFile(file);
+    });
   };
 
   return (
@@ -75,10 +90,16 @@ function UploadFiles({ files, setFiles }: UploadFilesProps) {
         >
           <TrashIcon width={14} className="mr-1" /> 선택삭제
         </button>
-        <button className="ml-2 w-32 flex items-center justify-center border-gray-400 border-[1px] rounded-md py-1">
+        <button
+          className="ml-2 w-32 flex items-center justify-center border-gray-400 border-[1px] rounded-md py-1"
+          onClick={handleDownloadCheckedFiles}
+        >
           <ArrowDownOnSquareIcon width={14} className="mr-1" /> 선택 다운로드
         </button>
-        <button className="ml-2 w-32 flex items-center justify-center border-gray-400 border-[1px] rounded-md py-1">
+        <button
+          className="ml-2 w-32 flex items-center justify-center border-gray-400 border-[1px] rounded-md py-1"
+          onClick={handleDownloadFiles}
+        >
           <ArrowDownOnSquareStackIcon width={14} className="mr-1" /> 전체
           다운로드
         </button>

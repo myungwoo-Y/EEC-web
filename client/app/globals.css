@@ -2,24 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-  color: #2E3A47;
+html,
+body {
+  color: #2e3a47;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-input[type=number] {
-    -moz-appearance:textfield; /* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield; /* Firefox */
 }
-
 
 /* reset check box */
-input[type="checkbox"] {
+input[type='checkbox'] {
   -webkit-appearance: none;
   appearance: none;
 
@@ -35,24 +35,24 @@ input[type="checkbox"] {
   place-content: center;
 }
 
-input[type="checkbox"]::before {
-  content: "";
+input[type='checkbox']::before {
+  content: '';
   width: 0.65em;
   height: 0.65em;
   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
   transform: scale(0);
   transform-origin: bottom left;
   transition: 120ms transform ease-in-out;
-  background-color: #2362BA;
+  background-color: #2362ba;
 }
 
-input[type="checkbox"]:checked::before {
+input[type='checkbox']:checked::before {
   transform: scale(1);
 }
 /* END reset check box */
 
 h1 {
-  font-size: 32px; 
+  font-size: 32px;
   font-weight: bold;
 }
 
@@ -61,17 +61,16 @@ h2 {
   font-weight: bold;
 }
 
-.ProseMirror {
-  padding: 5px;
-  height: 100%;
-}
-
-.ProseMirror a {
-  text-decoration: underline;
-  color: #2362BA;
-}
-
 option:disabled {
   color: gray;
   opacity: 0.1;
 }
+
+/* Start Date Picker  */
+/* ::-webkit-calendar-picker-indicator{
+  background-color: #ffffff;
+  padding: 3px;
+  cursor: pointer;
+  border-radius: 3px;
+} */
+/* End Date Picker  */

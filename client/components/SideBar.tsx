@@ -35,14 +35,14 @@ function SideBar() {
         <HomeIcon width="18" height="18" className="mr-2" /> HOME
       </Link>
       <Link
-        href="/"
+        href="/class-register"
         className="flex text-[16px] text-white items-center my-2 mx-3 px-3 py-3 hover:bg-primary transition-colors rounded-xl"
       >
         <DocumentMagnifyingGlassIcon width="18" height="18" className="mr-2" />{' '}
         수강신청
       </Link>
       <Link
-        href="/"
+        href="/register"
         className="flex text-[16px] text-white items-center my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl"
       >
         <PencilIcon width="18" height="18" className="mr-2" /> 강의관리

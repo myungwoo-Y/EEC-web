@@ -99,7 +99,7 @@ const MenuBar = ({
         >
           <StrikethroughIcon className="w-5" />
         </button>
-        <div className="w-[1px] h-6 bg-gray-200 mx-1"></div>
+        <div className="w-[2px] h-6 bg-gray-200 mx-1"></div>
         <button
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 1 }).run()
@@ -128,7 +128,7 @@ const MenuBar = ({
         >
           <ListOrderedIcon className="w-5" />
         </button>
-        <div className="w-[1px] h-6 bg-gray-200 mx-1"></div>
+        <div className="w-[2px] h-6 bg-gray-200 mx-1"></div>
         <button
           onClick={() => editor.chain().focus().undo().run()}
           disabled={!editor.can().chain().focus().undo().run()}
@@ -164,7 +164,7 @@ const MenuBar = ({
           >
             <EraserLineIcon />
           </button>
-          <div className="w-[1px] h-6 bg-gray-200 mx-1"></div>
+          <div className="w-[2px] h-6 bg-gray-200 mx-1"></div>
           <button
             onClick={() => editor.chain().focus().addColumnBefore().run()}
             className="w-8 h-8 text-center text-gray-500 hover:bg-gray-100 p-1 rounded-md"
@@ -189,7 +189,7 @@ const MenuBar = ({
           >
             <InsertRowBottomIcon />
           </button>
-          <div className="w-[1px] h-6 bg-gray-200 mx-1"></div>
+          <div className="w-[2px] h-6 bg-gray-200 mx-1"></div>
           <button
             onClick={() => editor.chain().focus().deleteColumn().run()}
             className="w-8 h-8 text-center text-gray-500 hover:bg-gray-100 p-1 rounded-md"

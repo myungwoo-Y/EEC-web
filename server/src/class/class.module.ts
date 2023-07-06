@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FileModule } from 'src/file/file.module';
+import FileService from 'src/file/file.service';
 import Class from 'src/model/class.entity';
 import File from 'src/model/file.entity';
 import { ClassController } from './class.controller';
@@ -16,6 +17,6 @@ import { ClassService } from './class.service';
     })
   ],
   controllers: [ClassController],
-  providers: [ClassService]
+  providers: [ClassService, FileService]
 })
 export class ClassModule {}

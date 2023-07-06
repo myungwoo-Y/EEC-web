@@ -10,7 +10,13 @@ const classApi = emptySplitApi.injectEndpoints({
         method: 'POST',
       }),
     }),
+    getClasses: builder.query<Class[], void>({
+      query: () => ({
+        url: 'class',
+        method: 'GET'
+      }),
+    })
   }),
 });
 
-export const { useAddClassMutation } = classApi;
+export const { useAddClassMutation, useGetClassesQuery } = classApi;

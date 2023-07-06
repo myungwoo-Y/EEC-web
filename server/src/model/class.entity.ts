@@ -6,7 +6,7 @@ import File from './file.entity';
 class Class extends BaseEntity {
   @Column({ type: 'integer'})
   @PrimaryGeneratedColumn('increment')
-  classId: string;
+  classId: number;
  
   @Column({ type: 'varchar', length: 50 })
   title: string;

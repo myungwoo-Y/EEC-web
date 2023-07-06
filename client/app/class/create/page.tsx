@@ -6,8 +6,10 @@ import TextEditor from '@/components/TextEditor';
 import UploadFile from '@/components/UploadFile';
 import { defaultClassDetail } from '@/model/table';
 import { useAddClassMutation } from '@/services/class';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import dayjs from 'dayjs';
 
 function Page() {
   const {
@@ -17,27 +19,28 @@ function Page() {
     watch
   } = useForm();
 
-  const [file, setFile] = useState<File | null>(null);
   const [detail, setDetail] = useState(defaultClassDetail);
   const [addClass, { isError, isSuccess }] = useAddClassMutation();
 
   const onSubmitClass = (data: Record<string, any>) => {
-    if (!file) {
-      return;
-    }
-
     const formData  = new FormData();
     formData.append('title', data.title);
     formData.append('target', data.target);
     formData.append('description', data.description);
     formData.append('detail', detail);
-    formData.append('classStart', data.classStart);
-    formData.append('classEnd', data.classEnd);
-    formData.append('registerStart', data.registerStart);
-    formData.append('registerEnd', data.registerEnd);
-    formData.append('thumbnailImage', file);
+    formData.append('classStart', dayjs(data.classStart).toISOString());
+    formData.append('classEnd', dayjs(data.classEnd).toISOString());
+    formData.append('registerStart', dayjs(data.registerStart).toISOString());
+    formData.append('registerEnd', dayjs(data.registerEnd).toISOString());
+    formData.append('thumbnailImage', data.thumbnailImage[0]);
     addClass(formData);
   };
+
+  const router = useRouter();
+
+  if (isSuccess) {
+    // router.push('/class');
+  }
 
   return (
     <div className="py-10 px-12">

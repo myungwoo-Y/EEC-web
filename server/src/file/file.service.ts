@@ -1,6 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import File from 'src/model/file.entity';
-import { Repository } from 'typeorm';
+import { InsertResult, Repository } from 'typeorm';
 import { FileDto } from './file.dto';
 import { unlink } from 'fs';
 import { join } from 'path';
@@ -12,17 +12,32 @@ class FileService {
   ) {}
 
   async saveLocalFileData(fileDto: FileDto) {
-    const newFile = await this.fileRepository.create(fileDto);
-    console.log(fileDto.postId);
-    await this.fileRepository.insert({
-      filename: fileDto.filename,
-      mimetype: fileDto.mimetype,
-      path: fileDto.path,
-      post: {
-        postId: fileDto.postId,
-      },
-    });
-    return newFile;
+    let newFile: InsertResult = null;
+    if (fileDto.postId) {
+      newFile = await this.fileRepository.insert({
+        filename: fileDto.filename,
+        mimetype: fileDto.mimetype,
+        path: fileDto.path,
+        post: {
+          postId: fileDto.postId,
+        },
+      });
+    } else if (fileDto.classId) {
+      newFile = await this.fileRepository.insert({
+        filename: fileDto.filename,
+        mimetype: fileDto.mimetype,
+        path: fileDto.path,
+        class: {
+          classId: fileDto.classId,
+        },
+      });
+    }
+    
+    if (newFile) {
+      return newFile.raw[0];
+    }
+    
+    return null;
   }
 
   async getFileByName(fileName: string) {

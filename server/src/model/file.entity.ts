@@ -1,4 +1,5 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import Class from './class.entity';
 import { Post } from './post.entity';
  
 @Entity()
@@ -18,6 +19,10 @@ class File {
   @JoinColumn({name : 'postId', referencedColumnName: 'postId'})
   @ManyToOne(() => Post)
   public post?: Post;
+
+  @JoinColumn({name : 'classId', referencedColumnName: 'classId'})
+  @OneToOne(() => Class)
+  public class?: Class;
 }
  
 export default File;

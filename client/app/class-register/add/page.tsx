@@ -41,7 +41,7 @@ function Page() {
           className="w-full"
         />
         <div className="w-full">
-          <p>구성</p>
+          <p>구성 설명</p>
           <textarea
             className="resize-y w-full border-gray-200 border-2 py-1 px-2 rounded-md focus:border-primary h-44 mt-1"
           />
@@ -83,7 +83,7 @@ function Page() {
           />
         </div>
         
-        
+        <button className="bg-primary flex items-center justify-center text-white text-lg font-bold py-3 mt-7 w-full rounded-md">저장하기</button>
       </div>
     </div>
   );

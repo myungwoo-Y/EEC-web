@@ -4,7 +4,8 @@ import Date from '@/components/Date';
 import Input from '@/components/Input';
 import TextEditor from '@/components/TextEditor';
 import UploadFile from '@/components/UploadFile';
-import UploadFiles from '@/components/UploadFiles';
+import { defaultClassDetail } from '@/model/table';
+import { useAddClassMutation } from '@/services/class';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -12,9 +13,31 @@ function Page() {
   const {
     register,
     formState: { errors },
+    handleSubmit,
+    watch
   } = useForm();
 
   const [file, setFile] = useState<File | null>(null);
+  const [detail, setDetail] = useState(defaultClassDetail);
+  const [addClass, { isError, isSuccess }] = useAddClassMutation();
+
+  const onSubmitClass = (data: Record<string, any>) => {
+    if (!file) {
+      return;
+    }
+
+    const formData  = new FormData();
+    formData.append('title', data.title);
+    formData.append('target', data.target);
+    formData.append('description', data.description);
+    formData.append('detail', detail);
+    formData.append('classStart', data.classStart);
+    formData.append('classEnd', data.classEnd);
+    formData.append('registerStart', data.registerStart);
+    formData.append('registerEnd', data.registerEnd);
+    formData.append('thumbnailImage', file);
+    addClass(formData);
+  };
 
   return (
     <div className="py-10 px-12">
@@ -37,22 +60,35 @@ function Page() {
           name="target"
           label="교육 대상"
           option={{ required: true }}
-          error={errors.title?.type === 'required' ? '제목을 입력해주세요' : ''}
+          error={
+            errors.target?.type === 'required' ? '대상을 입력해주세요' : ''
+          }
           className="w-full"
         />
         <div className="w-full">
           <p>구성 설명</p>
           <textarea
-            className="resize-y w-full border-gray-200 border-2 py-1 px-2 rounded-md focus:border-primary h-44 mt-1"
+            className={`resize-y w-full border-[1px] py-1 px-2 rounded-md focus:border-primary h-44 mt-1 ${
+              errors.description?.type === 'required' ? 'border-red-600' : 'border-gray-200'
+            }`}
+            {...register('description', { required: true })}
           />
+          {errors.description?.type === 'required' && (
+            <p className="text-red-600">설명을 입력해주세요</p>
+          )}
         </div>
 
         <div className="w-full">
           <p className="mb-1">썸네일 이미지</p>
-          <UploadFile 
-            file={file}
-            setFile={setFile}
+          <UploadFile
             defaultMessage="이미지를 선택해주세요"
+            name="thumbnailImage"
+            register={register}
+            option={{ required: true }}
+            watch={watch}
+            error={
+              errors.thumbnailImage?.type === 'required' ? '이미지를 추가해주세요' : ''
+            }
           />
         </div>
 
@@ -75,15 +111,20 @@ function Page() {
 
         <div className="w-full mt-4">
           <p>교과목상세</p>
-          <TextEditor 
-            content=""
-            setContent={() => null}
+          <TextEditor
+            content={detail}
+            setContent={setDetail}
             addTable={true}
             className="w-full mt-1"
           />
         </div>
-        
-        <button className="bg-primary flex items-center justify-center text-white text-lg font-bold py-3 mt-7 w-full rounded-md">저장하기</button>
+
+        <button
+          className="bg-primary flex items-center justify-center text-white text-lg font-bold py-3 mt-7 w-full rounded-md"
+          onClick={handleSubmit(onSubmitClass)}
+        >
+          저장하기
+        </button>
       </div>
     </div>
   );

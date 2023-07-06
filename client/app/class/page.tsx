@@ -41,7 +41,7 @@ export default function Page() {
       </div>
       <button 
         className="bg-gray-400 rounded-md text-white px-3 py-2 float-right mt-14"
-        onClick={() => router.push('/class-register/add')}
+        onClick={() => router.push('/class/create')}
       >
         강의 추가하기
       </button>

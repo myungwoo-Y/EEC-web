@@ -35,7 +35,7 @@ function SideBar() {
         <HomeIcon width="18" height="18" className="mr-2" /> HOME
       </Link>
       <Link
-        href="/class-register"
+        href="/class"
         className="flex text-[16px] text-white items-center my-2 mx-3 px-3 py-3 hover:bg-primary transition-colors rounded-xl"
       >
         <DocumentMagnifyingGlassIcon width="18" height="18" className="mr-2" />{' '}

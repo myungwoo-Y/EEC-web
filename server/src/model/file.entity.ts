@@ -1,9 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity } from './base.entity';
 import Class from './class.entity';
 import { Post } from './post.entity';
  
-@Entity()
-class File {
+@Entity('file')
+class File extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   fileId: string;
  

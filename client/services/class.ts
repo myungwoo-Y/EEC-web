@@ -1,4 +1,4 @@
-import Class from "@/../server/src/model/class.entity";
+import { Class } from "@/model/class";
 import { emptySplitApi } from "./base";
 
 const classApi = emptySplitApi.injectEndpoints({
@@ -15,8 +15,21 @@ const classApi = emptySplitApi.injectEndpoints({
         url: 'class',
         method: 'GET'
       }),
+    }),
+    getClass: builder.query<Class, string>({
+      query: (id) => ({
+        url: `class/${id}`,
+        method: 'GET'
+      }),
+    }),
+    updateClass: builder.mutation<Class[], {formData: FormData, classId: string}>({
+      query: ({formData, classId}) => ({
+        url: `class/${classId}`,
+        method: 'PUT',
+        body: formData
+      }),
     })
   }),
 });
 
-export const { useAddClassMutation, useGetClassesQuery } = classApi;
+export const { useAddClassMutation, useGetClassesQuery, useGetClassQuery, useUpdateClassMutation } = classApi;

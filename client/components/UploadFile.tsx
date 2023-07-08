@@ -18,7 +18,7 @@ type UploadFileProps = {
   className?: string;
   name: string;
   register: UseFormRegister<Record<string, any>>;
-  option: RegisterOptions<Record<string, any>, string>;
+  option?: RegisterOptions<Record<string, any>, string>;
   watch: UseFormWatch<FieldValues>;
   error?: string;
 };
@@ -33,6 +33,7 @@ function UploadFile({
   defaultMessage = '파일을 선택해주세요',
 }: UploadFileProps) {
   const file = (watch(name) as FileList)?.[0];
+  console.log(file);
   return (
     <div>
       <div

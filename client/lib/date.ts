@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export function addSlashToStr(date: string, split = 2) {
   let result = '';
 
@@ -9,5 +11,9 @@ export function addSlashToStr(date: string, split = 2) {
   }
 
   return result;
+}
+
+export function toInputDate(date: string) {
+  return dayjs(date).format('YYYY-MM-DD');
 }
 

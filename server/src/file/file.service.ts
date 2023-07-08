@@ -48,14 +48,33 @@ class FileService {
     return file;
   }
 
-  async removeFilesByPostId(postId) {
-    const files = await this.fileRepository.find({
-      where: {
-        post: {
-          postId,
+  async removeFilesById({
+    postId,
+    classId
+  }: {
+    postId?: number,
+    classId?: number
+  }) {
+    let files: File[] = [];
+
+    if (postId) {
+      files = await this.fileRepository.find({
+        where: {
+          post: {
+            postId,
+          },
         },
-      },
-    });
+      });
+    } else if (classId) {
+      files = await this.fileRepository.find({
+        where: {
+          class: {
+            classId,
+          },
+        },
+      });
+    }
+    
     await Promise.all(
       files.map(async (file) => {
         await this.fileRepository.delete(file.fileId);

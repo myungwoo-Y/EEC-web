@@ -32,8 +32,9 @@ class Class extends BaseEntity {
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   registerEnd: Date;
 
-  @JoinColumn({name : 'thumbnailImageId', referencedColumnName: 'fileId'})
-  @OneToOne(() => File)
+  @OneToOne(() => File, (file) => file.class , {
+    cascade: true,
+  })
   thumbnailImage: File;
 }
  

@@ -10,17 +10,34 @@ export class ClassService {
     @InjectRepository(Class)
     private classRepository: Repository<Class>,
   ) {}
-  async updateThumbnail(classId, fileId: string) {
-    await this.classRepository.update(classId, {
-      thumbnailImage: {
-        fileId
+
+  async getClasses() {
+    const classes = await this.classRepository.find({
+      relations: {
+        thumbnailImage: true
+      }
+    });
+    return classes;
+  }
+
+  getClass(classId: number) {
+    if (classId == null) {
+      return null;
+    }
+    return this.classRepository.findOne({
+      relations: {
+        thumbnailImage: true
+      },
+      where: {
+        classId
       }
     });
   }
 
-  async getClasses() {
-    const classes = await this.classRepository.find();
-    return classes;
+  async updateClass(createClassDto: CreateClassDto, classId: number) {
+    return await this.classRepository.update(classId, {
+      ...createClassDto
+    });
   }
 
   async createClass(createClassDto: CreateClassDto) {

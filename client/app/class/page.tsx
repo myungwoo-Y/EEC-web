@@ -5,6 +5,7 @@ import { BookOpenIcon } from '@heroicons/react/24/outline';
 import { CalendarDaysIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import dayjs from 'dayjs';
 
 export default function Page() {
   const { data: classes } = useGetClassesQuery();
@@ -29,7 +30,7 @@ export default function Page() {
                         <CalendarDaysIcon width={16} className="mr-1" />{' '}
                         신청기간:
                       </div>
-                      <p className="text-gray-400">2022.06.06~2022.06.17</p>
+                      <p className="text-gray-400">{dayjs(data.registerStart).format('YYYY.MM.DD')}~{dayjs(data.registerEnd).format('YYYY.MM.DD')}</p>
                     </div>
                   </div>
                   <div>
@@ -44,7 +45,10 @@ export default function Page() {
                 <button className="bg-green-500 rounded-md text-white px-2 h-9">
                   신청하기
                 </button>
-                <button className="bg-gray-400 ml-2 rounded-md text-white px-2 h-9">
+                <button 
+                  className="bg-gray-400 ml-2 rounded-md text-white px-2 h-9"
+                  onClick={() => router.push(`/class/${data.classId}/update`)}
+                >
                   수정하기
                 </button>
               </div>

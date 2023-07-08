@@ -3,8 +3,10 @@ import {
   Controller,
   Get,
   MaxFileSizeValidator,
+  Param,
   ParseFilePipe,
   Post,
+  Put,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -15,7 +17,11 @@ import { ClassService } from './class.service';
 
 @Controller('class')
 export class ClassController {
-  constructor(private fileService: FileService, private classService: ClassService) {}
+  constructor(
+    private fileService: FileService,
+    private classService: ClassService,
+  ) {}
+
   @Post('/')
   @UseInterceptors(FileInterceptor('thumbnailImage'))
   async creatClass(
@@ -32,21 +38,65 @@ export class ClassController {
   ) {
     const newClass = await this.classService.createClass(createClassDto);
 
-    const fileName = Buffer.from(thumbnailImage.originalname, 'latin1').toString();
-    const newFile = await this.fileService.saveLocalFileData({
+    const fileName = Buffer.from(
+      thumbnailImage.originalname,
+      'latin1',
+    ).toString();
+    
+    await this.fileService.saveLocalFileData({
       filename: fileName,
       mimetype: thumbnailImage.mimetype,
       path: thumbnailImage.filename,
       classId: newClass?.classId,
     });
 
-    await this.classService.updateThumbnail(newClass.classId, newFile.fileId);
-
     return newClass;
+  }
+
+  @Put('/:classId')
+  @UseInterceptors(FileInterceptor('thumbnailImage'))
+  async updateClass(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 1000000000 }), // 1GB
+        ],
+        fileIsRequired: false,
+      }),
+    )
+    thumbnailImage: Express.Multer.File,
+    @Param('classId') classId: number,
+    @Body() createClassDto: CreateClassDto,
+  ) {
+    const updatedClass = await this.classService.updateClass(
+      createClassDto,
+      classId,
+    );
+
+    await this.fileService.removeFilesById({ classId });
+
+    const fileName = Buffer.from(
+      thumbnailImage.originalname,
+      'latin1',
+    ).toString();
+    
+    await this.fileService.saveLocalFileData({
+      filename: fileName,
+      mimetype: thumbnailImage.mimetype,
+      path: thumbnailImage.filename,
+      classId,
+    });
+
+    return updatedClass.raw?.[0];
   }
 
   @Get('/')
   getClasses() {
     return this.classService.getClasses();
+  }
+
+  @Get('/:classId')
+  getClass(@Param('classId') classId: number) {
+    return this.classService.getClass(classId);
   }
 }

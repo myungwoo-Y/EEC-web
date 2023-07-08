@@ -111,7 +111,7 @@ export class PostsController {
       userId: req.user?.userId,
     });
 
-    await this.fileService.removeFilesByPostId(parseInt(postId));
+    await this.fileService.removeFilesById({ postId: parseInt(postId) });
 
     files.map((file) => {
       const fileName = Buffer.from(file.originalname, 'latin1').toString();

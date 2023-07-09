@@ -1,5 +1,5 @@
 import { useGetClassesQuery } from '@/services/class';
-import { useAddCurriculumMutation } from '@/services/curriculum';
+import { useAddCurriculumMutation, useGetCurriculumsQuery } from '@/services/curriculum';
 import { PlusIcon } from '@heroicons/react/24/solid';
 import React, { useState } from 'react';
 import checkboxStyles from '../Checkbox.module.scss';
@@ -11,6 +11,10 @@ function ClassManagement() {
   const [classOrder, setClassOrder] = useState('');
   const [addCurriculum, { isSuccess }] = useAddCurriculumMutation();
   const [curriculumTitle, setCurriculumTitle] = useState('');
+  const { data } = useGetCurriculumsQuery(
+    { classOrder: parseInt(classOrder || '0'), classId: classes?.[classIdx].classId || 0 },
+    { skip: !classOrder || !classes }
+  );
 
   const onAddCurriculum = () => {
     if (!classOrder) {

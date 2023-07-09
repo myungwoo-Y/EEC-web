@@ -11,7 +11,13 @@ const curriculumApi = emptySplitApi.injectEndpoints({
         method: 'POST',
       }),
     }),
+    getCurriculums: builder.query<Curriculum, {classId: number, classOrder: number}>({
+      query: ({classId, classOrder}) => ({
+        url: `/curriculum?classId=${classId}&classOrder=${classOrder}`,
+        method: 'GET'
+      })
+    })
   }),
 });
 
-export const { useAddCurriculumMutation } = curriculumApi;
+export const { useAddCurriculumMutation, useGetCurriculumsQuery } = curriculumApi;

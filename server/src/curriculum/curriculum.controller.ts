@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateCurriculumDto } from './curriculum.dto';
 import { CurriculumService } from './curriculum.service';
 
@@ -9,5 +9,10 @@ export class CurriculumController {
   @Post()
   createCurriculum(@Body() createCurriculumDto: CreateCurriculumDto) {
     return this.curriculumService.createCurriculum(createCurriculumDto);
+  }
+
+  @Get()
+  findAllCurriculum(@Query('classId') classId: number,  @Query('classOrder') classOrder: number) {
+    return this.curriculumService.findAllCurriculum(classId, classOrder);
   }
 }

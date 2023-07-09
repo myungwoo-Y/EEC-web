@@ -24,4 +24,17 @@ export class CurriculumService {
     return injectResult.raw[0];
   }
 
+  async findAllCurriculum(classId: number, classOrder: number) {
+    return this.curriculumRepository.find({
+      relations: {
+        class: true
+      },
+      where: {
+        classOrder,
+        class: {
+          classId
+        }
+      }
+    });
+  }
 }

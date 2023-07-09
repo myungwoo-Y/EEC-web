@@ -1,11 +1,34 @@
 import { useGetClassesQuery } from '@/services/class';
+import { useAddCurriculumMutation } from '@/services/curriculum';
 import { PlusIcon } from '@heroicons/react/24/solid';
-import React from 'react';
+import React, { useState } from 'react';
 import checkboxStyles from '../Checkbox.module.scss';
 import Input from '../Input';
 
 function ClassManagement() {
   const { data: classes } = useGetClassesQuery();
+  const [classIdx, setClassIdx] = useState(0);
+  const [classOrder, setClassOrder] = useState('');
+  const [addCurriculum, { isSuccess }] = useAddCurriculumMutation();
+  const [curriculumTitle, setCurriculumTitle] = useState('');
+
+  const onAddCurriculum = () => {
+    if (!classOrder) {
+      alert('기수를 입력해주세요');
+      return;
+    }
+
+    if (!classes) {
+      alert('과정을 추가해주세요');
+      return;
+    }
+
+    addCurriculum({
+      title: '',
+      classOrder: parseInt(classOrder),
+      classId: classes[classIdx].classId
+    });
+  }
 
   return (
     <div>
@@ -13,12 +36,14 @@ function ClassManagement() {
         <p className="text-lg font-semibold">교육과정</p>
         <div className="flex gap-6 mt-4">
           {classes &&
-            classes.map((classData) => (
+            classes.map((classData, idx) => (
               <div className="flex items-center" key={classData.classId}>
                 <input
                   type="checkbox"
                   id={classData.classId + ''}
                   className={`${checkboxStyles.circle} mr-1`}
+                  checked={idx === classIdx}
+                  onChange={() => setClassIdx(idx)}
                 />
                 <label htmlFor={classData.classId + ''}>{classData.title}</label>
               </div>
@@ -32,6 +57,8 @@ function ClassManagement() {
             <Input 
               type="number"
               className="w-14 mr-1"
+              value={classOrder}
+              onChange={(e) => setClassOrder(e.target.value)}
             /> 
             <p>기</p>
           </div>
@@ -48,7 +75,10 @@ function ClassManagement() {
               <th className="border-gray-300 border-[1px] border-t-black py-2">구분</th>
               <th className="border-gray-300 border-[1px] border-t-black py-2 w-7/12">커리큘럼</th>
               <th className="border-gray-300 border-[1px] border-t-black py-2">
-                <button className="bg-white border-primary border-[1px] flex items-center justify-center py-[2px] px-3 rounded-sm m-auto">
+                <button 
+                  className="bg-white border-primary border-[1px] flex items-center justify-center py-[2px] px-3 rounded-sm m-auto"
+                  onClick={onAddCurriculum}
+                >
                   <PlusIcon width={12} />
                 </button>
               </th>

@@ -4,7 +4,6 @@ import { UseFormRegister, RegisterOptions } from "react-hook-form"
 interface InputProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any;
   type: HTMLInputTypeAttribute;
-  value?: string;
   label?: string;
   error?: string;
   autoComplete?: string;

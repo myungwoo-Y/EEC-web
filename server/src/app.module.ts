@@ -11,6 +11,7 @@ import { PostModule } from './post/post.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ClassModule } from './class/class.module';
+import { CurriculumModule } from './curriculum/curriculum.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -22,6 +23,7 @@ import { ClassModule } from './class/class.module';
     AuthModule,
     PostModule,
     ClassModule,
+    CurriculumModule,
   ],
   controllers: [AppController],
   providers: [AppService, UserService],

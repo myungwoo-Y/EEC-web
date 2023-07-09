@@ -31,8 +31,8 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 50, default: '' })
   jobLevel: string;
 
-  @Column({ type: 'varchar', length: 50, default: '' })
-  classOrder: string;
+  @Column({ type: 'integer', default: 1 })
+  classOrder: number;
 
   @Column({ type: 'boolean', default: true }) 
   agreementTerms: boolean;

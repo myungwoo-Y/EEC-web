@@ -24,7 +24,7 @@ export default function Input({
 }: InputProps) {
   return (
     <div className={className}>
-      <label className="block mb-1">{label}</label>
+      {label && <label className="block mb-1">{label}</label>}
       {register ?
         <input
           className={`border-[1px] border-gray-300 rounded-md py-1 px-3 bg-[#F5F7F9] focus:bg-white focus:border-primary w-full ${error && 'border-red-600'}`}

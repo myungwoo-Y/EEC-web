@@ -6,6 +6,7 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/solid';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import checkboxStyles from './Checkbox.module.scss';
 
 type UploadFilesProps = {
   files: File[];
@@ -48,7 +49,7 @@ function UploadFiles({ files, setFiles }: UploadFilesProps) {
             <input
               type="checkbox"
               checked={checkedStatus[idx] ?? false}
-              className="mr-2 appearance-none"
+              className={`mr-2 appearance-none ${checkboxStyles.rectangle}`}
               onChange={(e) => {
                 setCheckedStatus(
                   checkedStatus.map((check, checkIdx) => {

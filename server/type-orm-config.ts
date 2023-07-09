@@ -5,6 +5,7 @@ import { Post } from 'src/model/post.entity';
 import { PostCategory } from 'src/model/postCategory.entity';
 import File from 'src/model/file.entity';
 import Class from 'src/model/class.entity';
+import Curriculum from 'src/model/curriculum.entity';
 
 
 export default new DataSource({
@@ -14,7 +15,7 @@ export default new DataSource({
   username: configService.getValue('POSTGRES_USER'),
   password: configService.getValue('POSTGRES_PASSWORD'),
   database: configService.getValue('POSTGRES_DATABASE'),
-  entities: [User, Post, PostCategory, File, Class],
+  entities: [User, Post, PostCategory, File, Class, Curriculum],
   migrationsTableName: 'eec_web_migration',
   migrations: ['migrations/*{.ts,.js}'],
   synchronize: false,

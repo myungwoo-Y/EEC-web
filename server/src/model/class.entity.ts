@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from './base.entity';
+import Curriculum from './curriculum.entity';
 import File from './file.entity';
  
 @Entity('class')
@@ -36,6 +37,9 @@ class Class extends BaseEntity {
     cascade: true,
   })
   thumbnailImage: File;
+
+  @OneToMany((type) => Curriculum, (curriculum) => curriculum.class)
+  curriculums: Curriculum[];
 }
  
 export default Class;

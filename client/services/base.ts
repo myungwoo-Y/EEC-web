@@ -4,6 +4,7 @@ import { addTokenToHeader, getBaseHost } from './common';
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const emptySplitApi = createApi({
   reducerPath: 'baseApi',
+  tagTypes: ['Curriculum'],
   baseQuery: fetchBaseQuery({
     baseUrl: `${getBaseHost()}`,
     prepareHeaders: (headers, { getState }) => {

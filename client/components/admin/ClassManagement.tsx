@@ -1,7 +1,11 @@
 import { useGetClassesQuery } from '@/services/class';
-import { useAddCurriculumMutation, useGetCurriculumsQuery } from '@/services/curriculum';
+import {
+  useAddCurriculumMutation,
+  useGetCurriculumsQuery,
+} from '@/services/curriculum';
+import { MinusIcon } from '@heroicons/react/24/outline';
 import { PlusIcon } from '@heroicons/react/24/solid';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import checkboxStyles from '../Checkbox.module.scss';
 import Input from '../Input';
 
@@ -11,10 +15,21 @@ function ClassManagement() {
   const [classOrder, setClassOrder] = useState('');
   const [addCurriculum, { isSuccess }] = useAddCurriculumMutation();
   const [curriculumTitle, setCurriculumTitle] = useState('');
-  const { data } = useGetCurriculumsQuery(
-    { classOrder: parseInt(classOrder || '0'), classId: classes?.[classIdx].classId || 0 },
+  const [cancelCount, setCancelCount] = useState(0);
+  const [titles, setTitles] = useState<string[]>([]);
+  const { data: curriculums } = useGetCurriculumsQuery(
+    {
+      classOrder: parseInt(classOrder || '0'),
+      classId: classes?.[classIdx].classId || 0,
+    },
     { skip: !classOrder || !classes }
   );
+
+  useEffect(() => {
+    if (curriculums) {
+      setTitles(curriculums.map((curriculum) => curriculum.title));
+    }
+  }, [curriculums])
 
   const onAddCurriculum = () => {
     if (!classOrder) {
@@ -30,9 +45,13 @@ function ClassManagement() {
     addCurriculum({
       title: '',
       classOrder: parseInt(classOrder),
-      classId: classes[classIdx].classId
+      classId: classes[classIdx].classId,
     });
-  }
+  };
+
+  const onCancel = () => {
+    curriculums && setTitles(curriculums.map((curriculum) => curriculum.title));
+  };
 
   return (
     <div>
@@ -49,7 +68,9 @@ function ClassManagement() {
                   checked={idx === classIdx}
                   onChange={() => setClassIdx(idx)}
                 />
-                <label htmlFor={classData.classId + ''}>{classData.title}</label>
+                <label htmlFor={classData.classId + ''}>
+                  {classData.title}
+                </label>
               </div>
             ))}
         </div>
@@ -58,15 +79,14 @@ function ClassManagement() {
         <p className="text-lg font-semibold">기수 및 년도 구분</p>
         <div className="flex gap-6 mt-4">
           <div className="flex items-center">
-            <Input 
+            <Input
               type="number"
               className="w-14 mr-1"
               value={classOrder}
               onChange={(e) => setClassOrder(e.target.value)}
-            /> 
+            />
             <p>기</p>
           </div>
-          <button className="bg-primary text-white py-1 px-3 rounded-md">조회하기</button>
         </div>
       </div>
       <div className="mt-10">
@@ -74,12 +94,20 @@ function ClassManagement() {
         <table className="w-full mt-4">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border-gray-300 border-[1px] border-t-black py-2">ID</th>
-              <th className="border-gray-300 border-[1px] border-t-black py-2">교육과정</th>
-              <th className="border-gray-300 border-[1px] border-t-black py-2">구분</th>
-              <th className="border-gray-300 border-[1px] border-t-black py-2 w-7/12">커리큘럼</th>
-              <th className="border-gray-300 border-[1px] border-t-black py-2">
-                <button 
+              <th className="border-gray-300 border-[1px] border-t-black py-3">
+                ID
+              </th>
+              <th className="border-gray-300 border-[1px] border-t-black py-3">
+                교육과정
+              </th>
+              <th className="border-gray-300 border-[1px] border-t-black py-3">
+                구분
+              </th>
+              <th className="border-gray-300 border-[1px] border-t-black py-3 w-1/2">
+                커리큘럼
+              </th>
+              <th className="border-gray-300 border-[1px] border-t-black py-3">
+                <button
                   className="bg-white border-primary border-[1px] flex items-center justify-center py-[2px] px-3 rounded-sm m-auto"
                   onClick={onAddCurriculum}
                 >
@@ -88,7 +116,51 @@ function ClassManagement() {
               </th>
             </tr>
           </thead>
+          <tbody>
+            {classOrder && curriculums && titles.length
+              ? curriculums.map((curriculum, idx) => (
+                  <tr key={curriculum.curriculumId} className="text-center">
+                    <td className="border-gray-300 border-[1px] border-t-black py-3">
+                      {curriculum.curriculumId}
+                    </td>
+                    <td className="border-gray-300 border-[1px] border-t-black py-3">
+                      {curriculum.class?.title}
+                    </td>
+                    <td className="border-gray-300 border-[1px] border-t-black py-3">
+                      {curriculum.classOrder}기
+                    </td>
+                    <td className="border-gray-300 border-[1px] border-t-black py-3">
+                      <Input
+                        value={titles[idx]}
+                        onChange={(e) => setTitles(titles.map((title, titleIdx) => idx === titleIdx ? e.target.value : title))}
+                        type="text"
+                        className={`mx-5 ${cancelCount}`}
+                      />
+                    </td>
+                    <td className="border-gray-300 border-[1px] border-t-black py-3">
+                      <button
+                        className="bg-white border-red-500 border-[1px] flex items-center justify-center py-[2px] px-3 rounded-sm m-auto"
+                        onClick={onAddCurriculum}
+                      >
+                        <MinusIcon width={12} className="text-red-500" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              : null}
+          </tbody>
         </table>
+        <div className="float-right mt-6">
+          <button
+            className="py-2 px-6 rounded-md bg-gray-400 mr-2"
+            onClick={onCancel}
+          >
+            취소
+          </button>
+          <button className="py-2 px-6 rounded-md bg-primary text-white">
+            저장
+          </button>
+        </div>
       </div>
     </div>
   );

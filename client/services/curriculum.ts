@@ -10,12 +10,14 @@ const curriculumApi = emptySplitApi.injectEndpoints({
         body: newCurriculum,
         method: 'POST',
       }),
+      invalidatesTags: ['Curriculum']
     }),
-    getCurriculums: builder.query<Curriculum, {classId: number, classOrder: number}>({
+    getCurriculums: builder.query<Curriculum[], {classId: number, classOrder: number}>({
       query: ({classId, classOrder}) => ({
         url: `/curriculum?classId=${classId}&classOrder=${classOrder}`,
         method: 'GET'
-      })
+      }),
+      providesTags: ['Curriculum']
     })
   }),
 });

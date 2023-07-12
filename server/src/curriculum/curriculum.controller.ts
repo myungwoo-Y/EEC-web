@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { CreateCurriculumDto, UpdateCurriculumDto } from './curriculum.dto';
 import { CurriculumService } from './curriculum.service';
 
@@ -12,8 +12,13 @@ export class CurriculumController {
   }
 
   @Put()
-  Updateurriculum(@Body() updateCurriculumDtos: UpdateCurriculumDto[]) {
+  updateurriculum(@Body() updateCurriculumDtos: UpdateCurriculumDto[]) {
     return this.curriculumService.updateCurriculum(updateCurriculumDtos);
+  }
+
+  @Delete('/:curriculumId')
+  deleteurriculum(@Param('curriculumId') curriculumId: number) {
+    return this.curriculumService.deleteCurriculum(curriculumId);
   }
 
   @Get()

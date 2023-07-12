@@ -33,7 +33,14 @@ const curriculumApi = emptySplitApi.injectEndpoints({
       }),
       invalidatesTags: ['Curriculum']
     }),
+    deleteCurriculum: builder.mutation<Curriculum, number>({
+      query: (curriculumId) => ({
+        url: `/curriculum/${curriculumId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Curriculum']
+    })
   }),
 });
 
-export const { useAddCurriculumMutation, useGetCurriculumsQuery, useUpdateCurriculumsMutation } = curriculumApi;
+export const { useAddCurriculumMutation, useGetCurriculumsQuery, useUpdateCurriculumsMutation, useDeleteCurriculumMutation } = curriculumApi;

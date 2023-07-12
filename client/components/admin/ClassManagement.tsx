@@ -2,6 +2,7 @@ import { UpdateCurriculums } from '@/model/curriculum';
 import { useGetClassesQuery } from '@/services/class';
 import {
   useAddCurriculumMutation,
+  useDeleteCurriculumMutation,
   useGetCurriculumsQuery,
   useUpdateCurriculumsMutation,
 } from '@/services/curriculum';
@@ -27,6 +28,7 @@ function ClassManagement() {
     { skip: !classOrder || !classes }
   );
   const [updateCurriculums] = useUpdateCurriculumsMutation();
+  const [deleteCurriculum] = useDeleteCurriculumMutation();
 
   useEffect(() => {
     if (curriculums) {
@@ -61,7 +63,12 @@ function ClassManagement() {
       }
     })
     await updateCurriculums(newCurriculums);
-    alert('저장이 완료되었습니다.')
+    alert('저장이 완료되었습니다.');
+  }
+
+  const onRemove = async (curriculumId: number) => {
+    await deleteCurriculum(curriculumId);
+    alert('삭제를 완료했습니다.');
   }
 
   const onCancel = () => {
@@ -155,7 +162,7 @@ function ClassManagement() {
                     <td className="border-gray-300 border-[1px] border-t-black py-3">
                       <button
                         className="bg-white border-red-500 border-[1px] flex items-center justify-center py-[2px] px-3 rounded-sm m-auto"
-                        onClick={onAddCurriculum}
+                        onClick={() => onRemove(curriculum.curriculumId)}
                       >
                         <MinusIcon width={12} className="text-red-500" />
                       </button>

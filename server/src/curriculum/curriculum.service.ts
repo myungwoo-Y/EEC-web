@@ -38,6 +38,10 @@ export class CurriculumService {
     return result;
   }
 
+  async deleteCurriculum(curriculumId: number) {
+    return await this.curriculumRepository.delete(curriculumId);
+  }
+
 
   async findAllCurriculum(classId: number, classOrder: number) {
     return this.curriculumRepository.find({

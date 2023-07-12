@@ -1,7 +1,9 @@
+import { UpdateCurriculums } from '@/model/curriculum';
 import { useGetClassesQuery } from '@/services/class';
 import {
   useAddCurriculumMutation,
   useGetCurriculumsQuery,
+  useUpdateCurriculumsMutation,
 } from '@/services/curriculum';
 import { MinusIcon } from '@heroicons/react/24/outline';
 import { PlusIcon } from '@heroicons/react/24/solid';
@@ -24,6 +26,7 @@ function ClassManagement() {
     },
     { skip: !classOrder || !classes }
   );
+  const [updateCurriculums] = useUpdateCurriculumsMutation();
 
   useEffect(() => {
     if (curriculums) {
@@ -48,6 +51,18 @@ function ClassManagement() {
       classId: classes[classIdx].classId,
     });
   };
+
+  const onSave = async () => {
+    const newCurriculums: UpdateCurriculums = [];
+    titles.forEach((newTitle, idx) => {
+      const { curriculumId, title } = curriculums?.[idx] || {};
+      if (curriculumId && newTitle !== title) { 
+        newCurriculums.push({curriculumId, title: newTitle});
+      }
+    })
+    await updateCurriculums(newCurriculums);
+    alert('저장이 완료되었습니다.')
+  }
 
   const onCancel = () => {
     curriculums && setTitles(curriculums.map((curriculum) => curriculum.title));
@@ -157,7 +172,10 @@ function ClassManagement() {
           >
             취소
           </button>
-          <button className="py-2 px-6 rounded-md bg-primary text-white">
+          <button 
+            className="py-2 px-6 rounded-md bg-primary text-white"
+            onClick={onSave}
+          >
             저장
           </button>
         </div>

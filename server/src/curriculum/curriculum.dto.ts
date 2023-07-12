@@ -10,3 +10,12 @@ export class CreateCurriculumDto {
   @IsNotEmpty()
   classId: number;
 }
+
+export class UpdateCurriculumDto {
+  @IsNotEmpty()
+  curriculumId: number; 
+  
+  @IsNotEmpty()
+  @IsString()
+  title: string;
+}

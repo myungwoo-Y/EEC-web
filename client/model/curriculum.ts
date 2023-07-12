@@ -5,3 +5,6 @@ export type NewCurriculum = Omit<
   ServerCurriculum,
   keyof BaseEntity | 'curriculumId'
 > & { classId: number | string };
+
+
+export type UpdateCurriculums = { curriculumId: number; title: string }[];

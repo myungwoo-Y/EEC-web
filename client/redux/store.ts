@@ -12,7 +12,7 @@ export const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     auth: authReducer,
     posts: postReducer,
-    classes: classReducer
+    class: classReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(emptySplitApi.middleware),

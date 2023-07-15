@@ -53,7 +53,7 @@ function SideBar() {
       </Link>
       <div
         className="flex text-[16px] text-white items-center justify-between  my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl"
-        onClick={() => setSelectedMenu(isSelectBoard ? '' : 'class')}
+        onClick={() => setSelectedMenu(isSelectClass ? '' : 'class')}
       >
         <div className="flex items-center">
           <PencilIcon width="18" height="18" className="mr-2" />

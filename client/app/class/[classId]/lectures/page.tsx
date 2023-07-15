@@ -1,4 +1,10 @@
-import React from 'react'
+'use client';
+
+import Select from '@/components/Select';
+import { classOrderList } from '@/model/classOrder';
+import { useGetClassesQuery } from '@/services/class';
+import { useGetCurriculumsQuery } from '@/services/curriculum';
+import React, { useState } from 'react';
 
 interface LecturesProps {
   params: {
@@ -7,12 +13,64 @@ interface LecturesProps {
 }
 
 function Lectures({ params: { classId } }: LecturesProps) {
+  const { data: classes } = useGetClassesQuery();
+  const currentClass =
+    classes?.find((data) => data.classId === parseInt(classId)) || null;
+  const [currentClassOrder, setCurrentClassOrder] = useState('0');
+  const { data: curriculums } = useGetCurriculumsQuery(
+    {
+      classOrder: parseInt(currentClassOrder),
+      classId: currentClass?.classId || 0,
+    },
+    { skip: !currentClassOrder || currentClassOrder === '0' || !currentClass }
+  );
+  const [selectedCurriculumIdx, setSelectedCurriculumIdx] = useState(0);
+
+  if (!currentClass) {
+    return null;
+  }
+
   return (
-    <div>
-      <div>Lectures</div>
-      <div>{classId}</div>
+    <div className="">
+      <div className="flex pt-10 px-12">
+        <p className="font-bold text-2xl">{currentClass.title}</p>
+        <Select
+          className="ml-3 w-28"
+          onChange={(e) => setCurrentClassOrder(e.target.value)}
+        >
+          <option value="" disabled>
+            기수 선택
+          </option>
+          {classOrderList.map((classOrder, idx) => (
+            <option key={idx} value={idx + 1}>
+              {classOrder}
+            </option>
+          ))}
+        </Select>
+      </div>
+      {curriculums && (
+        <div className="flex mt-5 px-12 rounded-md border-b-[1px] border-gray-300">
+          {curriculums.map((curriculum, idx) => (
+            <div
+              key={curriculum.curriculumId}
+              className={`box-border hover:bg-gray-100 px-5 rounded-md`}
+            >
+              <button
+                className={`py-3 border-b-2 border-b-white ${
+                  selectedCurriculumIdx === idx
+                    ? 'text-primary border-b-primary hover:border-b-primary'
+                    : 'hover:border-b-gray-100'
+                }`}
+                onClick={() => setSelectedCurriculumIdx(idx)}
+              >
+                {curriculum.title}
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
-export default Lectures
+export default Lectures;

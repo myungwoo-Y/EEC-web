@@ -37,7 +37,7 @@ function Select({
       {label && <label className="block mb-1">{label}</label>}
       {register && watch ? (
         <select
-          className={`border-[1px] border-gray-300 rounded-md py-1 px-3 bg-[#F5F7F9] focus:bg-white focus:border-primary w-full appearance-none bg-[url('/icon/caret-down-solid.svg')] bg-no-repeat bg-right 
+          className={`border-[1px] border-gray-300 rounded-md py-1 px-3 bg-[#F5F7F9] focus:bg-white focus:border-primary w-full appearance-none bg-[url('/icon/caret-down-solid.svg')] bg-[length:12px_12px] bg-no-repeat bg-right 
             ${watch(name) ? 'text-black' : 'text-gray-400'}
             ${error && 'border-red-600'}`}
           style={{ backgroundPositionX: 'calc(100% - 5px)' }}
@@ -48,7 +48,7 @@ function Select({
         </select>
       ) : (
         <select
-          className={`border-[1px] border-gray-300 rounded-md py-1 px-3 bg-[#F5F7F9] focus:bg-white focus:border-primary w-full appearance-none bg-[url('/icon/caret-down-solid.svg')] bg-no-repeat bg-right ${
+          className={`border-[1px] border-gray-300 rounded-md py-1 px-3 bg-[#F5F7F9] focus:bg-white focus:border-primary w-full appearance-none bg-[url('/icon/caret-down-solid.svg')] bg-[length:12px_12px] bg-no-repeat bg-right ${
             !isClick && 'text-gray-400'
           } ${error && 'border-red-600'}`}
           style={{ backgroundPositionX: 'calc(100% - 5px)' }}

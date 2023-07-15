@@ -7,16 +7,26 @@ import Image from 'next/image';
 import { useGetCategoriesQuery } from '@/services/post';
 import { useDispatch } from 'react-redux';
 import { setCategories } from '@/features/post/postSlice';
+import { useGetClassesQuery } from '@/services/class';
+import { setClasses } from '@/features/class/classSlice';
 
 
 function SideBar() {
   const { data: categories } = useGetCategoriesQuery('');
-  const [isSelectBoard, setIsSelectBoard] = useState(false);
+  const { data: classes } = useGetClassesQuery();
+  const [selectedMenu, setSelectedMenu] = useState<'' | 'board' | 'class'>('');
   const dispatch = useDispatch();
+
+  const isSelectBoard = selectedMenu === 'board';
+  const isSelectClass = selectedMenu === 'class';
 
   useEffect(() => {
     dispatch(setCategories({categories: categories || []}));
   }, [categories, dispatch])
+
+  useEffect(() => {
+    dispatch(setClasses(classes || []));
+  }, [classes, dispatch])
   
   return (
     <div className="bg-secondary min-h-screen max-h-fit">
@@ -41,15 +51,36 @@ function SideBar() {
         <DocumentMagnifyingGlassIcon width="18" height="18" className="mr-2" />{' '}
         수강신청
       </Link>
-      <Link
-        href="/register"
-        className="flex text-[16px] text-white items-center my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl"
-      >
-        <PencilIcon width="18" height="18" className="mr-2" /> 강의관리
-      </Link>
       <div
         className="flex text-[16px] text-white items-center justify-between  my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl"
-        onClick={() => setIsSelectBoard(!isSelectBoard)}
+        onClick={() => setSelectedMenu(isSelectBoard ? '' : 'class')}
+      >
+        <div className="flex items-center">
+          <PencilIcon width="18" height="18" className="mr-2" />
+          강의관리
+        </div>
+        {isSelectClass ? (
+          <ChevronUpIcon width="18" height="18" className="float-right" />
+        ) : (
+          <ChevronDownIcon width="18" height="18" className="float-right" />
+        )}
+      </div>
+      {isSelectClass &&
+        classes &&
+        classes.map((data) => {
+          return (
+            <Link
+              key={data.classId}
+              href={`/class/${data.classId}/lectures`}
+              className="flex text-[16px] text-white items-center mx-3 px-3 pl-10 py-3 hover:bg-primary rounded-xl"
+            >
+              {data.title}
+            </Link>
+          );
+        })}
+      <div
+        className="flex text-[16px] text-white items-center justify-between  my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl"
+        onClick={() => setSelectedMenu(isSelectBoard ? '' : 'board')}
       >
         <div className="flex items-center">
           <ClipboardDocumentListIcon width="18" height="18" className="mr-2" />

@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 
 type DateProps = {
   className?: string;
-  name: string;
+  name?: string;
   register: UseFormRegister<Record<string, any>>;
   errors?:FieldErrors<FieldValues>;
   option?: RegisterOptions<Record<string, any>, string>;
@@ -16,7 +16,7 @@ function Date({ className = '', name, register, errors, firstDateName, secondDat
   const defaultDate = dayjs().format('YYYY-MM-DD');
   return (
     <div className={`${className} `}>
-      <div>{name}</div>
+      {name && <div>{name}</div>}
       <div className="flex justify-between items-center mt-1">
         <input
           type="date"

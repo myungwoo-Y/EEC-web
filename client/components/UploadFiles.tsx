@@ -16,6 +16,8 @@ type UploadFilesProps = {
 function UploadFiles({ files, setFiles }: UploadFilesProps) {
   const [checkedStatus, setCheckedStatus] = useState<boolean[]>([]);
 
+  const isEmpty = !files || !files.length;
+
   useEffect(() => {
     if (files.length > checkedStatus.length) {
       setCheckedStatus([...checkedStatus, false]);
@@ -42,7 +44,7 @@ function UploadFiles({ files, setFiles }: UploadFilesProps) {
   };
 
   return (
-    <div className="mb-3">
+    <div className={`mb-3 ${isEmpty ? 'pt-6' : ''}`}>
       <div className="mt-3">
         {files.map((file, idx) => (
           <div key={idx} className="flex items-center mt-1">

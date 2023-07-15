@@ -1,6 +1,6 @@
 'use client';
 
-import CreateLectureModal from '@/components/CreateLectureModal';
+import CreateLectureModal from '@/components/modal/CreateLectureModal';
 import Select from '@/components/Select';
 import { classOrderList } from '@/model/classOrder';
 import { useGetClassesQuery } from '@/services/class';

@@ -29,7 +29,7 @@ function SideBar() {
   }, [classes, dispatch])
   
   return (
-    <div className="bg-secondary min-h-screen max-h-fit">
+    <div className="bg-secondary min-h-screen">
       <div className="px-8 pt-7 mb-16">
         <Image
           src="https://nowzone.b-cdn.net/eec/logo.png"

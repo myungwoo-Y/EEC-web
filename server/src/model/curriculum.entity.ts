@@ -1,6 +1,7 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import Class from './class.entity';
+import Lecture from './lecture.entity';
  
 @Entity('curriculum')
 class Curriculum extends BaseEntity {
@@ -15,10 +16,13 @@ class Curriculum extends BaseEntity {
   classOrder: number;
   
   @JoinColumn({ name: 'classId', referencedColumnName: 'classId' })
-  @ManyToOne(() => Class, (classData) => classData.thumbnailImage, {
+  @ManyToOne(() => Class, (classData) => classData.curriculums, {
     onDelete: 'CASCADE',
   })
   public class?: Class;
+
+  @OneToMany((type) => Lecture, (lecture) => lecture.curriculum)
+  lectures: Lecture[];
 }
  
 export default Curriculum;

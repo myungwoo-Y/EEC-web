@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import Class from './class.entity';
+import Lecture from './lecture.entity';
 import { Post } from './post.entity';
 
 @Entity('file')
@@ -33,6 +34,10 @@ class File extends BaseEntity {
     onDelete: 'CASCADE',
   })
   public class?: Class;
+
+
+  @ManyToOne(() => Lecture)
+  lecture: Lecture
 }
 
 export default File;

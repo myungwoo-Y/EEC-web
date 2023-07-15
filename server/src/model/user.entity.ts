@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BaseEntity } from "./base.entity";
+import Lecture from "./lecture.entity";
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -36,4 +37,7 @@ export class User extends BaseEntity {
 
   @Column({ type: 'boolean', default: true }) 
   agreementTerms: boolean;
+
+  @OneToMany((type) => Lecture, (lecture) => lecture.admin)
+  lectures: Lecture[]
 }

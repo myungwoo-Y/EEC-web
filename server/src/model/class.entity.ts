@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, Prim
 import { BaseEntity } from './base.entity';
 import Curriculum from './curriculum.entity';
 import File from './file.entity';
+import Lecture from './lecture.entity';
  
 @Entity('class')
 class Class extends BaseEntity {
@@ -40,6 +41,9 @@ class Class extends BaseEntity {
 
   @OneToMany((type) => Curriculum, (curriculum) => curriculum.class)
   curriculums: Curriculum[];
+
+  @OneToMany((type) => Lecture, (lecture) => lecture.class)
+  lectures: Lecture[];
 }
  
 export default Class;

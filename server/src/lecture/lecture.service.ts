@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Lecture from 'src/model/lecture.entity';
 import { Repository } from 'typeorm';
-import { CreateLectureDto, UpdateLectureDto } from './lecture.dto';
+import { CreateLectureDto, SimpleUpdateLectureDto, UpdateLectureDto } from './lecture.dto';
 
 @Injectable()
 export class LectureService {
@@ -23,7 +23,7 @@ export class LectureService {
     return injectResult.raw[0];
   }
 
-  async updateLecture(updateLectureDtos: UpdateLectureDto[]) {
+  async updateLectureBulk(updateLectureDtos: SimpleUpdateLectureDto[]) {
     const result = [];
     
     await Promise.all(updateLectureDtos.map(async (updateLectureDto) => {
@@ -35,6 +35,12 @@ export class LectureService {
     }));
 
     return result;
+  }
+
+  async updateLecture(updateLectureDto: UpdateLectureDto) {
+    return await this.lectureRepository.update(updateLectureDto.lectureId, {
+      ...updateLectureDto,
+    });
   }
 
   async deleteLecture(lectureId: number) {

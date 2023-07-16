@@ -1,11 +1,11 @@
 'use client';
 
 import { Curriculum } from '@/model/curriculum';
-import { Lecture } from '@/model/lecture';
+import { Lecture, UpdateLecture } from '@/model/lecture';
 import { useGetClassesQuery } from '@/services/class';
 import { useGetCurriculumsQuery } from '@/services/curriculum';
 import { EyeIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Date from '../Date';
 import Input from '../Input';
@@ -13,36 +13,50 @@ import Select from '../Select';
 import UploadFiles from '../UploadFiles';
 import styles from './CreateLectureModal.module.scss';
 
-type CreateLectureModalProps = {
+type LectureModalProps = {
   lecture: Lecture,
   closeModal: () => void
 }
 
-function CreateLectureModal({ lecture, closeModal }: CreateLectureModalProps) {
+function LectureModal({ lecture, closeModal }: LectureModalProps) {
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
     reset,
-    setValue,
-  } = useForm();
+    setValue
+  } = useForm<UpdateLecture>({
+    defaultValues: {
+      curriculumId: 0
+    }
+  });
 
   const { data: classes } = useGetClassesQuery();
-  const currentClass = classes?.[0];
-  // const { data: curriculums } = useGetCurriculumsQuery({
-  //   classOrder: parseInt(currentClassOrder),
-  //   classId: currentClass?.classId || 0,
-  // },
-  // { skip: !currentClassOrder || currentClassOrder === '0' || !currentClass });
+  const [currentClassId, setCurrentClassId] = useState(lecture.curriculum?.class?.classId || '');
+  const { data: curriculums } = useGetCurriculumsQuery({
+    classId: currentClassId,
+  },
+  { skip: !currentClassId });
 
+  useEffect(() => {
+    reset({
+      curriculumId: lecture.curriculum?.curriculumId,
+      ...lecture
+    })
+  }, [reset, lecture])
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center overflow-y-scroll py-8">
       <div className="bg-white w-[800px] rounded-md h-fit">
         <div className="flex justify-between p-4 bg-gray-100 rounded-t-md">
           <p className="text-lg font-bold">강의소개 및 강의자료</p>
-          <button className="hover:bg-gray-300 rounded-lg p-1" onClick={() => closeModal()}><XMarkIcon width={24} /></button>
+          <button
+            className="hover:bg-gray-300 rounded-lg p-1"
+            onClick={() => closeModal()}
+          >
+            <XMarkIcon width={24} />
+          </button>
         </div>
         <div className="pt-6 pb-3 px-6">
           <table className="w-full">
@@ -53,16 +67,46 @@ function CreateLectureModal({ lecture, closeModal }: CreateLectureModalProps) {
                 </td>
                 <td className="px-3">
                   <div className="flex items-center gap-2">
-                    <Select className="w-44">
-                      <option value="" disabled>
-                        기본
+                    <Select
+                      className="w-44"
+                      onChange={(e) => setCurrentClassId(e.target.value)}
+                    >
+                      <option value={lecture.curriculum?.class?.classId}>
+                        {lecture.curriculum?.class?.title}
                       </option>
+                      {classes?.map((classData) => {
+                        if (
+                          lecture.curriculum?.class?.classId !==
+                          classData.classId
+                        ) {
+                          return (
+                            <option
+                              key={classData.classId}
+                              value={classData.classId}
+                            >
+                              {classData.title}
+                            </option>
+                          );
+                        }
+                        return null;
+                      })}
                     </Select>
                     {'>'}
-                    <Select className="w-44">
-                      <option value="" disabled>
-                        기본
-                      </option>
+                    <Select
+                      className="w-44"
+                      register={register}
+                      name="curriculumId"
+                      watch={watch}
+                    >
+                      {curriculums &&
+                        curriculums.map((curriculum) => (
+                          <option
+                            key={curriculum.curriculumId}
+                            value={curriculum.curriculumId}
+                          >
+                            {curriculum.title}
+                          </option>
+                        ))}
                     </Select>
                   </div>
                 </td>
@@ -72,7 +116,7 @@ function CreateLectureModal({ lecture, closeModal }: CreateLectureModalProps) {
                   교육과정 명
                 </td>
                 <td className="px-3">
-                  <Input type="text" />
+                  <Input type="text" register={register} name="title" />
                 </td>
               </tr>
               <tr className="border-[1px] border-t-0">
@@ -256,4 +300,4 @@ function CreateLectureModal({ lecture, closeModal }: CreateLectureModalProps) {
   );
 }
 
-export default CreateLectureModal;
+export default LectureModal;

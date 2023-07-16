@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { CreateLectureDto, UpdateLectureDto } from './lecture.dto';
+import { CreateLectureDto, SimpleUpdateLectureDto, UpdateLectureDto } from './lecture.dto';
 import { LectureService } from './lecture.service';
 
 @Controller('lecture')
@@ -11,9 +11,14 @@ export class LectureController {
     return this.lectureService.createLecture(createLectureDto);
   }
 
+  @Put('/init')
+  simpleUpdateLecture(@Body() updateLectureDto: SimpleUpdateLectureDto[]) {
+    return this.lectureService.updateLectureBulk(updateLectureDto);
+  }
+
   @Put()
-  updateLecture(@Body() updateLectureDtos: UpdateLectureDto[]) {
-    return this.lectureService.updateLecture(updateLectureDtos);
+  updateLecture(@Body() updateLectureDto: UpdateLectureDto) {
+    return this.lectureService.updateLecture(updateLectureDto);
   }
 
   @Delete('/:LectureId')

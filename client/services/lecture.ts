@@ -28,7 +28,7 @@ const lectureApi = emptySplitApi.injectEndpoints({
       UpdateLectures
     >({
       query: (body) => ({
-        url: `/lecture`,
+        url: `/lecture/init`,
         method: 'PUT',
         body
       }),

@@ -35,7 +35,6 @@ class File extends BaseEntity {
   })
   public class?: Class;
 
-
   @ManyToOne(() => Lecture)
   lecture: Lecture
 }

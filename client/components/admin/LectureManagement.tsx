@@ -100,7 +100,7 @@ function LectureManagement({ curriculumId }: LectureManagement) {
           </tr>
         </thead>
         <tbody>
-          {lectures
+          {lectures && titles.length
             ? lectures.map((lecture, idx) => (
                 <tr key={lecture.lectureId} className="text-center">
                   <td className="border-gray-300 border-[1px] border-t-black py-3">

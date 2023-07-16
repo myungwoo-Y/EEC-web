@@ -44,19 +44,35 @@ export class CurriculumService {
 
 
   async findAllCurriculum(classId: number, classOrder: number) {
-    return this.curriculumRepository.find({
-      relations: {
-        class: true
-      },
-      where: {
-        classOrder,
-        class: {
-          classId
+    if (classOrder) {
+      return this.curriculumRepository.find({
+        relations: {
+          class: true
+        },
+        where: {
+          classOrder,
+          class: {
+            classId
+          }
+        },
+        order: {
+          curriculumId: 'ASC'
         }
-      },
-      order: {
-        curriculumId: 'ASC'
-      }
-    });
+      });
+    } else {
+      return this.curriculumRepository.find({
+        relations: {
+          class: true
+        },
+        where: {
+          class: {
+            classId
+          }
+        },
+        order: {
+          curriculumId: 'ASC'
+        }
+      });
+    }
   }
 }

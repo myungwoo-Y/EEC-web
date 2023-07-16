@@ -13,9 +13,9 @@ const curriculumApi = emptySplitApi.injectEndpoints({
     }),
     getCurriculums: builder.query<
       Curriculum[],
-      { classId: number; classOrder: number }
+      { classId: number | string; classOrder?: number | string }
     >({
-      query: ({ classId, classOrder }) => ({
+      query: ({ classId, classOrder = '' }) => ({
         url: `/curriculum?classId=${classId}&classOrder=${classOrder}`,
         method: 'GET',
       }),

@@ -1,7 +1,7 @@
 'use client';
 
 import Curriculum from '@/../server/src/model/curriculum.entity';
-import CreateLectureModal from '@/components/modal/CreateLectureModal';
+import LectureModal from '@/components/modal/CreateLectureModal';
 import Select from '@/components/Select';
 import { classOrderList } from '@/model/classOrder';
 import { Lecture } from '@/model/lecture';
@@ -109,7 +109,7 @@ function Lectures({ params: { classId } }: LecturesProps) {
                             학습평가
                           </button>
                           <button className="box-border border-[1px] border-gray- h-8 px-3 flex items-center justify-center rounded-md">
-                            학습평가
+                            강사평가
                           </button>
                         </div>
                       </td>
@@ -130,7 +130,7 @@ function Lectures({ params: { classId } }: LecturesProps) {
         </>
       )}
       {isShowModal && currentLecture && (
-        <CreateLectureModal
+        <LectureModal
           lecture={currentLecture}
           closeModal={() => setShowModal(false)}
         />

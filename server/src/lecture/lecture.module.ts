@@ -13,4 +13,4 @@ import { LectureService } from './lecture.service';
   providers: [LectureService],
   controllers: [LectureController]
 })
-export class CurriculumModule {}
+export class LectureModule {}

@@ -11,6 +11,7 @@ import { PlusIcon } from '@heroicons/react/24/solid';
 import React, { useEffect, useState } from 'react';
 import checkboxStyles from '../Checkbox.module.scss';
 import Input from '../Input';
+import LectureManagement from './LectureManagement';
 
 function ClassManagement() {
   const { data: classes } = useGetClassesQuery();
@@ -18,7 +19,7 @@ function ClassManagement() {
   const [classOrder, setClassOrder] = useState('');
   const [addCurriculum, { isSuccess }] = useAddCurriculumMutation();
   const [curriculumTitle, setCurriculumTitle] = useState('');
-  const [cancelCount, setCancelCount] = useState(0);
+  const [selectedCurriculumId, setSelectedCurriculumId] = useState(0);
   const [titles, setTitles] = useState<string[]>([]);
   const { data: curriculums } = useGetCurriculumsQuery(
     {
@@ -144,7 +145,11 @@ function ClassManagement() {
           <tbody>
             {classOrder && curriculums && titles.length
               ? curriculums.map((curriculum, idx) => (
-                  <tr key={curriculum.curriculumId} className="text-center">
+                  <tr 
+                    key={curriculum.curriculumId} 
+                    className="text-center hover:bg-gray-50 cursor-pointer"
+                    onClick={() => setSelectedCurriculumId(curriculum.curriculumId)}
+                  >
                     <td className="border-gray-300 border-[1px] border-t-black py-3">
                       {curriculum.curriculumId}
                     </td>
@@ -164,14 +169,17 @@ function ClassManagement() {
                             )
                           )
                         }
+                        onClick={e => e.stopPropagation()}
                         type="text"
-                        className={`mx-5 ${cancelCount}`}
+                        className={`mx-5 hover:bg-white`}
                       />
                     </td>
                     <td className="border-gray-300 border-[1px] border-t-black py-3">
                       <button
                         className="bg-white border-red-500 border-[1px] flex items-center justify-center py-[2px] px-3 rounded-sm m-auto"
-                        onClick={() => onCurriculumRemove(curriculum.curriculumId)}
+                        onClick={() =>
+                          onCurriculumRemove(curriculum.curriculumId)
+                        }
                       >
                         <MinusIcon width={12} className="text-red-500" />
                       </button>
@@ -196,6 +204,7 @@ function ClassManagement() {
           </button>
         </div>
       </div>
+      <LectureManagement curriculumId={selectedCurriculumId} />
     </div>
   );
 }

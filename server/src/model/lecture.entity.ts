@@ -14,10 +14,10 @@ class Lecture extends BaseEntity {
   @Column({ type: 'varchar', length: 100 })
   title: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 50, default: '' })
   author: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 50, default: '' })
   lecturer: string;
 
   @ManyToOne((type) => User)
@@ -30,7 +30,7 @@ class Lecture extends BaseEntity {
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   endDate: Date;
 
-  @Column({ type: 'varchar', length: 1000 })
+  @Column({ type: 'varchar', length: 1000, default: '' })
   intro: string;
   
   @OneToMany(() => File, (file) => file.lecture)
@@ -39,7 +39,7 @@ class Lecture extends BaseEntity {
   @OneToMany(() => File, (file) => file.lecture)
   referenceFiles: File[]
 
-  @Column({ type: 'varchar', length: 2048 })
+  @Column({ type: 'varchar', length: 2048, default: '' })
   lectureLink: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
@@ -48,7 +48,7 @@ class Lecture extends BaseEntity {
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   evaluateEndDate: Date;
 
-  @Column({ type: 'varchar', length: 2048 })
+  @Column({ type: 'varchar', length: 2048, default: '' })
   evaluateLink: string;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
@@ -57,7 +57,7 @@ class Lecture extends BaseEntity {
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   lecturerEvaluateEndDate: Date;
 
-  @Column({ type: 'varchar', length: 2048 })
+  @Column({ type: 'varchar', length: 2048, default: '' })
   lecturerEvaluateLink: string;
 
   @JoinColumn({ name: 'classId', referencedColumnName: 'classId' })

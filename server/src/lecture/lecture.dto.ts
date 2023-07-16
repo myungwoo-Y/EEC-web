@@ -13,7 +13,7 @@ export class CreateLectureDto {
 
 export class UpdateLectureDto {
   @IsNotEmpty()
-  curriculumId: number; 
+  lectureId: number; 
   
   @IsNotEmpty()
   @IsString()

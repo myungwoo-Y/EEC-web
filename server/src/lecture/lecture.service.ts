@@ -12,12 +12,11 @@ export class LectureService {
   ) {}
 
   async createLecture(createLectureDto: CreateLectureDto) {
-    const { title, classOrder, classId } = createLectureDto;
+    const { title, curriculumId } = createLectureDto;
     const injectResult = await this.lectureRepository.insert({
       title: title,
-      classOrder: classOrder,
-      class: {
-        classId
+      curriculum: {
+        curriculumId
       }
     });
 
@@ -28,8 +27,8 @@ export class LectureService {
     const result = [];
     
     await Promise.all(updateLectureDtos.map(async (updateLectureDto) => {
-      const { curriculumId, title } = updateLectureDto;
-      const injectResult = await this.lectureRepository.update(curriculumId, {
+      const { lectureId, title } = updateLectureDto;
+      const injectResult = await this.lectureRepository.update(lectureId, {
         title
       });
       result.push(injectResult);

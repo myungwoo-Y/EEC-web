@@ -1,5 +1,7 @@
 'use client';
 
+import { Curriculum } from '@/model/curriculum';
+import { Lecture } from '@/model/lecture';
 import { useGetClassesQuery } from '@/services/class';
 import { useGetCurriculumsQuery } from '@/services/curriculum';
 import { EyeIcon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -11,7 +13,12 @@ import Select from '../Select';
 import UploadFiles from '../UploadFiles';
 import styles from './CreateLectureModal.module.scss';
 
-function CreateLectureModal() {
+type CreateLectureModalProps = {
+  lecture: Lecture,
+  closeModal: () => void
+}
+
+function CreateLectureModal({ lecture, closeModal }: CreateLectureModalProps) {
   const {
     register,
     formState: { errors },
@@ -35,7 +42,7 @@ function CreateLectureModal() {
       <div className="bg-white w-[800px] rounded-md h-fit">
         <div className="flex justify-between p-4 bg-gray-100 rounded-t-md">
           <p className="text-lg font-bold">강의소개 및 강의자료</p>
-          <button className="hover:bg-gray-300 rounded-lg p-1"><XMarkIcon width={24} /></button>
+          <button className="hover:bg-gray-300 rounded-lg p-1" onClick={() => closeModal()}><XMarkIcon width={24} /></button>
         </div>
         <div className="pt-6 pb-3 px-6">
           <table className="w-full">

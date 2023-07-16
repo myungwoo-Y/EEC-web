@@ -45,16 +45,19 @@ export class LectureService {
   async findAllLecture(curriculumId) {
     return this.lectureRepository.find({
       relations: {
-        curriculum: true
+        curriculum: {
+          class: true
+        },
+        admin: true,
       },
       where: {
         curriculum: {
-          curriculumId
+          curriculumId,
         }
       },
       order: {
         lectureId: 'ASC'
-      }
+      },
     });
   }
 }

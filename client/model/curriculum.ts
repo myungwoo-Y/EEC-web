@@ -6,5 +6,6 @@ export type NewCurriculum = Omit<
   keyof BaseEntity | 'curriculumId'
 > & { classId: number | string };
 
-
 export type UpdateCurriculums = { curriculumId: number; title: string }[];
+
+export type Curriculum = NestedSwapDatesWithStrings<ServerCurriculum>;

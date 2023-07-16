@@ -1,10 +1,13 @@
 'use client';
 
+import Curriculum from '@/../server/src/model/curriculum.entity';
 import CreateLectureModal from '@/components/modal/CreateLectureModal';
 import Select from '@/components/Select';
 import { classOrderList } from '@/model/classOrder';
+import { Lecture } from '@/model/lecture';
 import { useGetClassesQuery } from '@/services/class';
 import { useGetCurriculumsQuery } from '@/services/curriculum';
+import { useGetLecturesQuery } from '@/services/lecture';
 import React, { useState } from 'react';
 
 interface LecturesProps {
@@ -18,6 +21,7 @@ function Lectures({ params: { classId } }: LecturesProps) {
   const currentClass =
     classes?.find((data) => data.classId === parseInt(classId)) || null;
   const [currentClassOrder, setCurrentClassOrder] = useState('0');
+
   const { data: curriculums } = useGetCurriculumsQuery(
     {
       classOrder: parseInt(currentClassOrder),
@@ -26,16 +30,19 @@ function Lectures({ params: { classId } }: LecturesProps) {
     { skip: !currentClassOrder || currentClassOrder === '0' || !currentClass }
   );
   const [selectedCurriculumIdx, setSelectedCurriculumIdx] = useState(0);
+  const currentCurriculum = curriculums?.[selectedCurriculumIdx];
+  const { data: lectures } = useGetLecturesQuery(currentCurriculum?.curriculumId || 0, {
+    skip: !currentCurriculum
+  });
 
-  if (!currentClass) {
-    return null;
-  }
+  const [isShowModal, setShowModal] = useState(false);
+  const [currentLecture, setCurrentLecture] = useState<Lecture | null>(null);
 
   return (
     <div className="">
       <div className="pt-10 px-12 flex justify-between">
         <div className="flex">
-          <p className="font-bold text-2xl">{currentClass.title}</p>
+          <p className="font-bold text-2xl">{currentClass?.title}</p>
           <Select
             className="ml-3 w-28"
             onChange={(e) => setCurrentClassOrder(e.target.value)}
@@ -50,35 +57,84 @@ function Lectures({ params: { classId } }: LecturesProps) {
             ))}
           </Select>
         </div>
-        <button className="bg-primary px-4 py-2 text-center text-white rounded-md float-right">강의추가하기</button>
       </div>
       {curriculums && (
         <>
           <div className="flex mt-5 px-12 rounded-md border-b-[1px] border-gray-300">
             {curriculums.map((curriculum, idx) => (
-              <div
+              <button
                 key={curriculum.curriculumId}
                 className={`box-border hover:bg-gray-100 px-5 rounded-md`}
+                onClick={() => setSelectedCurriculumIdx(idx)}
               >
-                <button
-                  className={`py-3 border-b-2 border-b-white ${
+                <div
+                  className={`py-3 border-b-2 active:bg-gray-100 focus:bg-gray-100 border-b-white ${
                     selectedCurriculumIdx === idx
                       ? 'text-primary border-b-primary hover:border-b-primary'
                       : 'hover:border-b-gray-100'
                   }`}
-                  onClick={() => setSelectedCurriculumIdx(idx)}
                 >
                   {curriculum.title}
-                </button>
-              </div>
+                </div>
+              </button>
             ))}
           </div>
-          <div className="pt-10 px-12">
-            
+          <div className="px-12">
+            <table className="w-full mt-10">
+              <tbody className="border-t-[1px] border-t-black">
+                {lectures &&
+                  lectures.map((lecture) => (
+                    <tr
+                      key={lecture.lectureId}
+                      className="border-[1px] border-t-0"
+                    >
+                      <td className="w-3 text-center py-12 px-5 text-lg text-gray-500">
+                        {lecture.lectureId}
+                      </td>
+                      <td className="w-1/2 lg:w-2/3">
+                        <div className="h-14 text-lg flex items-center break-words">
+                          {lecture.title}
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            className="bg-primary text-white h-8 px-3 flex items-center justify-center rounded-md"
+                            onClick={() => {
+                              setShowModal(true);
+                              setCurrentLecture(lecture);
+                            }}
+                          >
+                            강의소개 및 강의자료
+                          </button>
+                          <button className="box-border border-[1px] border-gray- h-8 px-3 flex items-center justify-center rounded-md">
+                            학습평가
+                          </button>
+                          <button className="box-border border-[1px] border-gray- h-8 px-3 flex items-center justify-center rounded-md">
+                            학습평가
+                          </button>
+                        </div>
+                      </td>
+                      <td className="px-3">
+                        <p>
+                          [{lecture.curriculum?.class?.title}/{lecture.curriculum?.title}]
+                        </p>
+                        <div>
+                          <span className="mr-3">집필: {lecture.author}</span>
+                          <span>강사:{lecture.lecturer}</span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
           </div>
         </>
       )}
-      <CreateLectureModal />
+      {isShowModal && currentLecture && (
+        <CreateLectureModal
+          lecture={currentLecture}
+          closeModal={() => setShowModal(false)}
+        />
+      )}
     </div>
   );
 }

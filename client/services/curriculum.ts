@@ -1,5 +1,4 @@
-import Curriculum from '@/../server/src/model/curriculum.entity';
-import { NewCurriculum, UpdateCurriculums } from '@/model/curriculum';
+import { Curriculum, NewCurriculum, UpdateCurriculums } from '@/model/curriculum';
 import { emptySplitApi } from './base';
 
 const curriculumApi = emptySplitApi.injectEndpoints({

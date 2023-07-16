@@ -1,5 +1,7 @@
 'use client';
 
+import { useGetClassesQuery } from '@/services/class';
+import { useGetCurriculumsQuery } from '@/services/curriculum';
 import { EyeIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -18,6 +20,15 @@ function CreateLectureModal() {
     reset,
     setValue,
   } = useForm();
+
+  const { data: classes } = useGetClassesQuery();
+  const currentClass = classes?.[0];
+  // const { data: curriculums } = useGetCurriculumsQuery({
+  //   classOrder: parseInt(currentClassOrder),
+  //   classId: currentClass?.classId || 0,
+  // },
+  // { skip: !currentClassOrder || currentClassOrder === '0' || !currentClass });
+
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center overflow-y-scroll py-8">

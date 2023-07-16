@@ -34,7 +34,7 @@ function ClassManagement() {
     if (curriculums) {
       setTitles(curriculums.map((curriculum) => curriculum.title));
     }
-  }, [curriculums])
+  }, [curriculums]);
 
   const onAddCurriculum = () => {
     if (!classOrder) {
@@ -58,20 +58,23 @@ function ClassManagement() {
     const newCurriculums: UpdateCurriculums = [];
     titles.forEach((newTitle, idx) => {
       const { curriculumId, title } = curriculums?.[idx] || {};
-      if (curriculumId && newTitle !== title) { 
-        newCurriculums.push({curriculumId, title: newTitle});
+      if (curriculumId && newTitle !== title) {
+        newCurriculums.push({ curriculumId, title: newTitle });
       }
-    })
-    await updateCurriculums(newCurriculums);
-    alert('저장이 완료되었습니다.');
-  }
+    });
 
-  const onRemove = async (curriculumId: number) => {
+    if (newCurriculums.length) {
+      await updateCurriculums(newCurriculums);
+      alert('저장이 완료되었습니다.');
+    }
+  };
+
+  const onCurriculumRemove = async (curriculumId: number) => {
     await deleteCurriculum(curriculumId);
     alert('삭제를 완료했습니다.');
-  }
+  };
 
-  const onCancel = () => {
+  const onCurriculumCancle = () => {
     curriculums && setTitles(curriculums.map((curriculum) => curriculum.title));
   };
 
@@ -111,7 +114,7 @@ function ClassManagement() {
           </div>
         </div>
       </div>
-      <div className="mt-10">
+      <div className="mt-10 overflow-hidden">
         <p className="text-lg font-semibold">커리큘럼</p>
         <table className="w-full mt-4">
           <thead>
@@ -154,7 +157,13 @@ function ClassManagement() {
                     <td className="border-gray-300 border-[1px] border-t-black py-3">
                       <Input
                         value={titles[idx]}
-                        onChange={(e) => setTitles(titles.map((title, titleIdx) => idx === titleIdx ? e.target.value : title))}
+                        onChange={(e) =>
+                          setTitles(
+                            titles.map((title, titleIdx) =>
+                              idx === titleIdx ? e.target.value : title
+                            )
+                          )
+                        }
                         type="text"
                         className={`mx-5 ${cancelCount}`}
                       />
@@ -162,7 +171,7 @@ function ClassManagement() {
                     <td className="border-gray-300 border-[1px] border-t-black py-3">
                       <button
                         className="bg-white border-red-500 border-[1px] flex items-center justify-center py-[2px] px-3 rounded-sm m-auto"
-                        onClick={() => onRemove(curriculum.curriculumId)}
+                        onClick={() => onCurriculumRemove(curriculum.curriculumId)}
                       >
                         <MinusIcon width={12} className="text-red-500" />
                       </button>
@@ -174,12 +183,12 @@ function ClassManagement() {
         </table>
         <div className="float-right mt-6">
           <button
-            className="py-2 px-6 rounded-md bg-gray-400 mr-2"
-            onClick={onCancel}
+            className="py-2 px-6 rounded-md bg-gray-300 mr-2"
+            onClick={onCurriculumCancle}
           >
             취소
           </button>
-          <button 
+          <button
             className="py-2 px-6 rounded-md bg-primary text-white"
             onClick={onSave}
           >

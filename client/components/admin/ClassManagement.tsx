@@ -80,7 +80,7 @@ function ClassManagement() {
   };
 
   return (
-    <div>
+    <div className="pb-8">
       <div>
         <p className="text-lg font-semibold">교육과정</p>
         <div className="flex gap-6 mt-4">

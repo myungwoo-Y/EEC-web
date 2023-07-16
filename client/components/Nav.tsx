@@ -39,7 +39,7 @@ function Nav() {
             <UserMinusIcon className="w-4 h-4 mr-1" /> 로그아웃
           </button>
           <NavItem
-            text="정보관리"
+            text="정보관리"
             path="/admin"
             Icon={Cog6ToothIcon}
           />

@@ -1,6 +1,7 @@
 'use client'
 
 import { selectCurrentUser } from '@/features/auth/authSlice';
+import { debounce } from '@/lib/debounce';
 import { UpdateLectures } from '@/model/lecture';
 import { useAddLectureMutation, useDeleteLectureMutation, useGetLecturesQuery, useUpdateLecturesMutation } from '@/services/lecture';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/solid';
@@ -17,7 +18,7 @@ function LectureManagement({ curriculumId }: LectureManagement) {
     skip: !curriculumId
   })
 
-  const [addLecture] = useAddLectureMutation();
+  const [addLecture, { isLoading }] = useAddLectureMutation();
   const [deleteLecture] = useDeleteLectureMutation();
   const [updateLectures] = useUpdateLecturesMutation();
 
@@ -31,7 +32,9 @@ function LectureManagement({ curriculumId }: LectureManagement) {
     }
   }, [lectures]);
 
-  const onAddLecture = () => {
+  const onAddLecture = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+
     if (!curriculumId) {
       alert('커리큘럼을 선택해주세요');
       return;
@@ -111,7 +114,7 @@ function LectureManagement({ curriculumId }: LectureManagement) {
                   </td>
                   <td className="border-gray-300 border-[1px] border-t-black py-3">
                     <Input
-                      value={titles[idx]}
+                      value={titles[idx] || ''}
                       onChange={(e) =>
                         setTitles(
                           titles.map((title, titleIdx) =>

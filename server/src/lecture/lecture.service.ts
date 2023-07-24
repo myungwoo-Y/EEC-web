@@ -12,11 +12,14 @@ export class LectureService {
   ) {}
 
   async createLecture(createLectureDto: CreateLectureDto) {
-    const { title, curriculumId } = createLectureDto;
+    const { title, curriculumId, adminId } = createLectureDto;
     const injectResult = await this.lectureRepository.insert({
       title: title,
       curriculum: {
         curriculumId
+      },
+      admin: {
+        userId: adminId
       }
     });
 

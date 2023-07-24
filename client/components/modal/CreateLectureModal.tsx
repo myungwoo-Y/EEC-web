@@ -4,6 +4,7 @@ import { Curriculum } from '@/model/curriculum';
 import { Lecture, UpdateLecture } from '@/model/lecture';
 import { useGetClassesQuery } from '@/services/class';
 import { useGetCurriculumsQuery } from '@/services/curriculum';
+import { useGetUsersQuery } from '@/services/user';
 import { EyeIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -26,23 +27,22 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
     watch,
     reset,
     setValue
-  } = useForm<UpdateLecture>({
-    defaultValues: {
-      curriculumId: 0
-    }
-  });
-
+  } = useForm();
+  const [lectureFiles, setLectureFiles] = useState<File[]>([]);
+  const [referenceFiles, setReferenceFiles] = useState<File[]>([]);
   const { data: classes } = useGetClassesQuery();
   const [currentClassId, setCurrentClassId] = useState(lecture.curriculum?.class?.classId || '');
   const { data: curriculums } = useGetCurriculumsQuery({
     classId: currentClassId,
   },
   { skip: !currentClassId });
+  const { data: admins } = useGetUsersQuery();
 
   useEffect(() => {
     reset({
+      ...lecture,
       curriculumId: lecture.curriculum?.curriculumId,
-      ...lecture
+      admin: lecture.admin.userId
     })
   }, [reset, lecture])
 
@@ -122,22 +122,35 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
               <tr className="border-[1px] border-t-0">
                 <td className="bg-gray-100 w-36 py-4 text-center">집필자</td>
                 <td className="px-3">
-                  <Input className="w-44" type="text" />
+                  <Input
+                    className="w-44"
+                    type="text"
+                    register={register}
+                    name="author"
+                  />
                 </td>
               </tr>
               <tr className="border-[1px] border-t-0">
                 <td className="bg-gray-100 w-36 py-4 text-center">강사명</td>
                 <td className="px-3">
-                  <Input className="w-44" type="text" />
+                  <Input
+                    className="w-44"
+                    type="text"
+                    register={register}
+                    name="lecturer"
+                  />
                 </td>
               </tr>
               <tr className="border-[1px] border-t-0">
                 <td className="bg-gray-100 w-36 py-4 text-center">관리자</td>
                 <td className="px-3">
-                  <Select className="w-44">
-                    <option value="" disabled>
-                      양명우
-                    </option>
+                  <Select className="w-44" register={register} name="admin">
+                    {admins &&
+                      admins.map((admin) => (
+                        <option value={admin.userId} key={admin.userId}>
+                          {admin.name}
+                        </option>
+                      ))}
                   </Select>
                 </td>
               </tr>
@@ -172,13 +185,19 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
               <tr className="border-[1px] border-t-0">
                 <td className="bg-gray-100 w-36 py-4 text-center">강의 자료</td>
                 <td className="px-3">
-                  <UploadFiles files={[]} setFiles={() => null} />
+                  <UploadFiles
+                    files={lectureFiles}
+                    setFiles={setLectureFiles}
+                  />
                 </td>
               </tr>
               <tr className="border-[1px] border-t-0">
                 <td className="bg-gray-100 w-36 py-4 text-center">참고 자료</td>
                 <td className="px-3">
-                  <UploadFiles files={[]} setFiles={() => null} />
+                  <UploadFiles
+                    files={referenceFiles}
+                    setFiles={setReferenceFiles}
+                  />
                 </td>
               </tr>
               <tr className="border-[1px] border-t-0">

@@ -7,16 +7,22 @@ export const userApi = emptySplitApi.injectEndpoints({
       query: (email: string) => ({
         url: `/user/${email}`,
         method: 'GET',
-      })
+      }),
+    }),
+    getUsers: builder.query<User[], void>({
+      query: () => ({
+        url: '/user',
+        method: 'GET',
+      }),
     }),
     addUser: builder.mutation({
       query: (user: Partial<User>) => ({
         url: '/user',
         method: 'POST',
-        body: user
-      })
-    })
-  })
+        body: user,
+      }),
+    }),
+  }),
 });
 
-export const { useAddUserMutation, useLazyGetUserQuery, useGetUserQuery } = userApi;
+export const { useAddUserMutation, useLazyGetUserQuery, useGetUserQuery, useGetUsersQuery } = userApi;

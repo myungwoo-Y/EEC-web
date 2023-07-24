@@ -5,6 +5,7 @@ import {
   UseFormRegister,
   RegisterOptions,
   UseFormWatch,
+  FieldValues,
 } from 'react-hook-form';
 
 interface SelectProps {
@@ -16,7 +17,7 @@ interface SelectProps {
   register?: UseFormRegister<Record<string, any>>;
   option?: RegisterOptions<Record<string, any>, string>;
   name?: string;
-  watch?: UseFormWatch<any>;
+  watch?: UseFormWatch<FieldValues>;
   defaultValue?: string | number
 }
 

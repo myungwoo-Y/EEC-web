@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, Put, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { FileFieldsInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { CreateLectureDto, SimpleUpdateLectureDto, UpdateLectureDto } from './lecture.dto';
 import { LectureService } from './lecture.service';
 
@@ -16,9 +17,31 @@ export class LectureController {
     return this.lectureService.updateLectureBulk(updateLectureDto);
   }
 
-  @Put()
-  updateLecture(@Body() updateLectureDto: UpdateLectureDto) {
-    return this.lectureService.updateLecture(updateLectureDto);
+  @Put('/:lectureId')
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'lecturefiles' },
+      { name: 'referenceFiles' },
+    ]),
+  )
+  updateLecture(
+    @UploadedFiles(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 1000000000 }), // 1GB
+        ],
+        fileIsRequired: false,
+      }),
+    )
+    files: {
+      lecturefiles?: Express.Multer.File[];
+      referenceFiles?: Express.Multer.File[];
+    },
+    @Param('lectureId') lectureId: number,
+    @Body() updateLectureDto: UpdateLectureDto,
+  ) {
+    console.log(files);
+    // return this.lectureService.updateLecture(lectureId, updateLectureDto);
   }
 
   @Delete('/:lectureId')

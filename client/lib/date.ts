@@ -14,6 +14,10 @@ export function addSlashToStr(date: string, split = 2) {
 }
 
 export function toInputDate(date: string) {
+  if (!date) {
+    return '';
+  }
+  
   return dayjs(date).format('YYYY-MM-DD');
 }
 

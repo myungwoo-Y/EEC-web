@@ -1,18 +1,19 @@
 'use client';
 
-import { Curriculum } from '@/model/curriculum';
+import { toInputDate } from '@/lib/date';
 import { Lecture, UpdateLecture } from '@/model/lecture';
 import { useGetClassesQuery } from '@/services/class';
 import { useGetCurriculumsQuery } from '@/services/curriculum';
+import { useUpdateLectureMutation } from '@/services/lecture';
 import { useGetUsersQuery } from '@/services/user';
 import { EyeIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Date from '../Date';
 import Input from '../Input';
 import Select from '../Select';
 import UploadFiles from '../UploadFiles';
-import styles from './CreateLectureModal.module.scss';
 
 type LectureModalProps = {
   lecture: Lecture,
@@ -37,14 +38,53 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
   },
   { skip: !currentClassId });
   const { data: admins } = useGetUsersQuery();
+  const [updateLecture] = useUpdateLectureMutation();
 
   useEffect(() => {
+    const { startDate, endDate, evaluateStartDate, evaluateEndDate, lecturerEvaluateStartDate, lecturerEvaluateEndDate} = lecture;
     reset({
       ...lecture,
       curriculumId: lecture.curriculum?.curriculumId,
-      admin: lecture.admin.userId
+      admin: lecture.admin.userId,
+      startDate: toInputDate(startDate),
+      endDate: toInputDate(endDate),
+      evaluateStartDate: toInputDate(evaluateStartDate),
+      evaluateEndDate: toInputDate(evaluateEndDate),
+      lecturerEvaluateStartDate: toInputDate(lecturerEvaluateStartDate),
+      lecturerEvaluateEndDate: toInputDate(lecturerEvaluateEndDate),
     })
   }, [reset, lecture])
+
+  const onSave = (data: Record<string, any>) => {
+    const formData  = new FormData();
+    lectureFiles.map(file => {
+      formData.append('lectureFiles', file)
+    });
+    referenceFiles.map(file => {
+      formData.append('referenceFiles', file)
+    });
+    console.log(data)
+    formData.append('title', data.title);
+    formData.append('author', data.author);
+    formData.append('lecturer', data.lecturer);
+    formData.append('curriculumId', lecture.curriculum?.curriculumId + '');
+    formData.append('adminId', data.admin);
+    formData.append('startDate', dayjs(data.startDate).toISOString());
+    formData.append('endDate', dayjs(data.endDate).toISOString());
+    formData.append('intro', data.intro);
+    formData.append('lectureLink', data.lectureLink);
+    data.evaluateStartDate && formData.append('evaluateStartDate', dayjs(data.evaluateStartDate).toISOString());
+    data.evaluateEndDate && formData.append('evaluateEndDate', dayjs(data.evaluateEndDate).toISOString());
+    formData.append('evaluateLink', data.evaluateLink);
+    data.lecturerEvaluateStartDate && formData.append('lecturerEvaluateStartDate', dayjs(data.lecturerEvaluateStartDate).toISOString());
+    data.lecturerEvaluateEndDate && formData.append('lecturerEvaluateEndDate', dayjs(data.lecturerEvaluateEndDate).toISOString());
+    formData.append('lecturerEvaluateLink', data.lecturerEvaluateLink);
+
+    updateLecture({
+      lectureId: lecture.lectureId,
+      formData
+    });
+  }
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center overflow-y-scroll py-8">
@@ -162,6 +202,7 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
                     secondDateName="endDate"
                     register={register}
                     className="w-96"
+                    option={{required: true}}
                   />
                 </td>
               </tr>
@@ -222,8 +263,8 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
                 </td>
                 <td className="px-3">
                   <Date
-                    firstDateName="startDate"
-                    secondDateName="endDate"
+                    firstDateName="evaluateStartDate"
+                    secondDateName="evaluateEndDate"
                     register={register}
                     className="w-96"
                   />
@@ -266,8 +307,8 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
                 </td>
                 <td className="px-3">
                   <Date
-                    firstDateName="startDate"
-                    secondDateName="endDate"
+                    firstDateName="lecturerEvaluateStartDate"
+                    secondDateName="lecturerEvaluateEndDate"
                     register={register}
                     className="w-96"
                   />
@@ -310,7 +351,10 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
           <button className="py-2 px-5 bg-gray-400 rounded-md mt-4 w-24">
             초기화
           </button>
-          <button className="py-2 px-5 bg-primary rounded-md text-white mt-4 w-24">
+          <button 
+            className="py-2 px-5 bg-primary rounded-md text-white mt-4 w-24"
+            onClick={handleSubmit(onSave)}
+          >
             저장
           </button>
         </div>

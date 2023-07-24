@@ -23,13 +23,24 @@ const lectureApi = emptySplitApi.injectEndpoints({
       providesTags: ['Lecture'],
     }),
     updateLectures: builder.mutation<
-      Curriculum,
+      Lecture,
       UpdateLectures
     >({
       query: (body) => ({
         url: `/lecture/init`,
         method: 'PUT',
         body
+      }),
+      invalidatesTags: ['Lecture']
+    }),
+    updateLecture: builder.mutation<
+      Lecture,
+      { formData: FormData, lectureId: string | number }
+    >({
+      query: ({ formData, lectureId }) => ({
+        url: `/lecture/${lectureId}`,
+        method: 'PUT',
+        body: formData
       }),
       invalidatesTags: ['Lecture']
     }),
@@ -43,4 +54,4 @@ const lectureApi = emptySplitApi.injectEndpoints({
   }),
 });
 
-export const { useAddLectureMutation, useGetLecturesQuery, useUpdateLecturesMutation, useDeleteLectureMutation } = lectureApi;
+export const { useAddLectureMutation, useGetLecturesQuery, useUpdateLecturesMutation, useDeleteLectureMutation, useUpdateLectureMutation } = lectureApi;

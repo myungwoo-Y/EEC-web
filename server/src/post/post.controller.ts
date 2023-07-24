@@ -108,8 +108,6 @@ export class PostsController {
     await this.fileService.removeFilesById({ postId: parseInt(postId) });
 
     files.map((file) => {
-      const fileName = Buffer.from(file.originalname, 'latin1').toString();
-
       this.fileService.uploadFile({
         file,        
         postId,

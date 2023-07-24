@@ -40,8 +40,8 @@ export class LectureService {
     return result;
   }
 
-  async updateLecture(updateLectureDto: UpdateLectureDto) {
-    return await this.lectureRepository.update(updateLectureDto.lectureId, {
+  async updateLecture(lectureId: number, updateLectureDto: UpdateLectureDto) {
+    return await this.lectureRepository.update(lectureId, {
       ...updateLectureDto,
     });
   }

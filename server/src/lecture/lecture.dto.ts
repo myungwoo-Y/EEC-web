@@ -22,9 +22,6 @@ export class SimpleUpdateLectureDto {
 
 export class UpdateLectureDto {
   @IsNotEmpty()
-  lectureId: number; 
-  
-  @IsNotEmpty()
   @IsString()
   title: string;
 

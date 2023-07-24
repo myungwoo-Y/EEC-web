@@ -1,5 +1,6 @@
 export async function getBlobFromUrl(path: string) {
-  const data = await fetch(path).then((r) => r.blob());
+  const data = await fetch(path, {
+}).then((r) => r.blob());
   return data;
 }
 

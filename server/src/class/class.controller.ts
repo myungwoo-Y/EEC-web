@@ -43,10 +43,8 @@ export class ClassController {
       'latin1',
     ).toString();
     
-    await this.fileService.saveLocalFileData({
-      filename: fileName,
-      mimetype: thumbnailImage.mimetype,
-      path: thumbnailImage.filename,
+    await this.fileService.uploadFile({
+      file: thumbnailImage,
       classId: newClass?.classId,
     });
 
@@ -75,15 +73,8 @@ export class ClassController {
 
     await this.fileService.removeFilesById({ classId });
 
-    const fileName = Buffer.from(
-      thumbnailImage.originalname,
-      'latin1',
-    ).toString();
-    
-    await this.fileService.saveLocalFileData({
-      filename: fileName,
-      mimetype: thumbnailImage.mimetype,
-      path: thumbnailImage.filename,
+    await this.fileService.uploadFile({
+      file: thumbnailImage,
       classId,
     });
 

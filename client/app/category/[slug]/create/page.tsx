@@ -41,6 +41,9 @@ function Page({params: { slug }}: Props) {
     formData.append('categoryId', category?.categoryId + '');
     formData.append('isOpen', data.isOpen);
     addPost(formData);
+
+    alert('게시물이 추가되었습니다.');
+    router.back();
   };
 
   return (

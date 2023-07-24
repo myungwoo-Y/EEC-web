@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FileModule } from 'src/file/file.module';
 import FileService from 'src/file/file.service';
@@ -12,9 +11,6 @@ import { ClassService } from './class.service';
   imports: [
     TypeOrmModule.forFeature([Class, File]),
     FileModule,
-    MulterModule.register({
-      dest: './upload',
-    })
   ],
   controllers: [ClassController],
   providers: [ClassService, FileService]

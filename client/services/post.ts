@@ -8,21 +8,25 @@ export const postApi = emptySplitApi.injectEndpoints({
       query: () => ({
         url: 'categories',
       }),
+      providesTags: ['Lecture'],
     }),
     getCategoryById: builder.query<Category, string>({
       query: (id) => ({
         url: `categories/${id}`,
       }),
+      providesTags: ['Lecture'],
     }),
     getPosts: builder.query<Posts, string>({
       query: (category) => ({
         url: `posts?categoryId=${category}`,
       }),
+      providesTags: ['Lecture'],
     }),
     getPost: builder.query<PostClient, string>({
       query: (postId) => ({
         url: `posts/${postId}`,
       }),
+      providesTags: ['Lecture'],
     }),
     addPost: builder.mutation<PostClient, FormData>({
       query: (formData) => ({
@@ -30,6 +34,7 @@ export const postApi = emptySplitApi.injectEndpoints({
         body: formData,
         method: 'POST',
       }),
+      invalidatesTags: ['Lecture'],
     }),
     updatePost: builder.mutation<PostClient, { formData: FormData, postId: string }>({
       query: ({ formData, postId }) => ({
@@ -37,6 +42,7 @@ export const postApi = emptySplitApi.injectEndpoints({
         body: formData,
         method: 'PUT',
       }),
+      invalidatesTags: ['Lecture'],
     }),
   }),
 });

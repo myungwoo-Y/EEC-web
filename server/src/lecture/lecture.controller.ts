@@ -21,9 +21,9 @@ export class LectureController {
     return this.lectureService.updateLecture(updateLectureDto);
   }
 
-  @Delete('/:LectureId')
-  deleteLecture(@Param('LectureId') LectureId: number) {
-    return this.lectureService.deleteLecture(LectureId);
+  @Delete('/:lectureId')
+  deleteLecture(@Param('lectureId') lectureId: number) {
+    return this.lectureService.deleteLecture(lectureId);
   }
 
   @Get()

@@ -20,6 +20,7 @@ import { CreatePostDto, UpdatePostDto } from './post.dto';
 import FileService from 'src/file/file.service';
 import { writeFile, mkdirSync } from 'fs';
 import { join } from 'path';
+import { getKRFileName } from 'src/lib/string';
 
 @Controller()
 export class PostsController {
@@ -76,14 +77,7 @@ export class PostsController {
     });
 
     files.map((file) => {
-      const fileName = Buffer.from(file.originalname, 'latin1').toString();
-
-      this.fileService.saveLocalFileData({
-        filename: fileName,
-        mimetype: file.mimetype,
-        path: file.filename,
-        postId: postId,
-      });
+      this.fileService.uploadFile({file, postId});
     });
 
     return { postId };
@@ -116,10 +110,8 @@ export class PostsController {
     files.map((file) => {
       const fileName = Buffer.from(file.originalname, 'latin1').toString();
 
-      this.fileService.saveLocalFileData({
-        filename: fileName,
-        mimetype: file.mimetype,
-        path: file.filename,
+      this.fileService.uploadFile({
+        file,        
         postId,
       });
     });

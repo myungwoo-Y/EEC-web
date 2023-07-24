@@ -12,12 +12,12 @@ function Download({ path, fileName }: DownloadProps) {
     <div
       className="flex items-center cursor-pointer w-fit"
       onClick={() =>
-        downloadFile(`${process.env.NEXT_PUBLIC_SERVER_HOST}/${path}`, fileName)
+        downloadFile(path, fileName)
       }
     >
       <PaperClipIcon width={16} className="mr-1" />
       <a
-        href={`/${path}`}
+        href={path}
         download={fileName}
         onClick={(e) => {
           e.preventDefault();

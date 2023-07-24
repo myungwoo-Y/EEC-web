@@ -1,42 +1,78 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import File from 'src/model/file.entity';
 import { InsertResult, Repository } from 'typeorm';
-import { FileDto } from './file.dto';
 import { unlink } from 'fs';
 import { join } from 'path';
+import * as AWS from 'aws-sdk';
+import { generateFileKey, getKRFileName } from 'src/lib/string';
 
 class FileService {
+  private s3: AWS.S3;
+
   constructor(
     @InjectRepository(File)
     private fileRepository: Repository<File>,
-  ) {}
+  ) {
+    this.s3 = new AWS.S3({
+      endpoint: process.env.NAVER_CLOUD_URL,
+      region: 'kr-standard',
+      credentials: {
+        accessKeyId: process.env.NAVER_CLOUD_KEY,
+        secretAccessKey: process.env.NAVER_CLOUD_SECRET,
+      },
+    });
+  }
 
-  async saveLocalFileData(fileDto: FileDto) {
+  async uploadFileToS3(file: Express.Multer.File, fileName: string) {
+    await this.s3.putObject({
+      Bucket: 'eec',
+      Key: fileName,
+      ACL: 'public-read',
+      Body: file.buffer,
+    }).promise();
+  }
+
+  async uploadFile({
+    file,
+    postId,
+    classId,
+  }: {
+    file: Express.Multer.File;
+    postId?: number;
+    classId?: number;
+  }) {
     let newFile: InsertResult = null;
-    if (fileDto.postId) {
+
+    const fileName = getKRFileName(file);
+    const key = generateFileKey(fileName);
+    const path = `${process.env.NAVER_CLOUD_BUCKET_PATH}/${key}`;
+
+    await this.uploadFileToS3(file, key);
+
+    if (postId) {
       newFile = await this.fileRepository.insert({
-        filename: fileDto.filename,
-        mimetype: fileDto.mimetype,
-        path: fileDto.path,
+        filename: fileName,
+        mimetype: file.mimetype,
+        path,
         post: {
-          postId: fileDto.postId,
+          postId,
         },
       });
-    } else if (fileDto.classId) {
+    } else if (classId) {
       newFile = await this.fileRepository.insert({
-        filename: fileDto.filename,
-        mimetype: fileDto.mimetype,
-        path: fileDto.path,
+        filename: fileName,
+        mimetype: file.mimetype,
+        path,
         class: {
-          classId: fileDto.classId,
+          classId,
         },
       });
     }
-    
+
     if (newFile) {
       return newFile.raw[0];
     }
-    
+
     return null;
   }
 
@@ -50,10 +86,10 @@ class FileService {
 
   async removeFilesById({
     postId,
-    classId
+    classId,
   }: {
-    postId?: number,
-    classId?: number
+    postId?: number;
+    classId?: number;
   }) {
     let files: File[] = [];
 
@@ -74,7 +110,7 @@ class FileService {
         },
       });
     }
-    
+
     await Promise.all(
       files.map(async (file) => {
         await this.fileRepository.delete(file.fileId);

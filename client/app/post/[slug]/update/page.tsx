@@ -58,7 +58,7 @@ function Page({ params: { slug: postId } }: Props) {
       setContent(post.content);
 
       post.files.map(async (file) => {
-        const newFile = await getFileFromUrl(`${process.env.NEXT_PUBLIC_SERVER_HOST}/${file.path}`, file.filename);
+        const newFile = await getFileFromUrl(file.path, file.filename);
         setFiles(files => [...files, newFile]);
       })
     }

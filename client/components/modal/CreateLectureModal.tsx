@@ -1,6 +1,7 @@
 'use client';
 
 import { toInputDate } from '@/lib/date';
+import { getFileFromUrl } from '@/lib/downloadFile';
 import { Lecture, UpdateLecture } from '@/model/lecture';
 import { useGetClassesQuery } from '@/services/class';
 import { useGetCurriculumsQuery } from '@/services/curriculum';
@@ -41,7 +42,7 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
   const [updateLecture] = useUpdateLectureMutation();
 
   useEffect(() => {
-    const { startDate, endDate, evaluateStartDate, evaluateEndDate, lecturerEvaluateStartDate, lecturerEvaluateEndDate} = lecture;
+    const { startDate, endDate, evaluateStartDate, evaluateEndDate, lecturerEvaluateStartDate, lecturerEvaluateEndDate, lectureFiles, referenceFiles} = lecture;
     reset({
       ...lecture,
       curriculumId: lecture.curriculum?.curriculumId,
@@ -52,6 +53,15 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
       evaluateEndDate: toInputDate(evaluateEndDate),
       lecturerEvaluateStartDate: toInputDate(lecturerEvaluateStartDate),
       lecturerEvaluateEndDate: toInputDate(lecturerEvaluateEndDate),
+    })
+
+    lectureFiles.map(async (lectureFile) => {
+      const newFile = await getFileFromUrl(lectureFile.path, lectureFile.filename);
+      setLectureFiles(files => [...files, newFile]);
+    })
+    referenceFiles.map(async (referenceFile) => {
+      const newFile = await getFileFromUrl(referenceFile.path, referenceFile.filename);
+      setReferenceFiles(files => [...files, newFile]);
     })
   }, [reset, lecture])
 
@@ -211,11 +221,11 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
                 <td className="px-3">
                   <textarea
                     className={`resize-y w-full border-[1px] py-1 px-2 rounded-md focus:border-primary h-28 mt-1 ${
-                      errors.description?.type === 'required'
+                      errors.intro?.type === 'required'
                         ? 'border-red-600'
                         : 'border-gray-200'
                     }`}
-                    {...register('description', { required: true })}
+                    {...register('intro', { required: true })}
                   />
                 </td>
               </tr>

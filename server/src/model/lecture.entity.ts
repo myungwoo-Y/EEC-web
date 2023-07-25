@@ -34,10 +34,10 @@ class Lecture extends BaseEntity {
   intro: string;
   
   @OneToMany(() => File, (file) => file.lecture)
-  lecturefiles: File[]
+  lectureFiles: File[];
 
-  @OneToMany(() => File, (file) => file.lecture)
-  referenceFiles: File[]
+  @OneToMany(() => File, (file) => file.lectureWithReference)
+  referenceFiles: File[];
 
   @Column({ type: 'varchar', length: 2048, default: '' })
   lectureLink: string;

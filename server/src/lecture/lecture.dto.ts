@@ -31,12 +31,8 @@ export class UpdateLectureDto {
   @IsNotEmpty()
   adminId: number;
 
-  @IsNotEmpty()
-  @IsString()
   author: string;
 
-  @IsNotEmpty()
-  @IsString()
   lecturer: string;
 
   @IsNotEmpty()
@@ -47,12 +43,8 @@ export class UpdateLectureDto {
   @IsDateString()
   endDate: Date;
   
-  @IsNotEmpty()
-  @IsString()
   intro: string;
   
-  @IsNotEmpty()
-  @IsString()
   lectureLink: string;
 
   @IsNotEmpty()
@@ -63,8 +55,6 @@ export class UpdateLectureDto {
   @IsDateString()
   evaluateEndDate: Date;
 
-  @IsNotEmpty()
-  @IsString()
   evaluateLink: string;
 
   @IsNotEmpty()
@@ -75,7 +65,5 @@ export class UpdateLectureDto {
   @IsDateString()
   lecturerEvaluateEndDate: Date;
 
-  @IsNotEmpty()
-  @IsString()
   lecturerEvaluateLink: string;
 }

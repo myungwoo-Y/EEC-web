@@ -35,8 +35,12 @@ class File extends BaseEntity {
   })
   public class?: Class;
 
-  @ManyToOne(() => Lecture)
+  @ManyToOne(() => Lecture, (lecture) => lecture.lectureFiles)
   lecture: Lecture
+
+
+  @ManyToOne(() => Lecture, (lecture) => lecture.referenceFiles)
+  lectureWithReference: Lecture
 }
 
 export default File;

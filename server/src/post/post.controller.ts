@@ -18,9 +18,6 @@ import { PostService } from './post.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreatePostDto, UpdatePostDto } from './post.dto';
 import FileService from 'src/file/file.service';
-import { writeFile, mkdirSync } from 'fs';
-import { join } from 'path';
-import { getKRFileName } from 'src/lib/string';
 
 @Controller()
 export class PostsController {

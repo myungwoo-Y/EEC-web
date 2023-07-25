@@ -36,11 +36,15 @@ class FileService {
     file,
     postId,
     classId,
+    lectureId,
+    lectureWithReferenceId
   }: {
     file: Express.Multer.File;
     postId?: number;
     classId?: number;
-  }) {
+    lectureId?: number;
+    lectureWithReferenceId?: number
+  }): Promise<null | File> {
     let newFile: InsertResult = null;
 
     const fileName = getKRFileName(file);
@@ -66,6 +70,24 @@ class FileService {
         class: {
           classId,
         },
+      });
+    } else if (lectureId) {
+      newFile = await this.fileRepository.insert({
+        filename: fileName,
+        mimetype: file.mimetype,
+        path,
+        lecture: {
+          lectureId
+        }
+      });
+    } else if (lectureWithReferenceId) {
+      newFile = await this.fileRepository.insert({
+        filename: fileName,
+        mimetype: file.mimetype,
+        path,
+        lectureWithReference: {
+          lectureId: lectureWithReferenceId
+        }
       });
     }
 

@@ -22,7 +22,7 @@ type LectureModalProps = {
   closeModal: () => void;
 };
 
-function LectureModal({ lecture, closeModal }: LectureModalProps) {
+function CreateLectureModal({ lecture, closeModal }: LectureModalProps) {
   const {
     register,
     formState: { errors },
@@ -412,12 +412,12 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
         </div>
         <div className="flex justify-center pb-7 gap-2">
           <button 
-            className="py-2 px-5 bg-gray-400 rounded-md mt-4 w-24"
+            className="py-2 px-5 bg-gray-300 rounded-md mt-4 w-24"
             onClick={closeModal}
           >
             닫기
           </button>
-          <button className="py-2 px-5 bg-gray-400 rounded-md mt-4 w-24">
+          <button className="py-2 px-5 bg-gray-300 rounded-md mt-4 w-24">
             초기화
           </button>
           <button
@@ -432,4 +432,4 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
   );
 }
 
-export default LectureModal;
+export default CreateLectureModal;

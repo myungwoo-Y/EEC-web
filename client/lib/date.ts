@@ -21,3 +21,11 @@ export function toInputDate(date: string) {
   return dayjs(date).format('YYYY-MM-DD');
 }
 
+export function toKoreaDate(date: string) {
+  if (!date) {
+    return '';
+  }
+  
+  return dayjs(date).format('YYYY년 M월 D일');
+}
+

@@ -83,7 +83,7 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
     });
   }, [reset, lecture]);
 
-  const onSave = (data: Record<string, any>) => {
+  const onSave = async (data: Record<string, any>) => {
     const formData = new FormData();
     lectureFiles.map((file) => {
       formData.append('lectureFiles', file);
@@ -124,10 +124,13 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
       );
     formData.append('lecturerEvaluateLink', data.lecturerEvaluateLink);
 
-    updateLecture({
+    await updateLecture({
       lectureId: lecture.lectureId,
       formData,
     });
+
+    alert('저장이 완료되었습니다.');
+    closeModal();
   };
 
   return (
@@ -391,7 +394,10 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
           </table>
         </div>
         <div className="flex justify-center pb-7 gap-2">
-          <button className="py-2 px-5 bg-gray-400 rounded-md mt-4 w-24">
+          <button 
+            className="py-2 px-5 bg-gray-400 rounded-md mt-4 w-24"
+            onClick={closeModal}
+          >
             닫기
           </button>
           <button className="py-2 px-5 bg-gray-400 rounded-md mt-4 w-24">

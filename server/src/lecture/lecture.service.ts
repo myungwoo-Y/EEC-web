@@ -58,8 +58,10 @@ export class LectureService {
     
     await this.fileService.removeFilesById({lectureId: lectureId, lectureWithReferenceId: lectureId});
 
-    lectureFiles.map((lectureFile) => this.fileService.uploadFile({file: lectureFile, lectureId}));
-    referenceFiles.map((referenceFile) => this.fileService.uploadFile({file: referenceFile, lectureWithReferenceId: lectureId}));
+    const lectureFileUploadPromise = lectureFiles.map((lectureFile) => this.fileService.uploadFile({file: lectureFile, lectureId}));
+    const referenceFileUploadPromise = referenceFiles.map((referenceFile) => this.fileService.uploadFile({file: referenceFile, lectureWithReferenceId: lectureId}));
+    await Promise.all([...lectureFileUploadPromise, ...referenceFileUploadPromise]);
+    
 
     return await this.lectureRepository.save({
       lectureId,
@@ -81,12 +83,12 @@ export class LectureService {
   async findAllLecture(curriculumId) {
     return this.lectureRepository.find({
       relations: {
+        lectureFiles: true,
+        referenceFiles: true,
         curriculum: {
           class: true
         },
         admin: true,
-        lectureFiles: true,
-        referenceFiles: true
       },
       where: {
         curriculum: {

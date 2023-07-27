@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, Put, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
-import { FileFieldsInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import FileService from 'src/file/file.service';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { CreateLectureDto, SimpleUpdateLectureDto, UpdateLectureDto } from './lecture.dto';
 import { LectureService } from './lecture.service';
 
@@ -50,7 +49,7 @@ export class LectureController {
   }
 
   @Get()
-  findAllLecture(@Query('curriculumId') curriculumId: number) {
+  async findAllLecture(@Query('curriculumId') curriculumId: number) {
     return this.lectureService.findAllLecture(curriculumId);
   }
 }

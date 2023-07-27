@@ -59,7 +59,7 @@ function Lectures({ params: { classId } }: LecturesProps) {
           </Select>
         </div>
       </div>
-      {curriculums && (
+      {curriculums && curriculums.length > 0 && (
         <>
           <div className="flex mt-5 px-12 rounded-md border-b-[1px] border-gray-300">
             {curriculums.map((curriculum, idx) => (

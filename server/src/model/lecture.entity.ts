@@ -24,37 +24,41 @@ class Lecture extends BaseEntity {
   @JoinColumn({ name: 'adminId', referencedColumnName: 'userId' })
   admin: User;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ type: 'timestamptz' })
   startDate: Date;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ type: 'timestamptz' })
   endDate: Date;
 
   @Column({ type: 'varchar', length: 1000, default: '' })
   intro: string;
   
-  @OneToMany(() => File, (file) => file.lecture)
+  @OneToMany(() => File, (file) => file.lecture, {
+    onDelete: 'CASCADE',
+  })
   lectureFiles: File[];
 
-  @OneToMany(() => File, (file) => file.lectureWithReference)
+  @OneToMany(() => File, (file) => file.lectureWithReference, {
+    onDelete: 'CASCADE',
+  })
   referenceFiles: File[];
 
   @Column({ type: 'varchar', length: 2048, default: '' })
   lectureLink: string;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamptz', nullable: true })
   evaluateStartDate: Date;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamptz', nullable: true })
   evaluateEndDate: Date;
 
   @Column({ type: 'varchar', length: 2048, default: '' })
   evaluateLink: string;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamptz', nullable: true })
   lecturerEvaluateStartDate: Date;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamptz', nullable: true })
   lecturerEvaluateEndDate: Date;
 
   @Column({ type: 'varchar', length: 2048, default: '' })

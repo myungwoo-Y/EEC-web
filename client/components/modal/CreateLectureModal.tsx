@@ -17,9 +17,9 @@ import Select from '../Select';
 import UploadFiles from '../UploadFiles';
 
 type LectureModalProps = {
-  lecture: Lecture,
-  closeModal: () => void
-}
+  lecture: Lecture;
+  closeModal: () => void;
+};
 
 function LectureModal({ lecture, closeModal }: LectureModalProps) {
   const {
@@ -28,21 +28,33 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
     handleSubmit,
     watch,
     reset,
-    setValue
   } = useForm();
   const [lectureFiles, setLectureFiles] = useState<File[]>([]);
   const [referenceFiles, setReferenceFiles] = useState<File[]>([]);
   const { data: classes } = useGetClassesQuery();
-  const [currentClassId, setCurrentClassId] = useState(lecture.curriculum?.class?.classId || '');
-  const { data: curriculums } = useGetCurriculumsQuery({
-    classId: currentClassId,
-  },
-  { skip: !currentClassId });
+  const [currentClassId, setCurrentClassId] = useState(
+    lecture.curriculum?.class?.classId || ''
+  );
+  const { data: curriculums } = useGetCurriculumsQuery(
+    {
+      classId: currentClassId,
+    },
+    { skip: !currentClassId }
+  );
   const { data: admins } = useGetUsersQuery();
   const [updateLecture] = useUpdateLectureMutation();
 
   useEffect(() => {
-    const { startDate, endDate, evaluateStartDate, evaluateEndDate, lecturerEvaluateStartDate, lecturerEvaluateEndDate, lectureFiles, referenceFiles} = lecture;
+    const {
+      startDate,
+      endDate,
+      evaluateStartDate,
+      evaluateEndDate,
+      lecturerEvaluateStartDate,
+      lecturerEvaluateEndDate,
+      lectureFiles,
+      referenceFiles,
+    } = lecture;
     reset({
       ...lecture,
       curriculumId: lecture.curriculum?.curriculumId,
@@ -53,27 +65,33 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
       evaluateEndDate: toInputDate(evaluateEndDate),
       lecturerEvaluateStartDate: toInputDate(lecturerEvaluateStartDate),
       lecturerEvaluateEndDate: toInputDate(lecturerEvaluateEndDate),
-    })
+    });
 
     lectureFiles.map(async (lectureFile) => {
-      const newFile = await getFileFromUrl(lectureFile.path, lectureFile.filename);
-      setLectureFiles(files => [...files, newFile]);
-    })
+      const newFile = await getFileFromUrl(
+        lectureFile.path,
+        lectureFile.filename
+      );
+      setLectureFiles((files) => [...files, newFile]);
+    });
     referenceFiles.map(async (referenceFile) => {
-      const newFile = await getFileFromUrl(referenceFile.path, referenceFile.filename);
-      setReferenceFiles(files => [...files, newFile]);
-    })
-  }, [reset, lecture])
+      const newFile = await getFileFromUrl(
+        referenceFile.path,
+        referenceFile.filename
+      );
+      setReferenceFiles((files) => [...files, newFile]);
+    });
+  }, [reset, lecture]);
 
   const onSave = (data: Record<string, any>) => {
-    const formData  = new FormData();
-    lectureFiles.map(file => {
-      formData.append('lectureFiles', file)
+    const formData = new FormData();
+    lectureFiles.map((file) => {
+      formData.append('lectureFiles', file);
     });
-    referenceFiles.map(file => {
-      formData.append('referenceFiles', file)
+    referenceFiles.map((file) => {
+      formData.append('referenceFiles', file);
     });
-    console.log(data)
+
     formData.append('title', data.title);
     formData.append('author', data.author);
     formData.append('lecturer', data.lecturer);
@@ -83,18 +101,34 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
     formData.append('endDate', dayjs(data.endDate).toISOString());
     formData.append('intro', data.intro);
     formData.append('lectureLink', data.lectureLink);
-    data.evaluateStartDate && formData.append('evaluateStartDate', dayjs(data.evaluateStartDate).toISOString());
-    data.evaluateEndDate && formData.append('evaluateEndDate', dayjs(data.evaluateEndDate).toISOString());
+    data.evaluateStartDate &&
+      formData.append(
+        'evaluateStartDate',
+        dayjs(data.evaluateStartDate).toISOString()
+      );
+    data.evaluateEndDate &&
+      formData.append(
+        'evaluateEndDate',
+        dayjs(data.evaluateEndDate).toISOString()
+      );
     formData.append('evaluateLink', data.evaluateLink);
-    data.lecturerEvaluateStartDate && formData.append('lecturerEvaluateStartDate', dayjs(data.lecturerEvaluateStartDate).toISOString());
-    data.lecturerEvaluateEndDate && formData.append('lecturerEvaluateEndDate', dayjs(data.lecturerEvaluateEndDate).toISOString());
+    data.lecturerEvaluateStartDate &&
+      formData.append(
+        'lecturerEvaluateStartDate',
+        dayjs(data.lecturerEvaluateStartDate).toISOString()
+      );
+    data.lecturerEvaluateEndDate &&
+      formData.append(
+        'lecturerEvaluateEndDate',
+        dayjs(data.lecturerEvaluateEndDate).toISOString()
+      );
     formData.append('lecturerEvaluateLink', data.lecturerEvaluateLink);
 
     updateLecture({
       lectureId: lecture.lectureId,
-      formData
+      formData,
     });
-  }
+  };
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center overflow-y-scroll py-8">
@@ -212,7 +246,7 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
                     secondDateName="endDate"
                     register={register}
                     className="w-96"
-                    option={{required: true}}
+                    option={{ required: true }}
                   />
                 </td>
               </tr>
@@ -361,7 +395,7 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
           <button className="py-2 px-5 bg-gray-400 rounded-md mt-4 w-24">
             초기화
           </button>
-          <button 
+          <button
             className="py-2 px-5 bg-primary rounded-md text-white mt-4 w-24"
             onClick={handleSubmit(onSave)}
           >

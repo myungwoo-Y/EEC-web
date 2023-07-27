@@ -35,12 +35,16 @@ class File extends BaseEntity {
   })
   public class?: Class;
 
-  @ManyToOne(() => Lecture, (lecture) => lecture.lectureFiles)
-  lecture: Lecture
+  @ManyToOne(() => Lecture, (lecture) => lecture.lectureFiles, {
+    onDelete: 'CASCADE',
+  })
+  lecture: Lecture;
 
 
-  @ManyToOne(() => Lecture, (lecture) => lecture.referenceFiles)
-  lectureWithReference: Lecture
+  @ManyToOne(() => Lecture, (lecture) => lecture.referenceFiles, {
+    onDelete: 'CASCADE',
+  })
+  lectureWithReference: Lecture;
 }
 
 export default File;

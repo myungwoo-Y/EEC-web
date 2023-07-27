@@ -273,6 +273,7 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
                   <UploadFiles
                     files={lectureFiles}
                     setFiles={setLectureFiles}
+                    name="lecture"
                   />
                 </td>
               </tr>
@@ -282,6 +283,7 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
                   <UploadFiles
                     files={referenceFiles}
                     setFiles={setReferenceFiles}
+                    name="reference"
                   />
                 </td>
               </tr>

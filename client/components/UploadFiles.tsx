@@ -11,12 +11,14 @@ import checkboxStyles from './Checkbox.module.scss';
 type UploadFilesProps = {
   files: File[];
   setFiles: Dispatch<SetStateAction<File[]>>;
+  name?: string;
 };
 
-function UploadFiles({ files, setFiles }: UploadFilesProps) {
+function UploadFiles({ files, setFiles, name = '' }: UploadFilesProps) {
   const [checkedStatus, setCheckedStatus] = useState<boolean[]>([]);
-
   const isEmpty = !files || !files.length;
+
+  const inputId = `upload-${name}`;
 
   useEffect(() => {
     if (files.length > checkedStatus.length) {
@@ -71,17 +73,18 @@ function UploadFiles({ files, setFiles }: UploadFilesProps) {
       </div>
       <div className="mt-4 flex text-gray-600 text-sm">
         <label
-          htmlFor="file-upload"
+          htmlFor={inputId}
           className="w-20 flex items-center justify-center border-gray-400 border-[1px] rounded-md py-1 cursor-pointer"
         >
           <ArrowUpOnSquareIcon width={14} className="mr-1" />
           <p>업로드</p>
         </label>
         <input
-          id="file-upload"
+          id={inputId}
           type="file"
           className="hidden"
           onChange={(e) => {
+            console.log(e);
             if (e.target.files?.length) {
               setFiles([...files, e.target.files[0]]);
             }

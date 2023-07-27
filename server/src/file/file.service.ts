@@ -109,39 +109,64 @@ class FileService {
   async removeFilesById({
     postId,
     classId,
+    lectureId,
+    lectureWithReferenceId
   }: {
     postId?: number;
     classId?: number;
+    lectureId?: number;
+    lectureWithReferenceId?: number;
   }) {
     let files: File[] = [];
 
     if (postId) {
-      files = await this.fileRepository.find({
+      const newFiles = await this.fileRepository.find({
         where: {
           post: {
             postId,
           },
         },
       });
-    } else if (classId) {
-      files = await this.fileRepository.find({
+      files = [...files ,...newFiles];
+    }
+    
+    if (classId) {
+      const newFiles = await this.fileRepository.find({
         where: {
           class: {
             classId,
           },
         },
       });
+      files = [...files ,...newFiles];
+    }
+    
+    if (lectureId) {
+      const newFiles = await this.fileRepository.find({
+        where: {
+          lecture: {
+            lectureId,
+          },
+        },
+      });
+
+      files = [...files ,...newFiles];
+    }
+    
+    if (lectureWithReferenceId) {
+      const newFiles = await this.fileRepository.find({
+        where: {
+          lectureWithReference: {
+            lectureId: lectureWithReferenceId,
+          },
+        },
+      });
+      files = [...files ,...newFiles];
     }
 
     await Promise.all(
       files.map(async (file) => {
         await this.fileRepository.delete(file.fileId);
-        // remove file from path
-        unlink(join(process.cwd(), `/upload/${file.path}`), (err) => {
-          if (err) {
-            console.log(err);
-          }
-        });
       }),
     );
   }

@@ -43,18 +43,6 @@ export class LectureService {
     return result;
   }
 
-  private async uploadLectureFiles(files: Express.Multer.File[]) {
-    if (!files || !files.length) {
-      return [];
-    }
-
-    return await Promise.all(files.map(async (file) => {
-      const fileEntity = await this.fileService.uploadFile({file: file});
-      console.log(fileEntity);
-      return fileEntity.fileId;
-    }));    
-  }
-
   async updateLecture({
     lectureId, 
     updateLectureDto,
@@ -67,11 +55,12 @@ export class LectureService {
     referenceFiles?: Express.Multer.File[],
   }) {
     const { adminId, curriculumId } = updateLectureDto;
+    
+    await this.fileService.removeFilesById({lectureId: lectureId, lectureWithReferenceId: lectureId});
 
     lectureFiles.map((lectureFile) => this.fileService.uploadFile({file: lectureFile, lectureId}));
     referenceFiles.map((referenceFile) => this.fileService.uploadFile({file: referenceFile, lectureWithReferenceId: lectureId}));
 
-    console.log(curriculumId)
     return await this.lectureRepository.save({
       lectureId,
       ...updateLectureDto,

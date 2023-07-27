@@ -47,22 +47,14 @@ export class UpdateLectureDto {
   
   lectureLink: string;
 
-  @IsNotEmpty()
-  @IsDateString()
   evaluateStartDate: Date;
 
-  @IsNotEmpty()
-  @IsDateString()
   evaluateEndDate: Date;
 
   evaluateLink: string;
 
-  @IsNotEmpty()
-  @IsDateString()
   lecturerEvaluateStartDate: Date;
 
-  @IsNotEmpty()
-  @IsDateString()
   lecturerEvaluateEndDate: Date;
 
   lecturerEvaluateLink: string;

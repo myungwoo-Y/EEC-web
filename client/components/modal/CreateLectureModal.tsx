@@ -2,6 +2,7 @@
 
 import { toInputDate } from '@/lib/date';
 import { getFileFromUrl } from '@/lib/downloadFile';
+import { openNewTap } from '@/lib/url';
 import { Lecture, UpdateLecture } from '@/model/lecture';
 import { useGetClassesQuery } from '@/services/class';
 import { useGetCurriculumsQuery } from '@/services/curriculum';
@@ -28,6 +29,7 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
     handleSubmit,
     watch,
     reset,
+    getValues
   } = useForm();
   const [lectureFiles, setLectureFiles] = useState<File[]>([]);
   const [referenceFiles, setReferenceFiles] = useState<File[]>([]);
@@ -294,8 +296,13 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
                 <td className="bg-gray-100 w-36 py-4 text-center">강의영상</td>
                 <td className="px-3">
                   <div className="flex items-center gap-2">
-                    <Input type="text" className="w-96" />
-                    <button className="flex justify-center items-center gap-1 hover:bg-gray-100 py-1 px-3 rounded-lg">
+                  <Input
+                    className="w-96"
+                    type="text"
+                    register={register}
+                    name="lectureLink"
+                  />
+                    <button className="flex justify-center items-center gap-1 hover:bg-gray-100 py-1 px-3 rounded-lg" onClick={() => openNewTap(getValues('lectureLink'))} >
                       <span>미리보기</span>
                       <EyeIcon width={20} />
                     </button>
@@ -325,8 +332,13 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
                 </td>
                 <td className="px-3">
                   <div className="flex items-center gap-2">
-                    <Input type="text" className="w-96" />
-                    <button className="flex justify-center items-center gap-1 hover:bg-gray-100 py-1 px-3 rounded-lg">
+                  <Input
+                    className="w-96"
+                    type="text"
+                    register={register}
+                    name="evaluateLink"
+                  />
+                    <button className="flex justify-center items-center gap-1 hover:bg-gray-100 py-1 px-3 rounded-lg" onClick={() => openNewTap(getValues('evaluateLink'))} >
                       <span>미리보기</span>
                       <EyeIcon width={20} />
                     </button>
@@ -369,8 +381,13 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
                 </td>
                 <td className="px-3">
                   <div className="flex items-center gap-2">
-                    <Input type="text" className="w-96" />
-                    <button className="flex justify-center items-center gap-1 hover:bg-gray-100 py-1 px-3 rounded-lg">
+                  <Input
+                    className="w-96"
+                    type="text"
+                    register={register}
+                    name="lecturerEvaluateLink"
+                  />
+                    <button className="flex justify-center items-center gap-1 hover:bg-gray-100 py-1 px-3 rounded-lg" onClick={() => openNewTap(getValues('lecturerEvaluateLink'))}>
                       <span>미리보기</span>
                       <EyeIcon width={20} />
                     </button>

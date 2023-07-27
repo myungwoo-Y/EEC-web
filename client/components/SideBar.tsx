@@ -34,8 +34,9 @@ function SideBar() {
         <Image
           src="https://nowzone.b-cdn.net/eec/logo.png"
           alt="home"
-          width="170"
-          height="40"
+          width={220}
+          height={40}
+          
         />
       </div>
       <Link

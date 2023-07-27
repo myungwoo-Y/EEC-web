@@ -1,6 +1,5 @@
 'use client';
 
-import Curriculum from '@/../server/src/model/curriculum.entity';
 import CreateLectureModal from '@/components/modal/CreateLectureModal';
 import LectureModal from '@/components/modal/LectureModal';
 import Select from '@/components/Select';

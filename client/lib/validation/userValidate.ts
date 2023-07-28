@@ -26,7 +26,7 @@ export function validateConfirmPassword(password: string, confirmPassword: strin
   return '';
 }
 
-export function validateClassification(value: string) {
+export function validateRole(value: string) {
   if (!value) {
     return '계정 구분을 선택해주세요';
   }

@@ -30,13 +30,13 @@ function SideBar() {
   
   return (
     <div className="bg-secondary min-h-screen">
-      <div className="px-8 pt-7 mb-16">
+      <div className="px-8 pt-10 mb-16">
         <Image
           src="https://nowzone.b-cdn.net/eec/logo.png"
           alt="home"
-          width={220}
+          width={200}
           height={40}
-          
+          className="h-[40px]"
         />
       </div>
       <Link

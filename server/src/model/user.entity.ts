@@ -2,6 +2,13 @@ import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } f
 import { BaseEntity } from "./base.entity";
 import Lecture from "./lecture.entity";
 
+export enum UserRole {
+  ADMIN = "admin",
+  STUDENT = "student",
+  LECTURER = "lecturer"
+}
+
+
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
   @Column({ type: 'integer'})
@@ -17,8 +24,12 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 10 })
   name: string;
 
-  @Column({ type: 'varchar', length: 50 , default: ''})
-  classification: string;
+  @Column({
+    type: "enum",
+    enum: UserRole,
+    default: UserRole.STUDENT
+})
+  role: UserRole;
 
   @Column({ type: 'varchar', length: 50, default: '' })
   phoneNumber: string;

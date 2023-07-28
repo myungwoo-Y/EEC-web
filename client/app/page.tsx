@@ -3,12 +3,13 @@ import Image from 'next/image';
 export default function Home() {
   return (
     <div className="flex w-full h-full pt-32 pl-10">
-      <div className="flex-1">
+      <div className="flex-1 flex justify-center">
         <Image
           src="https://nowzone.b-cdn.net/eec/main.png"
           alt="main img"
-          width={400}
-          height={400}
+          width="400"
+          height="400"
+          className="h-[400px]"
         />
       </div>
       <div className="flex-1">

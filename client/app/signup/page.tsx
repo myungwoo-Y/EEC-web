@@ -5,7 +5,7 @@ import Select from '@/components/Select';
 import { addSlashToStr } from '@/lib/date';
 import { shallowEqual } from '@/lib/object';
 import {
-  validateClassification,
+  validateRole,
   validateClassOrder,
   validateConfirmPassword,
   validateDepartment,
@@ -41,7 +41,7 @@ function Signup() {
     newErrorMsgMap.email = await validateEmail(newUser.email, user);
     newErrorMsgMap.password = validatePassword(newUser.password);
     newErrorMsgMap.confirmPassword = validateConfirmPassword(newUser.password, confirPassword);
-    newErrorMsgMap.classification = validateClassification(newUser.classification);
+    newErrorMsgMap.role = validateRole(newUser.role);
     newErrorMsgMap.department = validateDepartment(newUser.department);
     newErrorMsgMap.jobLevel = validateJobLevel(newUser.jobLevel);
     newErrorMsgMap.name = validateName(newUser.name);
@@ -112,10 +112,10 @@ function Signup() {
         <Select
           className="mt-4"
           label="구분"
-          error={errorMsgMap.classification}
+          error={errorMsgMap.role}
           onChange={(e) =>{
-            setNewUser({ ...newUser, classification: e.target.value })
-            clearErrorMsg('classification')
+            setNewUser({ ...newUser, role: e.target.value })
+            clearErrorMsg('role')
           }}
         >
           <option value='' disabled>

@@ -64,7 +64,7 @@ export class PostService {
         isAnswer: true,
         user: {
           name: true,
-          classification: true,
+          role: true,
         },
         category: {
           name: true,

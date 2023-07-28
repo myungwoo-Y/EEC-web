@@ -1,4 +1,5 @@
 import { User } from '@/../server/src/model/user.entity';
+import { CreateUser } from '@/model/user';
 import { emptySplitApi } from './base';
 
 export const userApi = emptySplitApi.injectEndpoints({
@@ -16,7 +17,7 @@ export const userApi = emptySplitApi.injectEndpoints({
       }),
     }),
     addUser: builder.mutation({
-      query: (user: Partial<User>) => ({
+      query: (user: CreateUser ) => ({
         url: '/user',
         method: 'POST',
         body: user,

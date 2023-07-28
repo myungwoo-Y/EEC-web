@@ -1,7 +1,7 @@
 export const CreateUser = {
   email: '',
   password: '',
-  classification: '',
+  role: '',
   name: '',
   birthday: new Date(),
   phoneNumber: '',

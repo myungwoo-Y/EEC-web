@@ -1,10 +1,10 @@
-export function debounce(callback: () => void, time: number) {
-  let interval: NodeJS.Timeout | null;
-  return () => {
-    interval && clearTimeout(interval);
-    interval = setTimeout(() => {
-      interval = null;
-      callback();
+export function debounce<T>(callback: (params: T) => void, time: number) {
+  let timeout: NodeJS.Timeout | null;
+  return (params: T) => {
+    timeout && clearTimeout(timeout);
+
+    timeout = setTimeout(() => {
+      callback(params);
     }, time);
   };
 }

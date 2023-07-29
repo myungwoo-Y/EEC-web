@@ -1,4 +1,5 @@
 import SMSModal from '@/components/modal/SMSModal';
+import UserSelector from '@/components/UserSelector';
 import { getUserRoleName } from '@/lib/user';
 import { UpdateRegisterStatus, User, UserRole, UserRoles } from '@/model/user';
 import {
@@ -12,10 +13,11 @@ import checkboxStyles from '../../Checkbox.module.scss';
 function ActiveUserManagement() {
   const { data } = useGetUsersByQueryQuery({ isActive: true });
   const [users, setUsers] = useState<(User & { checked: boolean })[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<(User & { checked: boolean })[]>([]);
   const [updateUsers] = useUpdateUsersMutation();
   const [showSMSModal, setShowSMSModal] = useState(false);
-  const clieckedUsers = users.filter((user) => user.checked);
-  const isChecked = clieckedUsers.length > 0;
+  const clickedUsers = users.filter((user) => user.checked);
+  const isChecked = clickedUsers.length > 0;
 
   useEffect(() => {
     if (data) {
@@ -52,7 +54,7 @@ function ActiveUserManagement() {
   };
 
   const onSave = async () => {
-    const changedStatus: UpdateRegisterStatus[] = clieckedUsers.map(
+    const changedStatus: UpdateRegisterStatus[] = clickedUsers.map(
       ({ userId, role }) => ({
         userId,
         isActive: true,
@@ -77,11 +79,16 @@ function ActiveUserManagement() {
     setUsers(users.map((user) => ({ ...user, checked: false })));
   };
 
-  const sendMessage = () => {};
 
   return (
     <div>
-      <p className="text-lg font-semibold">회원정보</p>
+      <div className="flex justify-between">
+        <p className="text-lg font-semibold">회원정보</p>
+        <UserSelector 
+          users={users}
+          setFilteredUsers={setFilteredUsers}
+        />
+      </div>
       <div className="overflow-x-auto">
         <table className="min-w-[1300px] w-full mt-4 text-center">
           <thead>
@@ -116,7 +123,7 @@ function ActiveUserManagement() {
             </tr>
           </thead>
           <tbody>
-            {users?.map((user) => (
+            {filteredUsers?.map((user) => (
               <tr key={user.userId}>
                 <td className="border-gray-300 border-[1px] border-t-black py-3">
                   <div className="flex justify-center">
@@ -206,7 +213,7 @@ function ActiveUserManagement() {
         </div>
       </div>
       {showSMSModal && (
-        <SMSModal closeModal={() => setShowSMSModal(false)} users={clieckedUsers} />
+        <SMSModal closeModal={() => setShowSMSModal(false)} users={clickedUsers} />
       )}
     </div>
   );

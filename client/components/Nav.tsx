@@ -2,6 +2,7 @@
 
 import { User } from '@/../server/src/model/user.entity';
 import { removeCredentials, selectCurrentUser, setCredentials } from '@/features/auth/authSlice';
+import { getUserName } from '@/lib/user';
 import { useLazyGetUserByTokenQuery } from '@/services/auth';
 import { ArrowRightOnRectangleIcon, UserIcon , UserMinusIcon } from '@heroicons/react/24/outline';
 import { Cog6ToothIcon } from '@heroicons/react/24/outline';
@@ -43,7 +44,7 @@ function Nav() {
             path="/admin"
             Icon={Cog6ToothIcon}
           />
-          <div className="">{`${user.name}님 환영합니다`}</div>
+          <div className="">{`${user.name}(${getUserName(user.role)})님, 환영합니다`}</div>
         </>
       ) : (
         <>

@@ -3,7 +3,7 @@
 import Input from '@/components/Input';
 import Select from '@/components/Select';
 import { addSlashToStr } from '@/lib/date';
-import { shallowEqual } from '@/lib/object';
+import { isEmptyObject, shallowEqual } from '@/lib/object';
 import { useRouter } from 'next/navigation';
 import {
   validateClassOrder,
@@ -14,12 +14,12 @@ import {
   validatePassword,
   validatePhoneNumber,
 } from '@/lib/validation/userValidate';
-import { useUpdateUserMutation } from '@/services/user';
+import { useLazyGetUserQuery, useUpdateUserMutation } from '@/services/user';
 import React, { useEffect, useState } from 'react';
 import { ErrorMsgMap } from '../signup/model';
 import { UpdateUser, User } from '@/model/user';
-import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '@/features/auth/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentUser, setUser } from '@/features/auth/authSlice';
 import { filterExisting, getUserRoleName } from '@/lib/user';
 import dayjs from 'dayjs';
 
@@ -31,6 +31,8 @@ function UserUpdate() {
   const [errorMsgMap, setErrorMsgMap] = useState(ErrorMsgMap);
   const [updateUser] = useUpdateUserMutation();
   const router = useRouter();
+  const dispatch = useDispatch();
+  const [triggerUserByEmail] = useLazyGetUserQuery();
 
   useEffect(() => {
     if (user) {
@@ -63,11 +65,28 @@ function UserUpdate() {
     }
 
     const filteredUser = filterExisting(updatedUser, user);
-    console.log(filteredUser);
+
+    if (isEmptyObject(filteredUser)) {
+      alert('업데이트 할 정보가 없습니다.');
+      return;
+    }
+
+    if (!user) {
+      alert('다시 시도해주세요.')
+      return;
+    }
 
     try {
-      await updateUser(filteredUser).unwrap();
-      alert('정보 수정을 완료했습니다.');
+      alert('정보를 수정하였습니다.');
+      await updateUser({...filteredUser, userId: user?.userId}).unwrap();
+      const res = await triggerUserByEmail(user.email);
+      
+      if (res.data) {
+        dispatch(setUser({
+          user: res.data
+        }))
+      }
+
       router.push('/');
     } catch (e) {
       alert('정보 수정에 실패했습니다.');
@@ -85,16 +104,17 @@ function UserUpdate() {
           type="email"
           className="w-[600px] mt-4"
           placeholder="이메일"
-          value={user?.email}
+          value={user?.email || ''}
           label="이메일"
           disabled={true}
         />
+
         <Input
           type="password"
           autoComplete="new-password"
           className="w-[600px] mt-4"
           placeholder="비밀번호를 입력해주세요"
-          value={updatedUser.password}
+          value={updatedUser.password || ''}
           label="비밀번호"
           onChange={(e) => {
             setUpdatedUser({ ...updatedUser, password: e.target.value });
@@ -127,7 +147,7 @@ function UserUpdate() {
           type="text"
           className="w-[600px] mt-4"
           autoComplete="name"
-          value={updatedUser.name}
+          value={updatedUser.name || ''}
           label="이름"
           onChange={(e) => {
             setUpdatedUser({ ...updatedUser, name: e.target.value });
@@ -160,7 +180,7 @@ function UserUpdate() {
           type="number"
           className="w-[600px] mt-4"
           placeholder="'-'(하이픈)을 제외해주세요"
-          value={updatedUser.phoneNumber}
+          value={updatedUser.phoneNumber || ''}
           label="핸드폰번호"
           error={errorMsgMap.phoneNumber}
           onChange={(e) => {
@@ -174,7 +194,7 @@ function UserUpdate() {
         <Input
           type="text"
           className="w-[600px] mt-4"
-          value={updatedUser.department}
+          value={updatedUser.department || ''}
           label="소속"
           error={errorMsgMap.department}
           onChange={(e) => {
@@ -185,7 +205,7 @@ function UserUpdate() {
         <Input
           type="text"
           className="w-[600px] mt-4"
-          value={updatedUser.jobLevel}
+          value={updatedUser.jobLevel || ''}
           label="직급"
           error={errorMsgMap.jobLevel}
           onChange={(e) => {
@@ -201,6 +221,7 @@ function UserUpdate() {
             setUpdatedUser({ ...updatedUser, classOrder: e.target.value });
             clearErrorMsg('classOrder');
           }}
+          defaultValue={updatedUser.classOrder + ''}
         >
           <option value="" disabled>
             기수를 선택해 주세요

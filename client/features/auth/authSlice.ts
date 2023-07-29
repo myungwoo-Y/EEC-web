@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import type { User } from '../../../server/src/model/user.entity';
 import type { RootState } from '../../redux/store';
+import { User } from '@/model/user';
 
 type AuthState = {
   user: User | null
@@ -29,6 +29,12 @@ const slice = createSlice({
         localStorage.setItem('token', token);
       }
     },
+    setUser: (
+      state,
+      { payload: { user } }: PayloadAction<{ user: User }>
+    ) => {
+      state.user = user
+    },
     removeCredentials: (state) => {
       state.user = null;
       state.token = null;
@@ -37,7 +43,7 @@ const slice = createSlice({
   },
 })
 
-export const { setCredentials, removeCredentials } = slice.actions
+export const { setCredentials, removeCredentials, setUser } = slice.actions
 
 export default slice.reducer
 

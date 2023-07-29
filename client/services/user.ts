@@ -1,20 +1,21 @@
-import { User } from '@/../server/src/model/user.entity';
-import { CreateUser, UpdateUser } from '@/model/user';
+import { CreateUser, UpdateUser, User } from '@/model/user';
 import { emptySplitApi } from './base';
 
 export const userApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    getUser: builder.query({
+    getUser: builder.query<User, string>({
       query: (email: string) => ({
         url: `/user/${email}`,
         method: 'GET',
       }),
+      providesTags: ['User'],
     }),
     getUsers: builder.query<User[], void>({
       query: () => ({
         url: '/user',
         method: 'GET',
       }),
+      providesTags: ['User'],
     }),
     addUser: builder.mutation({
       query: (user: CreateUser ) => ({
@@ -22,13 +23,15 @@ export const userApi = emptySplitApi.injectEndpoints({
         method: 'POST',
         body: user,
       }),
+      invalidatesTags: ['User']
     }),
     updateUser: builder.mutation({
-      query: (user: UpdateUser ) => ({
-        url: '/user',
+      query: (user: UpdateUser & {userId: number | string}) => ({
+        url: `/user/${user.userId}`,
         method: 'PUT',
         body: user,
       }),
+      invalidatesTags: ['User']
     }),
   }),
 });

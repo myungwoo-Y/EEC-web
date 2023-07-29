@@ -32,6 +32,24 @@ export class CreateUserDto {
   agreementTerms: boolean;
 }
 
+export class UpdateUserDto {
+  password: string;
+
+  name: string;
+
+  phoneNumber: string;
+
+  birthday: Date;
+
+  department: string;
+
+  jobLevel: string;
+
+  classOrder: number;
+
+  agreementTerms: boolean;
+}
+
 export class FindByEmailDTO {
   @IsEmail()
   email: string;

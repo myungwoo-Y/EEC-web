@@ -55,7 +55,7 @@ function Select({
       ) : (
         <select
           className={`border-[1px] border-gray-300 rounded-md py-1 px-3 focus:bg-white focus:border-primary w-full appearance-none bg-[url('/icon/caret-down-solid.svg')] bg-[length:12px_12px] bg-no-repeat bg-right ${
-            !isClick && 'text-gray-400'
+            !defaultValue && 'text-gray-400'
           } ${error && 'border-red-600'}
             ${disabled ? 'text-gray-400 bg-gray-50' : ''}
           `}

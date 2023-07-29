@@ -4,7 +4,7 @@ import type { User } from '../../../server/src/model/user.entity';
 import type { RootState } from '../../redux/store';
 
 type AuthState = {
-  user: Partial<User> | null
+  user: User | null
   token: string | null
 }
 

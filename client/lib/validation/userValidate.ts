@@ -10,14 +10,14 @@ export function validateEmail(value: string, user: any) {
   return '';
 }
 
-export function validatePassword(value: string) {
+export function validatePassword(value: string | undefined) {
   if (!value) {
     return '비밀번호를 입력해주세요';
   }
   return '';
 }
 
-export function validateConfirmPassword(password: string, confirmPassword: string) {
+export function validateConfirmPassword(password: string | undefined, confirmPassword: string) {
   if (!confirmPassword) {
     return '비밀번호를 한번 더 입력해주세요';
   } else if (password !== confirmPassword) {
@@ -26,42 +26,42 @@ export function validateConfirmPassword(password: string, confirmPassword: strin
   return '';
 }
 
-export function validateRole(value: string) {
+export function validateRole(value: string | undefined) {
   if (!value) {
     return '계정 구분을 선택해주세요';
   }
   return '';
 }
 
-export function validateDepartment(value: string) {
+export function validateDepartment(value: string | undefined) {
   if (!value) {
     return '소속을 입력해주세요';
   }
   return '';
 }
 
-export function validateJobLevel(value: string) {
+export function validateJobLevel(value: string | undefined) {
   if (!value) {
     return '직급을 입력해주세요';
   }
   return '';
 }
 
-export function validateName(value: string) {
+export function validateName(value: string | undefined) {
   if (!value) {
     return '이름을 입력해주세요';
   }
   return '';
 }
 
-export function validatePhoneNumber(value: string) {
+export function validatePhoneNumber(value: string | undefined) {
   if (!value) {
     return '핸드폰 번호를 입력해주세요';
   }
   return '';
 }
 
-export function validateClassOrder(value: string) {
+export function validateClassOrder(value: string | number | undefined) {
   if (!value) {
     return '기수를 선택해주세요';
   }

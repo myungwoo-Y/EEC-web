@@ -7,6 +7,8 @@ export type User = Omit<SUser, 'classOrder' | 'role'> & {
 
 export type CreateUser = Partial<User>
 
+export type UpdateUser = Partial<User>
+
 export enum UserType {
 
 }

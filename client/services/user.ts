@@ -1,5 +1,5 @@
 import { User } from '@/../server/src/model/user.entity';
-import { CreateUser } from '@/model/user';
+import { CreateUser, UpdateUser } from '@/model/user';
 import { emptySplitApi } from './base';
 
 export const userApi = emptySplitApi.injectEndpoints({
@@ -23,7 +23,14 @@ export const userApi = emptySplitApi.injectEndpoints({
         body: user,
       }),
     }),
+    updateUser: builder.mutation({
+      query: (user: UpdateUser ) => ({
+        url: '/user',
+        method: 'PUT',
+        body: user,
+      }),
+    }),
   }),
 });
 
-export const { useAddUserMutation, useLazyGetUserQuery, useGetUserQuery, useGetUsersQuery } = userApi;
+export const { useAddUserMutation, useLazyGetUserQuery, useGetUserQuery, useGetUsersQuery, useUpdateUserMutation } = userApi;

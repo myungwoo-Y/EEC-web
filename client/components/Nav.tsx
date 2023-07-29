@@ -1,10 +1,10 @@
 'use client';
 
-import { User } from '@/../server/src/model/user.entity';
 import { removeCredentials, selectCurrentUser, setCredentials } from '@/features/auth/authSlice';
-import { getUserName } from '@/lib/user';
+import { getUserRoleName } from '@/lib/user';
 import { useLazyGetUserByTokenQuery } from '@/services/auth';
-import { ArrowRightOnRectangleIcon, UserIcon , UserMinusIcon } from '@heroicons/react/24/outline';
+import { ArrowRightOnRectangleIcon , PencilSquareIcon, UserCircleIcon, UserMinusIcon } from '@heroicons/react/24/outline';
+import { UserIcon } from '@heroicons/react/24/outline';
 import { Cog6ToothIcon } from '@heroicons/react/24/outline';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -40,11 +40,16 @@ function Nav() {
             <UserMinusIcon className="w-4 h-4 mr-1" /> 로그아웃
           </button>
           <NavItem
-            text="정보관리"
+            text="정보수정"
+            path="/update"
+            Icon={PencilSquareIcon}
+          />
+          <NavItem
+            text="서비스관리"
             path="/admin"
             Icon={Cog6ToothIcon}
           />
-          <div className="">{`${user.name}(${getUserName(user.role)})님, 환영합니다`}</div>
+          <div className="flex items-center"><UserCircleIcon className="w-4 h-4 mr-1" />{`${user.name}(${getUserRoleName(user.role)})님, 환영합니다`}</div>
         </>
       ) : (
         <>

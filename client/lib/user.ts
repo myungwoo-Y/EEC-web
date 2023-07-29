@@ -1,6 +1,6 @@
-import { UserRole } from '@/model/user';
+import { User, UserRole } from '@/model/user';
 
-export function getUserName(role: UserRole | string | undefined) {
+export function getUserRoleName(role: UserRole | string | undefined) {
   if (!role) {
     return '수강생';
   }
@@ -16,4 +16,22 @@ export function getUserName(role: UserRole | string | undefined) {
       return '수강생';
     }
   }
+}
+
+
+export function filterExisting(updatedUser: Partial<User>, originUser: User | null): Partial<User> {
+  if (!originUser) {
+    return updatedUser;
+  }
+  
+  const keys = Object.keys(updatedUser) as (keyof Partial<User>)[];
+  return keys.reduce((obj: Partial<User>, key) => {
+    if (originUser[key] !== updatedUser[key] && updatedUser[key]) {
+      return {
+        [key]: updatedUser[key],
+        ...obj
+      };
+    }
+    return obj;
+  }, {});
 }

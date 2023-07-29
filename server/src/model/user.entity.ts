@@ -28,7 +28,7 @@ export class User extends BaseEntity {
     type: "enum",
     enum: UserRole,
     default: UserRole.STUDENT
-})
+  })
   role: UserRole;
 
   @Column({ type: 'varchar', length: 50, default: '' })

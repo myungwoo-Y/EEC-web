@@ -20,7 +20,10 @@ export class UserService {
   }
 
   async createUser(user: CreateUserDto): Promise<InsertResult | null> {
-    return this.usersRepository.insert(user);
+    return this.usersRepository.insert({
+      ...user,
+      isActive: false
+    });
   }
 
   async remove(id: number): Promise<void> {

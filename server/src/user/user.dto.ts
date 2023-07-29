@@ -1,4 +1,5 @@
 import { IsBoolean, IsEmail, IsNotEmpty } from 'class-validator';
+import { UserRole } from 'src/model/user.entity';
 export class CreateUserDto {
   @IsEmail()
   email: string;
@@ -10,7 +11,7 @@ export class CreateUserDto {
   name: string;
 
   @IsNotEmpty()
-  classification: string;
+  role: UserRole;
 
   @IsNotEmpty()
   phoneNumber: string;

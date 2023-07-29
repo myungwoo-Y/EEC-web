@@ -62,6 +62,10 @@ function ActiveUserManagement() {
     }
   };
 
+  const onReset = () => {
+    setUsers(users.map((user) => ({ ...user, checked: false })));
+  };
+
   return (
     <div>
       <p className="text-lg font-semibold">회원정보</p>
@@ -163,6 +167,12 @@ function ActiveUserManagement() {
           </tbody>
         </table>
         <div className="float-right mt-6">
+          <button
+            className="py-2 px-6 rounded-md bg-gray-300 mr-2"
+            onClick={onReset}
+          >
+            취소
+          </button>
           <button
             className="py-2 px-6 rounded-md bg-primary text-white"
             onClick={onSave}

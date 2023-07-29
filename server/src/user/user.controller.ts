@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Get, NotFoundException, Param, Post, Put, Query } from "@nestjs/common";
 import { User } from "src/model/user.entity";
 import { CreateUserDto, UpdateUserDto } from "./user.dto";
 import { UserService } from "./user.service";
@@ -27,8 +27,13 @@ export class UserController {
     return await this.userService.updateUser(userId, user);
   }
 
+  @Put()
+  async updateUsers(@Body() users: UpdateUserDto[]) {
+    return await this.userService.updateUsers(users);
+  }
+
   @Get()
-  async findAll() {
-    return await this.userService.findAll();
+  async findAll(@Query('isActive') isActive: boolean) {
+    return await this.userService.findAll({ isActive });
   }
 }

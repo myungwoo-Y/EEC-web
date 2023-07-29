@@ -33,6 +33,8 @@ export class CreateUserDto {
 }
 
 export class UpdateUserDto {
+  userId: number;
+
   password: string;
 
   name: string;

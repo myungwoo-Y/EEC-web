@@ -1,5 +1,6 @@
-import { Injectable} from "@nestjs/common";
+import { Injectable, Query} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { removeEmpty } from "src/lib/object";
 import { User } from "src/model/user.entity";
 import { InsertResult, Repository } from "typeorm";
 import { CreateUserDto, UpdateUserDto } from "./user.dto";
@@ -11,8 +12,9 @@ export class UserService {
     private usersRepository: Repository<User>,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  findAll(params: Partial<User>): Promise<User[]> {
+    const option = removeEmpty(params) as Partial<User>;
+    return this.usersRepository.findBy(option);
   }
 
   findOne(email: string): Promise<User | null> {
@@ -30,6 +32,14 @@ export class UserService {
     return this.usersRepository.update(userId, {
       ...user,
     });
+  }
+
+  async updateUsers(users: UpdateUserDto[]) {
+    await Promise.all(users.map((user) => {
+      return this.usersRepository.update(user.userId, {
+        ...user,
+      });
+    }));
   }
 
   async remove(id: number): Promise<void> {

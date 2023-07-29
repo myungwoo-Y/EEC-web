@@ -1,3 +1,4 @@
+import SMSModal from '@/components/modal/SMSModal';
 import { getUserRoleName } from '@/lib/user';
 import { UpdateRegisterStatus, User, UserRole, UserRoles } from '@/model/user';
 import {
@@ -12,6 +13,9 @@ function ActiveUserManagement() {
   const { data } = useGetUsersByQueryQuery({ isActive: true });
   const [users, setUsers] = useState<(User & { checked: boolean })[]>([]);
   const [updateUsers] = useUpdateUsersMutation();
+  const [showSMSModal, setShowSMSModal] = useState(false);
+  const clieckedUsers = users.filter((user) => user.checked);
+  const isChecked = clieckedUsers.length > 0;
 
   useEffect(() => {
     if (data) {
@@ -48,14 +52,14 @@ function ActiveUserManagement() {
   };
 
   const onSave = async () => {
-    const changedStatus: UpdateRegisterStatus[] = users
-      .filter((user) => user.checked)
-      .map(({ userId, role }) => ({
+    const changedStatus: UpdateRegisterStatus[] = clieckedUsers.map(
+      ({ userId, role }) => ({
         userId,
         isActive: true,
         role,
-      }));
-    
+      })
+    );
+
     if (!(changedStatus.length > 0)) {
       alert('회원을 선택해주세요');
       return;
@@ -72,6 +76,8 @@ function ActiveUserManagement() {
   const onReset = () => {
     setUsers(users.map((user) => ({ ...user, checked: false })));
   };
+
+  const sendMessage = () => {};
 
   return (
     <div>
@@ -171,7 +177,15 @@ function ActiveUserManagement() {
             <button className="px-3 py-1 text-center border-[1px] border-blue-700 text-blue-500 rounded-md">
               선택된 수강생 카카오톡 알림 발송
             </button>
-            <button className="px-3 py-1 text-center border-[1px] border-blue-700 text-blue-500 rounded-md">
+            <button
+              className="px-3 py-1 text-center border-[1px] border-blue-700 text-blue-500 rounded-md"
+              onClick={() => {
+                if (!isChecked) {
+                  return alert('회원을 선택해주세요.');
+                }
+                setShowSMSModal(true);
+              }}
+            >
               선택된 수강생 문자 알림 발송
             </button>
           </div>
@@ -191,6 +205,9 @@ function ActiveUserManagement() {
           </div>
         </div>
       </div>
+      {showSMSModal && (
+        <SMSModal closeModal={() => setShowSMSModal(false)} users={clieckedUsers} />
+      )}
     </div>
   );
 }

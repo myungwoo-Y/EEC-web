@@ -13,6 +13,7 @@ import { join } from 'path';
 import { ClassModule } from './class/class.module';
 import { CurriculumModule } from './curriculum/curriculum.module';
 import { LectureModule } from './lecture/lecture.module';
+import { MsgModule } from './msg/msg.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -25,7 +26,8 @@ import { LectureModule } from './lecture/lecture.module';
     PostModule,
     ClassModule,
     CurriculumModule,
-    LectureModule
+    LectureModule,
+    MsgModule
   ],
   controllers: [AppController],
   providers: [AppService, UserService],

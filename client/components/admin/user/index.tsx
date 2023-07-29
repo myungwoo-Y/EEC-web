@@ -1,6 +1,6 @@
 import React from 'react';
 import InActiveUserManagement from './InActiveUserManagement';
-import ActiveUserManagement from './UserManagement';
+import ActiveUserManagement from './ActiveUserManagement';
 
 function UserManagement() {
   return (

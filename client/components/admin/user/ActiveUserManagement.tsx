@@ -1,4 +1,5 @@
-import { UpdateRegisterStatus, User, UserRole } from '@/model/user';
+import { getUserRoleName } from '@/lib/user';
+import { UpdateRegisterStatus, User, UserRole, UserRoles } from '@/model/user';
 import {
   useGetUsersByQueryQuery,
   useUpdateUsersMutation,
@@ -54,9 +55,15 @@ function ActiveUserManagement() {
         isActive: true,
         role,
       }));
+    
+    if (!(changedStatus.length > 0)) {
+      alert('회원을 선택해주세요');
+      return;
+    }
+
     try {
       await updateUsers(changedStatus).unwrap;
-      alert('승인이 완료되었습니다.');
+      alert(`${changedStatus.length}건 저장이 완료되었습니다.`);
     } catch (e) {
       alert('승인 요청에 실패했습니다.');
     }
@@ -138,47 +145,50 @@ function ActiveUserManagement() {
                 </td>
                 <td className="border-gray-300 border-[1px] border-t-black">
                   <div className="flex items-center justify-center gap-5">
-                    <div className="flex items-center gap-1">
-                      <input
-                        type="checkbox"
-                        className={`${checkboxStyles.circle}`}
-                        checked={user.role === UserRole.STUDENT}
-                        onChange={() =>
-                          handleRoleChange(user.userId, UserRole.STUDENT)
-                        }
-                      />
-                      <span>수강생</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <input
-                        type="checkbox"
-                        className={`${checkboxStyles.circle}`}
-                        checked={user.role === UserRole.LECTURER}
-                        onChange={() =>
-                          handleRoleChange(user.userId, UserRole.LECTURER)
-                        }
-                      />
-                      <span>강사</span>
-                    </div>
+                    {UserRoles.map((role, idx) => (
+                      <div
+                        className="flex items-center gap-1"
+                        key={idx}
+                        onClick={() => handleRoleChange(user.userId, role)}
+                      >
+                        <input
+                          type="checkbox"
+                          className={`${checkboxStyles.circle}`}
+                          checked={user.role === role}
+                          onChange={() => null}
+                        />
+                        <span>{getUserRoleName(role)}</span>
+                      </div>
+                    ))}
                   </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <div className="float-right mt-6">
-          <button
-            className="py-2 px-6 rounded-md bg-gray-300 mr-2"
-            onClick={onReset}
-          >
-            취소
-          </button>
-          <button
-            className="py-2 px-6 rounded-md bg-primary text-white"
-            onClick={onSave}
-          >
-            승인
-          </button>
+        <div className="float-right">
+          <div className="flex gap-2 mt-4">
+            <button className="px-3 py-1 text-center border-[1px] border-blue-700 text-blue-500 rounded-md">
+              선택된 수강생 카카오톡 알림 발송
+            </button>
+            <button className="px-3 py-1 text-center border-[1px] border-blue-700 text-blue-500 rounded-md">
+              선택된 수강생 문자 알림 발송
+            </button>
+          </div>
+          <div className="float-right mt-6">
+            <button
+              className="py-2 px-6 rounded-md bg-gray-300 mr-2"
+              onClick={onReset}
+            >
+              취소
+            </button>
+            <button
+              className="py-2 px-6 rounded-md bg-primary text-white"
+              onClick={onSave}
+            >
+              저장
+            </button>
+          </div>
         </div>
       </div>
     </div>

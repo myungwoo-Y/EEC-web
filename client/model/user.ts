@@ -21,6 +21,4 @@ export type UpdateRegisterStatus = {
   role: UserRole | string;
 }
 
-export enum UserType {
-
-}
+export const UserRoles = [UserRole.STUDENT, UserRole.LECTURER,UserRole.ADMIN];

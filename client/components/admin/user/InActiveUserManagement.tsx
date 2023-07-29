@@ -56,7 +56,7 @@ function InActiveUserManagement() {
       }));
     try {
       await updateUsers(changedStatus).unwrap;
-      alert('승인이 완료되었습니다.');
+      alert(`${changedStatus.length}건 승인이 완료되었습니다.`);
     } catch (e) {
       alert('승인 요청에 실패했습니다.');
     }

@@ -31,6 +31,14 @@ function Certification() {
     setCertificationType(CertificationType.Normal);
   }
 
+  const onFillAll = () => {
+    const certificationInfo = getValues();
+    setUsers(users.map((user) => ({
+      ...user,
+      ...certificationInfo
+    })))
+  }
+
   useEffect(() => {
     if (data) {
       setUsers(
@@ -107,7 +115,7 @@ function Certification() {
               firstDateName="startDate"
               secondDateName="endDate"
               className="h-full"
-              inputClassName="h-8 w-[120px] bg-white"
+              inputClassName="h-8 w-[130px] bg-white"
               gap={1}
             />
           </div>
@@ -116,12 +124,12 @@ function Certification() {
             <span>:</span>
             <input
               type="date"
-              className="w-[120px] h-8 box-border border-gray-400 border-[1px] p-[6px] outline-none rounded-md flex-grow focus:border-primary focus:border-2"
+              className="w-[130px] h-8 box-border border-gray-400 border-[1px] p-[6px] outline-none rounded-md flex-grow focus:border-primary focus:border-2"
               {...register('certificationDate')}
             />
           </div>
         </div>
-        <button className="px-6 rounded-md bg-gray-200">일괄입력</button>
+        <button className="px-6 rounded-md bg-gray-200" onClick={onFillAll}>일괄입력</button>
       </div>
       <CertificationTable 
         users={users} 

@@ -1,9 +1,7 @@
-import Date from '@/components/Date';
 import Input from '@/components/Input';
-import { setUser } from '@/features/auth/authSlice';
 import { Certification } from '@/model/certification';
-import { CertificationUser, CheckedUser, User } from '@/model/user';
-import React, { useEffect, useState } from 'react';
+import { CertificationUser } from '@/model/user';
+import React, { useState } from 'react';
 import { CertificationType } from '.';
 import checkboxStyles from '../../Checkbox.module.scss';
 
@@ -141,6 +139,7 @@ function CertificationTable({
                   <input
                     type="date"
                     className="box-border border-gray-400 border-[1px] p-[6px] bg-gray-50 outline-none rounded-md flex-grow focus:border-primary focus:border-2"
+                    value={user.startDate}
                     onChange={(e) =>
                       onChangeUserCertification(user.userId, {
                         startDate: e.target.value,
@@ -150,6 +149,7 @@ function CertificationTable({
                   <span className="text-gray-400">~</span>
                   <input
                     type="date"
+                    value={user.endDate}
                     className="box-border border-gray-400 border-[1px] p-[6px] bg-gray-50 outline-none rounded-md flex-grow focus:border-primary focus:border-2"
                     onChange={(e) =>
                       onChangeUserCertification(user.userId, {
@@ -164,6 +164,7 @@ function CertificationTable({
                   type="text"
                   placeholder="제목"
                   className="w-52 mx-auto"
+                  value={certificationType === CertificationType.Normal ? '' : user.title}
                   disabled={certificationType === CertificationType.Normal}
                   onChange={(e) =>
                     onChangeUserCertification(user.userId, {
@@ -175,7 +176,8 @@ function CertificationTable({
               <td className="border-gray-300 border-[1px] py-3 w-36">
                 <input
                   type="date"
-                  className="w-[120px] h-8 box-border border-gray-400 border-[1px] p-[6px] outline-none rounded-md flex-grow focus:border-primary focus:border-2"
+                  value={user.certificationDate}
+                  className="w-[135px] h-8 box-border border-gray-400 border-[1px] p-[6px] outline-none rounded-md flex-grow focus:border-primary focus:border-2"
                   onChange={(e) =>
                     onChangeUserCertification(user.userId, {
                       certificationDate: e.target.value,

@@ -5,3 +5,8 @@ export type Certification = {
   title: string;
   certificationDate: string;
 };
+
+export enum CertificationType {
+  Normal = 'normal',
+  Course = 'course'
+}

@@ -1,8 +1,9 @@
 import Input from '@/components/Input';
-import { Certification } from '@/model/certification';
+import { downloadFile } from '@/lib/downloadFile';
+import { Certification, CertificationType } from '@/model/certification';
 import { CertificationUser } from '@/model/user';
+import { useCreateCertificationsMutation } from '@/services/admin';
 import React, { useState } from 'react';
-import { CertificationType } from '.';
 import checkboxStyles from '../../Checkbox.module.scss';
 
 type CertificationTableProps = {
@@ -19,6 +20,8 @@ function CertificationTable({
   certificationType = CertificationType.Normal 
 }: CertificationTableProps) {
   const [isCheckAll, setIsCheckAll] = useState(false);
+
+  const [createCertifications] = useCreateCertificationsMutation();
 
   const onChangeUserCertification = (
     userId: number,
@@ -57,6 +60,16 @@ function CertificationTable({
       checked: !isCheckAll
     })));
     setIsCheckAll(!isCheckAll);
+  }
+
+  const onSubmit = async () => {
+    await createCertifications({
+      certificationType,
+      users: users.filter((user) => user.checked),
+    });
+
+
+    // downloadFile(data, 'test.zip');
   }
 
   return (
@@ -110,7 +123,7 @@ function CertificationTable({
                 />
               </td>
               <td className="border-gray-300 border-[1px] py-3">
-                <p className="text-center">{idx}</p>
+                <p className="text-center">{idx+1}</p>
               </td>
               <td className="border-gray-300 border-[1px] py-3">
                 <p className="text-center">{user.department}</p>
@@ -164,7 +177,11 @@ function CertificationTable({
                   type="text"
                   placeholder="제목"
                   className="w-52 mx-auto"
-                  value={certificationType === CertificationType.Normal ? '' : user.title}
+                  value={
+                    certificationType === CertificationType.Normal
+                      ? ''
+                      : user.title
+                  }
                   disabled={certificationType === CertificationType.Normal}
                   onChange={(e) =>
                     onChangeUserCertification(user.userId, {
@@ -189,6 +206,15 @@ function CertificationTable({
           ))}
         </tbody>
       </table>
+      <div className="flex items-center justify-center w-full">
+        <button
+          className="py-2 px-6 rounded-md bg-primary text-white mt-4 w-full"
+          onClick={onSubmit}
+        >
+          발급
+        </button>
+      </div>
+      
     </div>
   );
 }

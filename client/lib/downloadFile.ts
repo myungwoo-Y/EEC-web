@@ -20,7 +20,8 @@ export async function downloadFile(data: string | File, fileName = '') {
   } else {
     const url = window.URL.createObjectURL(data);
     link.href = url;
-    link.setAttribute('download', data.name);}
+    link.setAttribute('download', data.name);
+  }
   
   document.body.appendChild(link);
   link.click();

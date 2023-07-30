@@ -1,6 +1,6 @@
 import { SendMessageDto } from '@/../server/src/msg/msg.dto';
 import { User } from '@/model/user';
-import { useSendSmsMutation } from '@/services/message';
+import { useSendSmsMutation } from '@/services/admin';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import React, { useState } from 'react';
 

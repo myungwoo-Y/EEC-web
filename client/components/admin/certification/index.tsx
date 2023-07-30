@@ -9,12 +9,7 @@ import { useForm } from 'react-hook-form';
 import InputIcon from '@/components/InputIcon';
 import { TagIcon, ChatBubbleBottomCenterIcon } from '@heroicons/react/24/solid';
 import CertificationTable from './CertificationTable';
-import { Certification } from '@/model/certification';
-
-export enum CertificationType {
-  Normal,
-  Course
-}
+import { Certification, CertificationType } from '@/model/certification';
 
 function Certification() {
   const { data } = useGetUsersByQueryQuery({ isActive: true });

@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { readFileSync, writeFileSync } from 'fs';
 import { PDFDocument, PDFFont }  from 'pdf-lib';
 import * as AdmZip from 'adm-zip';
-
+import { toFullDate } from 'src/lib/date';
 const fontKit = require ('@pdf-lib/fontkit');
 
 @Injectable()
@@ -14,7 +14,6 @@ export class CertificationService {
   constructor() {
     this.fontBytes = readFileSync(join(process.cwd(), '/assets/font/ChosunGs.TTF'));
   }
-
 
   async getCertifications(createCertificationDtos: CreateCertificationDto[]) {
     const zip = new AdmZip();
@@ -48,13 +47,13 @@ export class CertificationService {
       });
   
       firstPage.moveTo(122, 315);
-      firstPage.drawText(`(교육기간: ${startDate} ~ ${endDate})`, {
+      firstPage.drawText(`(교육기간: ${toFullDate(startDate)} ~ ${toFullDate(endDate)})`, {
         size: 18,
         font: certificationFont,
       });
   
       firstPage.moveTo(226, 195);
-      firstPage.drawText(certificationDate, {
+      firstPage.drawText(toFullDate(certificationDate), {
         size: 18,
         font: certificationFont,
       });
@@ -105,13 +104,13 @@ export class CertificationService {
       });
   
       firstPage.moveTo(122, 315);
-      firstPage.drawText(`(교육기간: 2023년 7월 30일 ~ 2023년 7월 30일)`, {
+      firstPage.drawText(`(교육기간: ${toFullDate(startDate)} ~ ${toFullDate(endDate)})`, {
         size: 18,
         font: courseCertificationFont,
       });
   
       firstPage.moveTo(226, 195);
-      firstPage.drawText(`2023년 7월 30일`, {
+      firstPage.drawText(toFullDate(certificationDate), {
         size: 18,
         font: courseCertificationFont,
       });

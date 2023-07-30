@@ -10,5 +10,4 @@ export function generateFileKey(fileName: string) {
   } else {
     return `${fileName}_${Date.now()}`;
   }
-
 }

@@ -3,6 +3,7 @@ import { downloadFile } from '@/lib/downloadFile';
 import { Certification, CertificationType } from '@/model/certification';
 import { CertificationUser } from '@/model/user';
 import { useCreateCertificationsMutation } from '@/services/admin';
+import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import checkboxStyles from '../../Checkbox.module.scss';
 
@@ -63,9 +64,17 @@ function CertificationTable({
   }
 
   const onSubmit = async () => {
+    const now = Date.now();
+    const checkedUsers = users.filter((user) => user.checked).map((user) => ({
+      ...user,
+      startDate: dayjs(user.startDate || now).toISOString(),
+      endDate: dayjs(user.endDate || now).toISOString(),
+      certificationDate: dayjs(user.certificationDate || now).toISOString()
+    }));
+
     const res = await createCertifications({
       certificationType,
-      users: users.filter((user) => user.checked),
+      users: checkedUsers
     }).unwrap();
     const unit8 = new Uint8Array(res.data);
     const blob = new Blob([unit8]);

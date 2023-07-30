@@ -1,17 +1,33 @@
 import { debounce } from '@/lib/debounce';
 import { getUserRoleName } from '@/lib/user';
-import { User, UserRole, UserRoles } from '@/model/user';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  CertificationUser,
+  CheckedUser,
+  User,
+  UserRole,
+  UserRoles,
+} from '@/model/user';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import ClassOrderOption from './ClassOrderOption';
 import Input from './Input';
 import Select from './Select';
 
-type UserSelector = {
-  users: (User & { checked: boolean })[];
-  setFilteredUsers: (users: (User & { checked: boolean })[]) => void;
+type UserSelector<T> = {
+  users: T[];
+  setFilteredUsers: (users: T[]) => void;
 };
 
-function UserSelector({ users, setFilteredUsers }: UserSelector) {
+function UserSelector<T extends CheckedUser>({
+  users,
+  setFilteredUsers,
+}: UserSelector<T>) {
   const [name, setName] = useState('');
   const [classOrder, setClassOrder] = useState('');
   const [role, setRole] = useState('');
@@ -20,40 +36,56 @@ function UserSelector({ users, setFilteredUsers }: UserSelector) {
       name: string;
       classOrder: string;
       role: string;
-      users: (User & { checked: boolean })[];
-    }>(
-      ({ name, classOrder, role, users }) => {
-      
-        setFilteredUsers(
-          users.filter((user) => {
-            if (name && !user.name.includes(name)) {
-              return false;
-            }
+      users: T[];
+    }>(({ name, classOrder, role, users }) => {
+      setFilteredUsers(
+        users.filter((user) => {
+          if (name && !user.name.includes(name)) {
+            return false;
+          }
 
-            if (classOrder && classOrder != user.classOrder) {
-              return false;
-            }
+          if (classOrder && classOrder != user.classOrder) {
+            return false;
+          }
 
-            if (role && role !== user.role) {
-              console.log(role);
-              console.log(user.role);
-              return false;
-            }
+          if (role && role !== user.role) {
+            console.log(role);
+            console.log(user.role);
+            return false;
+          }
 
-            return true;
-          })
-        )},
-      200
-    )
+          return true;
+        })
+      );
+    }, 200)
   );
 
   useEffect(() => {
-    debounced.current({
-      name,
-      classOrder,
-      role,
-      users,
-    });
+    // debounced.current({
+    //   name,
+    //   classOrder,
+    //   role,
+    //   users,
+    // });
+    setFilteredUsers(
+      users.filter((user) => {
+        if (name && !user.name.includes(name)) {
+          return false;
+        }
+
+        if (classOrder && classOrder != user.classOrder) {
+          return false;
+        }
+
+        if (role && role !== user.role) {
+          console.log(role);
+          console.log(user.role);
+          return false;
+        }
+
+        return true;
+      })
+    );
   }, [name, classOrder, role, users]);
 
   return (
@@ -84,7 +116,11 @@ function UserSelector({ users, setFilteredUsers }: UserSelector) {
             if (role === UserRole.ADMIN) {
               return null;
             }
-            return <option key={idx} value={role}>{getUserRoleName(role)}</option>;
+            return (
+              <option key={idx} value={role}>
+                {getUserRoleName(role)}
+              </option>
+            );
           })}
         </Select>
       </div>
@@ -95,9 +131,7 @@ function UserSelector({ users, setFilteredUsers }: UserSelector) {
           className="w-24"
           onChange={(e) => setClassOrder(e.target.value)}
         >
-          <option value="">
-            전체
-          </option>
+          <option value="">전체</option>
           <ClassOrderOption />
         </Select>
       </div>

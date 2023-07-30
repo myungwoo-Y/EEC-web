@@ -35,6 +35,7 @@ export default function Input({
           className={`border-[1px] border-gray-300 rounded-md py-1 px-3 focus:bg-white focus:border-primary w-full ${
             error ? 'border-red-600' : ''
           } ${disabled ? 'text-gray-400 bg-gray-50' : ''}`}
+          {...props}
           {...register(name, option)}
           disabled={disabled}
         />

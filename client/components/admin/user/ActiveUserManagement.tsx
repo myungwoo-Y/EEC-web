@@ -1,7 +1,7 @@
 import SMSModal from '@/components/modal/SMSModal';
 import UserSelector from '@/components/UserSelector';
 import { getUserRoleName } from '@/lib/user';
-import { UpdateRegisterStatus, User, UserRole, UserRoles } from '@/model/user';
+import { CheckedUser, UpdateRegisterStatus, User, UserRole, UserRoles } from '@/model/user';
 import {
   useGetUsersByQueryQuery,
   useUpdateUsersMutation,
@@ -12,8 +12,8 @@ import checkboxStyles from '../../Checkbox.module.scss';
 
 function ActiveUserManagement() {
   const { data } = useGetUsersByQueryQuery({ isActive: true });
-  const [users, setUsers] = useState<(User & { checked: boolean })[]>([]);
-  const [filteredUsers, setFilteredUsers] = useState<(User & { checked: boolean })[]>([]);
+  const [users, setUsers] = useState<CheckedUser[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<CheckedUser[]>([]);
   const [updateUsers] = useUpdateUsersMutation();
   const [showSMSModal, setShowSMSModal] = useState(false);
   const clickedUsers = users.filter((user) => user.checked);

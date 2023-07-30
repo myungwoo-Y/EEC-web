@@ -12,7 +12,7 @@ const messageApi = emptySplitApi.injectEndpoints({
         method: 'POST',
       }),
     }),
-    createCertifications: builder.mutation<Blob, {
+    createCertifications: builder.mutation<{ data: Iterable<number> }, {
       certificationType: CertificationType,
       users: CertificationUser[]
     }>({

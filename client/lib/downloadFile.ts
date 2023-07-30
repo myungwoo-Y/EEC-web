@@ -10,7 +10,7 @@ export async function getFileFromUrl(path: string, fileName: string) {
   return file;
 }
 
-export async function downloadFile(data: string | File, fileName = '') {
+export async function downloadFile(data: string | File | Blob, fileName = '') {
   const link = document.createElement('a');
   if (typeof data === 'string') {
     const fileData = await getBlobFromUrl(data);
@@ -20,7 +20,7 @@ export async function downloadFile(data: string | File, fileName = '') {
   } else {
     const url = window.URL.createObjectURL(data);
     link.href = url;
-    link.setAttribute('download', data.name);
+    link.setAttribute('download', fileName ? fileName : data.name);
   }
   
   document.body.appendChild(link);

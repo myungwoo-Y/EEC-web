@@ -20,8 +20,8 @@ function CertificationTable({
   certificationType = CertificationType.Normal 
 }: CertificationTableProps) {
   const [isCheckAll, setIsCheckAll] = useState(false);
-
   const [createCertifications] = useCreateCertificationsMutation();
+  const isNormalType = certificationType === CertificationType.Normal;
 
   const onChangeUserCertification = (
     userId: number,
@@ -63,13 +63,14 @@ function CertificationTable({
   }
 
   const onSubmit = async () => {
-    await createCertifications({
+    const res = await createCertifications({
       certificationType,
       users: users.filter((user) => user.checked),
-    });
-
-
-    // downloadFile(data, 'test.zip');
+    }).unwrap();
+    const unit8 = new Uint8Array(res.data);
+    const blob = new Blob([unit8]);
+    const fileName = isNormalType ? '수료증.zip' : '이수증.zip';
+    downloadFile(blob, fileName);
   }
 
   return (

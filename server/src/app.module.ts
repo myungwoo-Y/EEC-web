@@ -14,6 +14,7 @@ import { ClassModule } from './class/class.module';
 import { CurriculumModule } from './curriculum/curriculum.module';
 import { LectureModule } from './lecture/lecture.module';
 import { MsgModule } from './msg/msg.module';
+import { CertificationModule } from './certification/certification.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -27,7 +28,8 @@ import { MsgModule } from './msg/msg.module';
     ClassModule,
     CurriculumModule,
     LectureModule,
-    MsgModule
+    MsgModule,
+    CertificationModule
   ],
   controllers: [AppController],
   providers: [AppService, UserService],

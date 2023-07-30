@@ -7,6 +7,7 @@ export class CertificationController {
 
   @Get()
   getCertifications() {
-    return this.certificationService.getCertifications();
+    // return this.certificationService.getCertifications();
+    return this.certificationService.getCourseCertifications();
   }
 }

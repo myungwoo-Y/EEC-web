@@ -1,3 +1,4 @@
+import { CertificationHistory } from './../model/certification';
 import { emptySplitApi } from './base';
 import { SendMessageDto } from '../../server/src/msg/msg.dto';
 import { CertificationType } from '@/model/certification';
@@ -22,8 +23,14 @@ const messageApi = emptySplitApi.injectEndpoints({
         method: 'POST',
       }),
     }),
+    getCertificationAll: builder.query<CertificationHistory[], void>({
+      query: () => ({
+        url: '/certification',
+        method: 'GET'
+      })
+    })
   }),
 });
 
-export const { useSendSmsMutation, useCreateCertificationsMutation } = messageApi;
+export const { useSendSmsMutation, useCreateCertificationsMutation, useGetCertificationAllQuery } = messageApi;
 

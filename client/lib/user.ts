@@ -1,3 +1,4 @@
+import { CertificationType } from '@/model/certification';
 import { User, UserRole } from '@/model/user';
 
 export function getUserRoleName(role: UserRole | string | undefined) {
@@ -34,4 +35,11 @@ export function filterExisting(updatedUser: Partial<User>, originUser: User | nu
     }
     return obj;
   }, {});
+}
+
+export function getCertificationName(type: CertificationType) {
+  if (type === CertificationType.Course) {
+    return '이수증';
+  }
+  return '수료증';
 }

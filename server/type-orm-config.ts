@@ -1,3 +1,4 @@
+import { Certification } from './src/model/certification.entity';
 import { configService } from 'src/config/config.service';
 import { DataSource } from 'typeorm';
 import { User } from 'src/model/user.entity';
@@ -16,7 +17,7 @@ export default new DataSource({
   username: configService.getValue('POSTGRES_USER'),
   password: configService.getValue('POSTGRES_PASSWORD'),
   database: configService.getValue('POSTGRES_DATABASE'),
-  entities: [User, Post, PostCategory, File, Class, Curriculum, Lecture],
+  entities: [User, Post, PostCategory, File, Class, Curriculum, Lecture, Certification],
   migrationsTableName: 'eec_web_migration',
   migrations: ['migrations/*{.ts,.js}'],
   synchronize: false,

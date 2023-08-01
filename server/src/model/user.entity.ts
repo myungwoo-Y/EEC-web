@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Certification } from './certification.entity';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BaseEntity } from "./base.entity";
 import Lecture from "./lecture.entity";
 
@@ -51,4 +52,9 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => Lecture, (lecture) => lecture.admin)
   lectures: Lecture[]
+
+  @ManyToMany(() => Certification, (certification) => certification.users, {
+    cascade: true,
+  })
+  certifications: Certification[];
 }

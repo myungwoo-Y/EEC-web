@@ -69,7 +69,8 @@ function CertificationTable({
       ...user,
       startDate: dayjs(user.startDate || now).toISOString(),
       endDate: dayjs(user.endDate || now).toISOString(),
-      certificationDate: dayjs(user.certificationDate || now).toISOString()
+      certificationDate: dayjs(user.certificationDate || now).toISOString(),
+      type: isNormalType ? CertificationType.Normal : CertificationType.Course
     }));
 
     const res = await createCertifications({

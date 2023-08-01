@@ -1,14 +1,10 @@
+import { CertificationType } from './../model/certification.entity';
 import { IsNotEmpty } from "class-validator";
 import { User } from "src/model/user.entity";
 
-export enum CertificationType {
-  Normal = 'normal',
-  Course = 'course'
-}
-
 export class CreateCertificationDto extends User {
   @IsNotEmpty()
-  issueNumber: string;
+  issueNumber: number;
   
   @IsNotEmpty()
   startDate: string;
@@ -21,4 +17,7 @@ export class CreateCertificationDto extends User {
   
   @IsNotEmpty()
   certificationDate: string;
+
+  @IsNotEmpty()
+  type: CertificationType;
 }

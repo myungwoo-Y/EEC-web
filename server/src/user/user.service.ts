@@ -17,8 +17,11 @@ export class UserService {
     return this.usersRepository.findBy(option);
   }
 
-  findOne(email: string): Promise<User | null> {
-    return this.usersRepository.findOneBy({ email });
+  findOne(option: {
+    userId?: number,
+    email?: string
+  }): Promise<User | null> {
+    return this.usersRepository.findOneBy(option);
   }
 
   async createUser(user: CreateUserDto): Promise<InsertResult | null> {

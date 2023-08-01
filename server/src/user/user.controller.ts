@@ -9,7 +9,7 @@ export class UserController {
 
   @Get('/:email')
   public async findByEmail(@Param('email') email: string): Promise<Partial<User>> {
-    const result = await this.userService.findOne(email);
+    const result = await this.userService.findOne({email});
     if (!result) {
       return null;
     }

@@ -1,6 +1,7 @@
 'use client';
 
 import Certification from '@/components/admin/certification';
+import ResultTable from '@/components/admin/certification/ResultTable';
 import ClassManagement from '@/components/admin/ClassManagement';
 import UserManagement from '@/components/admin/user';
 import React, { useState } from 'react';
@@ -23,7 +24,7 @@ function Admin() {
       case 1:
         return <Certification />;
       case 2:
-        return <ClassManagement />;
+        return <ResultTable />;
       case 3:
         return <ClassManagement />;
       case 4:

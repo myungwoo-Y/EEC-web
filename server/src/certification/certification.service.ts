@@ -2,7 +2,7 @@ import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { Certification } from './../model/certification.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateCertificationDto } from './certification.dto';
+import { CreateCertificationDto, DeleteUserInCertificationDto } from './certification.dto';
 import { join } from 'path';
 import { Injectable } from '@nestjs/common';
 import { readFileSync, writeFileSync } from 'fs';
@@ -41,6 +41,28 @@ export class CertificationService {
         })),
       )
       .flat();
+  }
+
+  async deleteUserInCertification(updateDto: DeleteUserInCertificationDto) {
+    const { certificationId, userId } = updateDto;
+    const certification = await this.certificationRepository.findOne({
+      where: {
+        certificationId: certificationId
+      },
+      relations: {
+        users: true
+      }
+    });
+
+    certification.users = certification.users.filter((user) => user.userId !== userId);
+
+    if (!certification.users.length) {
+      return await this.certificationRepository.delete({
+        certificationId,
+      });
+    }
+
+    return await this.certificationRepository.save(certification);
   }
 
   async insertCertifications(

@@ -16,7 +16,7 @@ interface InputWithIconProps {
   className?: string;
 }
 
-function InputIcon({error, register, name, option, disabled, Icon, placeholder = '', className = 'w-full', type}: InputWithIconProps) {
+function InputWithIcon({error, register, name, option, disabled, Icon, placeholder = '', className = 'w-full', type}: InputWithIconProps) {
   return (
     <div className="relative">
       <Icon className="w-4 h-4 absolute top-1/2 left-1 -translate-y-1/2" />
@@ -33,4 +33,4 @@ function InputIcon({error, register, name, option, disabled, Icon, placeholder =
   );
 }
 
-export default InputIcon;
+export default InputWithIcon;

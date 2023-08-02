@@ -1,7 +1,7 @@
 'use client';
 
 import Certification from '@/components/admin/certification';
-import ResultTable from '@/components/admin/certification/ResultTable';
+import ResultTable from '@/components/admin/certification/CertificationHistoryTable';
 import ClassManagement from '@/components/admin/ClassManagement';
 import UserManagement from '@/components/admin/user';
 import React, { useState } from 'react';

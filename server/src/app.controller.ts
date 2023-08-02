@@ -27,6 +27,8 @@ export class AppController {
   @UseGuards(JwtAuthGuard)
   @Get('auth')
   async getUesrByToken(@Request() req) {
-    return this.userService.findOne(req.user?.email);
+    return this.userService.findOne({
+      email: req.user?.email
+    });
   }
 }

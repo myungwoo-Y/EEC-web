@@ -27,10 +27,19 @@ const messageApi = emptySplitApi.injectEndpoints({
       query: () => ({
         url: '/certification',
         method: 'GET'
-      })
+      }),
+      providesTags: ['Certification']
+    }),
+    removeCertification: builder.mutation<void, {certificationId: number, userId: number}>({
+      query: (body) => ({
+        url: '/certification/delete',
+        method: 'PUT',
+        body
+      }),
+      invalidatesTags: ['Certification']
     })
   }),
 });
 
-export const { useSendSmsMutation, useCreateCertificationsMutation, useGetCertificationAllQuery } = messageApi;
+export const { useSendSmsMutation, useCreateCertificationsMutation, useGetCertificationAllQuery, useRemoveCertificationMutation } = messageApi;
 

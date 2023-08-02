@@ -6,7 +6,7 @@ import { useGetUsersByQueryQuery } from '@/services/user';
 import React, { useEffect, useState } from 'react';
 import checkboxStyles from '../../Checkbox.module.scss';
 import { useForm } from 'react-hook-form';
-import InputIcon from '@/components/InputIcon';
+import InputWithIcon from '@/components/InputIcon';
 import { TagIcon, ChatBubbleBottomCenterIcon } from '@heroicons/react/24/solid';
 import CertificationTable from './CertificationTable';
 import { Certification, CertificationType } from '@/model/certification';
@@ -45,10 +45,11 @@ function Certification() {
           endDate: '',
           title: '',
           certificationDate: '',
+          type: certificationType
         }))
       );
     }
-  }, [data]);
+  }, [data, certificationType]);
 
   return (
     <div className="pb-8">
@@ -86,7 +87,7 @@ function Certification() {
       </div>
       <div className="flex justify-between py-4 border-b-2 border-gray-100">
         <div className="flex gap-4">
-          <InputIcon
+          <InputWithIcon
             type="number"
             className="w-32 h-8"
             register={register}
@@ -94,7 +95,7 @@ function Certification() {
             placeholder="발급번호"
             Icon={TagIcon}
           />
-          <InputIcon
+          <InputWithIcon
             type="text"
             className="w-32 h-8"
             register={register}

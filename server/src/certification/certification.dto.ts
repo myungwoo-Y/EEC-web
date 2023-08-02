@@ -21,3 +21,11 @@ export class CreateCertificationDto extends User {
   @IsNotEmpty()
   type: CertificationType;
 }
+
+export class DeleteUserInCertificationDto {
+  @IsNotEmpty()
+  certificationId: number;
+
+  @IsNotEmpty()
+  userId: number;
+} 

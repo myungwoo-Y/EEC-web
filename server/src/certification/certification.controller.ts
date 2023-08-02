@@ -1,8 +1,8 @@
 import { CertificationType } from './../model/certification.entity';
 import { createReadStream } from 'fs';
 import { CertificationService } from './certification.service';
-import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
-import { CreateCertificationDto } from './certification.dto';
+import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
+import { CreateCertificationDto, DeleteUserInCertificationDto } from './certification.dto';
 import { Response } from 'express';
 import { Readable } from 'stream';
 import { Blob } from "buffer";
@@ -32,5 +32,10 @@ export class CertificationController {
   @Get()
   async findAllCertifications() {
     return this.certificationService.findAllCertifications();
+  }
+
+  @Put('/delete')
+  async deleteUserInCertification(@Body() deleteUserInCertificationDto: DeleteUserInCertificationDto) {
+    return this.certificationService.deleteUserInCertification(deleteUserInCertificationDto);
   }
 }

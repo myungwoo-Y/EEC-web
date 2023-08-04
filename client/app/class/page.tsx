@@ -6,10 +6,78 @@ import { CalendarDaysIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import dayjs from 'dayjs';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '@/features/auth/authSlice';
+import { UserRole } from '@/model/user';
+import { useAddClassToUserMutation } from '@/services/user';
 
 export default function Page() {
+  const user = useSelector(selectCurrentUser);
   const { data: classes } = useGetClassesQuery();
   const router = useRouter();
+  const [addClassToUser] = useAddClassToUserMutation();
+  const isAdmin = user?.role === UserRole.ADMIN;
+
+  const getSubmitButton = (classId: number) => {
+    if (user && user.role === UserRole.STUDENT) {
+      if (classId === user?.class?.classId) {
+        if (user.isClassActive) {
+          return (
+            <button
+              className="bg-green-500 rounded-md text-white px-2 h-9"
+              onClick={() => onSubmit(classId)}
+            >
+              신청완료
+            </button>
+          );
+        } else {
+          return (
+            <button
+              className="bg-gray-400 rounded-md text-white px-2 h-9"
+            >
+              신청중
+            </button>
+          );
+        }
+      }
+      return (
+        <button
+          className="bg-green-500 rounded-md text-white px-2 h-9"
+          onClick={() => onSubmit(classId)}
+        >
+          신청하기
+        </button>
+      );
+    }
+
+    if (user?.role === UserRole.ADMIN) {
+      return (
+        <button
+          className="bg-green-500 rounded-md text-white px-2 h-9"
+        >
+          신청확인
+        </button>
+      );
+    }
+
+    return null;
+  };
+
+  const onSubmit = async (classId: number) => {
+    if (!user) {
+      return;
+    }
+
+    if (user.role === UserRole.STUDENT) {
+      await addClassToUser({ classId, userId: user.userId});
+      alert('수강 신청을 요청 했습니다. 관리자의 승인을 기다려주세요.');
+    }
+
+    if (user.role === UserRole.ADMIN) {
+      // open user modal
+    }
+  };
+
   return (
     <div className="pt-10 px-12">
       <div className="font-bold text-2xl">강의일정</div>
@@ -30,7 +98,10 @@ export default function Page() {
                         <CalendarDaysIcon width={16} className="mr-1" />{' '}
                         신청기간:
                       </div>
-                      <p className="text-gray-400">{dayjs(data.registerStart).format('YYYY.MM.DD')}~{dayjs(data.registerEnd).format('YYYY.MM.DD')}</p>
+                      <p className="text-gray-400">
+                        {dayjs(data.registerStart).format('YYYY.MM.DD')}~
+                        {dayjs(data.registerEnd).format('YYYY.MM.DD')}
+                      </p>
                     </div>
                   </div>
                   <div>
@@ -42,25 +113,27 @@ export default function Page() {
                 </div>
               </div>
               <div>
-                <button className="bg-green-500 rounded-md text-white px-2 h-9">
-                  신청하기
-                </button>
-                <button 
-                  className="bg-gray-400 ml-2 rounded-md text-white px-2 h-9"
-                  onClick={() => router.push(`/class/${data.classId}/update`)}
-                >
-                  수정하기
-                </button>
+                {getSubmitButton(data.classId)}
+                {isAdmin && (
+                  <button
+                    className="bg-gray-400 ml-2 rounded-md text-white px-2 h-9"
+                    onClick={() => router.push(`/class/${data.classId}/update`)}
+                  >
+                    수정하기
+                  </button>
+                )}
               </div>
             </div>
           ))}
       </div>
-      <button
-        className="bg-gray-400 rounded-md text-white px-3 py-2 float-right mt-14"
-        onClick={() => router.push('/class/create')}
-      >
-        강의 추가하기
-      </button>
+      {isAdmin && (
+        <button
+          className="bg-gray-400 rounded-md text-white px-3 py-2 float-right mt-14"
+          onClick={() => router.push('/class/create')}
+        >
+          강의 추가하기
+        </button>
+      )}
     </div>
   );
 }

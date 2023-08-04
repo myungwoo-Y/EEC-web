@@ -15,12 +15,14 @@ const classApi = emptySplitApi.injectEndpoints({
         url: 'class',
         method: 'GET'
       }),
+      providesTags: ['Class']
     }),
     getClass: builder.query<Class, string>({
       query: (id) => ({
         url: `class/${id}`,
         method: 'GET'
       }),
+      providesTags: ['Class']
     }),
     updateClass: builder.mutation<Class[], {formData: FormData, classId: string}>({
       query: ({formData, classId}) => ({

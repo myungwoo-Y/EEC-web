@@ -1,7 +1,8 @@
 import { Certification } from './certification.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BaseEntity } from "./base.entity";
 import Lecture from "./lecture.entity";
+import Class from './class.entity';
 
 export enum UserRole {
   ADMIN = "admin",
@@ -51,10 +52,16 @@ export class User extends BaseEntity {
   agreementTerms: boolean;
 
   @OneToMany((type) => Lecture, (lecture) => lecture.admin)
-  lectures: Lecture[]
+  lectures: Lecture[];
 
   @ManyToMany(() => Certification, (certification) => certification.users, {
     cascade: true,
   })
   certifications: Certification[];
+
+  @ManyToOne((type) => Class, (lecture) => lecture.users)
+  class: Class;
+
+  @Column({ type: 'boolean', default: false })
+  isClassActive: boolean;
 }

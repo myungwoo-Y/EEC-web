@@ -15,13 +15,14 @@ import { CurriculumModule } from './curriculum/curriculum.module';
 import { LectureModule } from './lecture/lecture.module';
 import { MsgModule } from './msg/msg.module';
 import { CertificationModule } from './certification/certification.module';
+import Class from './model/class.entity';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(process.cwd(), '/upload/'),
     }),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Class]),
     UserModule,
     AuthModule,
     PostModule,

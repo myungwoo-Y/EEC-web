@@ -20,7 +20,7 @@ export const authApi = emptySplitApi.injectEndpoints({
         body: credentials,
       }),
     }),
-    getUserByToken: builder.query({
+    getUserByToken: builder.query<User, string>({
       query: (token) => ({
         url: '/auth',
         method: 'GET',
@@ -31,4 +31,4 @@ export const authApi = emptySplitApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useLoginMutation,  useLazyGetUserByTokenQuery } = authApi;
+export const { useLoginMutation,  useLazyGetUserByTokenQuery, useGetUserByTokenQuery } = authApi;

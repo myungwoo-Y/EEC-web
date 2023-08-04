@@ -1,6 +1,6 @@
 import { Body, Controller, Get, NotFoundException, Param, Post, Put, Query } from "@nestjs/common";
 import { User } from "src/model/user.entity";
-import { CreateUserDto, UpdateUserDto } from "./user.dto";
+import { CreateUserDto, UpdateClassToUserDto, UpdateUserDto } from "./user.dto";
 import { UserService } from "./user.service";
 
 @Controller('/user')
@@ -21,8 +21,13 @@ export class UserController {
   async create(@Body() user: CreateUserDto) {
     return await this.userService.createUser(user);
   }
+
+  @Put('class')
+  async updateClass(@Body() updateClassToUserDto: UpdateClassToUserDto) {
+    return await this.userService.updateClassToUser(updateClassToUserDto);
+  }
   
-  @Put('/:userId')
+  @Put('update/:userId')
   async update(@Param('userId') userId: number, @Body() user: UpdateUserDto) {
     return await this.userService.updateUser(userId, user);
   }

@@ -3,6 +3,7 @@ import { BaseEntity } from './base.entity';
 import Curriculum from './curriculum.entity';
 import File from './file.entity';
 import Lecture from './lecture.entity';
+import { User } from './user.entity';
  
 @Entity('class')
 class Class extends BaseEntity {
@@ -44,6 +45,9 @@ class Class extends BaseEntity {
 
   @OneToMany((type) => Lecture, (lecture) => lecture.class)
   lectures: Lecture[];
+
+  @OneToMany((type) => User, (user) => user.class)
+  users: User[];
 }
  
 export default Class;

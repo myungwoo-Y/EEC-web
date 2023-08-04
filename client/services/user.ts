@@ -32,6 +32,14 @@ export const userApi = emptySplitApi.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
+    addClassToUser: builder.mutation({
+      query: (user: { userId: number, classId: number }) => ({
+        url: '/user/class',
+        method: 'PUT',
+        body: user,
+      }),
+      invalidatesTags: ['User'],
+    }),
     updateUser: builder.mutation({
       query: (user: UpdateUser & { userId: number | string }) => ({
         url: `/user/${user.userId}`,
@@ -51,4 +59,4 @@ export const userApi = emptySplitApi.injectEndpoints({
   }),
 });
 
-export const { useAddUserMutation, useLazyGetUserQuery, useGetUserQuery, useGetUsersQuery, useGetUsersByQueryQuery, useUpdateUserMutation, useUpdateUsersMutation } = userApi;
+export const { useAddUserMutation, useLazyGetUserQuery, useGetUserQuery, useGetUsersQuery, useGetUsersByQueryQuery, useUpdateUserMutation, useUpdateUsersMutation, useAddClassToUserMutation } = userApi;

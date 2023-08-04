@@ -56,3 +56,11 @@ export class FindByEmailDTO {
   @IsEmail()
   email: string;
 }
+
+export class UpdateClassToUserDto {
+  @IsNotEmpty()
+  userId: number;
+
+  @IsNotEmpty()
+  classId: number;
+}

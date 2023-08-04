@@ -1,4 +1,4 @@
-import { User } from '@/../server/src/model/user.entity';
+import { User } from '@/model/user';
 import { emptySplitApi } from './base';
 
 export interface UserResponse {
@@ -26,9 +26,10 @@ export const authApi = emptySplitApi.injectEndpoints({
         method: 'GET',
         headers: { authorization: `Bearer ${token}` },
       }),
+      providesTags: ['User']
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useLoginMutation,  useLazyGetUserByTokenQuery, useGetUserByTokenQuery } = authApi;
+export const { useLoginMutation,  useLazyGetUserByTokenQuery } = authApi;

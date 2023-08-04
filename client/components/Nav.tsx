@@ -1,29 +1,43 @@
 'use client';
 
-import { removeCredentials, selectCurrentUser, setCredentials } from '@/features/auth/authSlice';
+import { removeCredentials, selectCurrentUser, setCredentials, setUser } from '@/features/auth/authSlice';
 import { getUserRoleName } from '@/lib/user';
-import { useGetUserByTokenQuery, useLazyGetUserByTokenQuery } from '@/services/auth';
+import { useLazyGetUserByTokenQuery } from '@/services/auth';
 import { ArrowRightOnRectangleIcon , PencilSquareIcon, UserCircleIcon, UserMinusIcon } from '@heroicons/react/24/outline';
 import { UserIcon } from '@heroicons/react/24/outline';
 import { Cog6ToothIcon } from '@heroicons/react/24/outline';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import NavItem from './NavItem';
+import { useGetUserQuery } from '@/services/user';
 
 function Nav() {
+  const user = useSelector(selectCurrentUser);
+  const {data: userData} = useGetUserQuery(user?.email || '', {
+    skip: !user?.email
+  });
   const dispatch = useDispatch();
   const [trigger] = useLazyGetUserByTokenQuery();
-  const tokenFromLocal = localStorage.getItem('token') || '';
-  const {data: user} = useGetUserByTokenQuery(tokenFromLocal, {
-    skip: !tokenFromLocal
-  });
 
   useEffect(() => {
-    if (user) {
-      dispatch(setCredentials({
-        token: tokenFromLocal,
-        user: user
+    if (userData) {
+      dispatch(setUser({
+        user: userData
       }))
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    if (!user) {
+      const tokenFromLocal = localStorage.getItem('token');
+      if (tokenFromLocal) {
+        trigger(tokenFromLocal).then(result => {
+          dispatch(setCredentials({
+            token: tokenFromLocal,
+            user: result.data || null
+          }))
+        });
+      }
     }
   }, [trigger, user, dispatch]);
 

@@ -1,6 +1,7 @@
 import { Injectable, Query} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { removeEmpty } from "src/lib/object";
+import { Application } from "src/model/application.entity";
 import Class from "src/model/class.entity";
 import { User } from "src/model/user.entity";
 import { InsertResult, Repository } from "typeorm";
@@ -13,6 +14,8 @@ export class UserService {
     private usersRepository: Repository<User>,
     @InjectRepository(Class)
     private classRepository: Repository<Class>,
+    @InjectRepository(Application)
+    private applicationRepository: Repository<Application>,
   ) {}
 
   findAll(params: Partial<User>): Promise<User[]> {
@@ -24,7 +27,9 @@ export class UserService {
     return this.usersRepository.findOne({
       where: option,
       relations: {
-        class: true,
+        applications: {
+          class: true
+        },
       },
     });
   }
@@ -56,15 +61,27 @@ export class UserService {
     await this.usersRepository.delete(id);
   }
 
-  async updateClassToUser({ userId, classId }: UpdateClassToUserDto) {
+  async updateApplication({ userId, classId }: UpdateClassToUserDto) {
     const user = await this.usersRepository.findOneBy({ userId });
-
+    const classEntity = await this.classRepository.findOneBy({ classId });
     if (!user) {
       return null;
     }
-    const newClass = await this.classRepository.create({ classId });
-    user.class = newClass;
 
-    return await this.usersRepository.save(user);
+    const application = await this.applicationRepository.findOneBy({
+      user: { userId },
+      class: { classId }
+    });
+
+    if (application) {
+      return false;
+    }
+
+    await this.applicationRepository.insert({
+      user,
+      class: classEntity,
+      isActive: false
+    });
+    return true;
   }
 }

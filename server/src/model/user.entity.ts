@@ -1,8 +1,9 @@
 import { Certification } from './certification.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { BaseEntity } from "./base.entity";
 import Lecture from "./lecture.entity";
 import Class from './class.entity';
+import { Application } from './application.entity';
 
 export enum UserRole {
   ADMIN = "admin",
@@ -59,9 +60,6 @@ export class User extends BaseEntity {
   })
   certifications: Certification[];
 
-  @ManyToOne((type) => Class, (lecture) => lecture.users)
-  class: Class;
-
-  @Column({ type: 'boolean', default: false })
-  isClassActive: boolean;
+  @OneToMany((type) => Application, (application) => application.user)
+  applications: Application[];
 }

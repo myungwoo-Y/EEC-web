@@ -7,10 +7,11 @@ import { CertificationController } from './certification.controller';
 import { CertificationService } from './certification.service';
 import { User } from 'src/model/user.entity';
 import Class from 'src/model/class.entity';
+import { Application } from 'src/model/application.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Certification, Class]),
+    TypeOrmModule.forFeature([User, Certification, Class, Application]),
     UserModule
   ],
   controllers: [CertificationController],

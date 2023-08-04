@@ -20,8 +20,10 @@ export default function Page() {
 
   const getSubmitButton = (classId: number) => {
     if (user && user.role === UserRole.STUDENT) {
-      if (classId === user?.class?.classId) {
-        if (user.isClassActive) {
+      const application = user.applications.find((data) => data.class?.classId === classId);
+      console.log(application);
+      if (application) {
+        if (application.isActive) {
           return (
             <button
               className="bg-green-500 rounded-md text-white px-2 h-9"
@@ -32,11 +34,11 @@ export default function Page() {
           );
         } else {
           return (
-            <button
-              className="bg-gray-400 rounded-md text-white px-2 h-9"
+            <div
+              className="bg-gray-400 rounded-md text-white px-2 h-9 flex items-center"
             >
-              신청중
-            </button>
+              승인요청중
+            </div>
           );
         }
       }

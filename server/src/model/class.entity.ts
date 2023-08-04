@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Application } from './application.entity';
 import { BaseEntity } from './base.entity';
 import Curriculum from './curriculum.entity';
 import File from './file.entity';
@@ -46,8 +47,8 @@ class Class extends BaseEntity {
   @OneToMany((type) => Lecture, (lecture) => lecture.class)
   lectures: Lecture[];
 
-  @OneToMany((type) => User, (user) => user.class)
-  users: User[];
+  @OneToMany((type) => Application, (application) => application.class)
+  applications: Application[];
 }
  
 export default Class;

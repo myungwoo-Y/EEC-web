@@ -24,7 +24,7 @@ export class UserController {
 
   @Put('class')
   async updateClass(@Body() updateClassToUserDto: UpdateClassToUserDto) {
-    return await this.userService.updateClassToUser(updateClassToUserDto);
+    return await this.userService.updateApplication(updateClassToUserDto);
   }
   
   @Put('update/:userId')

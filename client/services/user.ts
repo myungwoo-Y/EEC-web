@@ -38,7 +38,7 @@ export const userApi = emptySplitApi.injectEndpoints({
         method: 'PUT',
         body: user,
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ['User', 'Application'],
     }),
     updateUser: builder.mutation({
       query: (user: UpdateUser & { userId: number | string }) => ({

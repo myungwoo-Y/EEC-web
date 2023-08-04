@@ -3,6 +3,7 @@ import { emptySplitApi } from './base';
 import { SendMessageDto } from '../../server/src/msg/msg.dto';
 import { CertificationType } from '@/model/certification';
 import { CertificationUser } from '@/model/user';
+import { Application } from '@/model/application';
 
 const messageApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -37,9 +38,31 @@ const messageApi = emptySplitApi.injectEndpoints({
         body
       }),
       invalidatesTags: ['Certification']
-    })
+    }),
+    getApplications: builder.query<Application[], { classId: number}>({
+      query: ({ classId }) => ({
+        url: `/application/${classId}`,
+        method: 'GET'
+      }),
+      providesTags: ['Application']
+    }),
+    updateApplicationActivation: builder.mutation<void, { applicationId: number, isActive: boolean} []>({
+      query: (body) => ({
+        url: '/application/active',
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['Application']
+    }),
   }),
 });
 
-export const { useSendSmsMutation, useCreateCertificationsMutation, useGetCertificationAllQuery, useRemoveCertificationMutation } = messageApi;
+export const {
+  useSendSmsMutation,
+  useCreateCertificationsMutation,
+  useGetCertificationAllQuery,
+  useRemoveCertificationMutation,
+  useGetApplicationsQuery,
+  useUpdateApplicationActivationMutation,
+} = messageApi;
 

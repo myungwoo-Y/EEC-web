@@ -17,6 +17,7 @@ import { MsgModule } from './msg/msg.module';
 import { CertificationModule } from './certification/certification.module';
 import Class from './model/class.entity';
 import { Application } from './model/application.entity';
+import { ApplicationModule } from './application/application.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -31,7 +32,8 @@ import { Application } from './model/application.entity';
     CurriculumModule,
     LectureModule,
     MsgModule,
-    CertificationModule
+    CertificationModule,
+    ApplicationModule
   ],
   controllers: [AppController],
   providers: [AppService, UserService],

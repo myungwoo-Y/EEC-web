@@ -4,30 +4,31 @@ import { useGetClassesQuery } from '@/services/class';
 import { BookOpenIcon } from '@heroicons/react/24/outline';
 import { CalendarDaysIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '@/features/auth/authSlice';
 import { UserRole } from '@/model/user';
 import { useAddClassToUserMutation } from '@/services/user';
+import EditApplicationModal from '@/components/modal/EditApplicationModal';
 
 export default function Page() {
   const user = useSelector(selectCurrentUser);
   const { data: classes } = useGetClassesQuery();
   const router = useRouter();
   const [addClassToUser] = useAddClassToUserMutation();
+  const [isShowEditModal, setIsShowEditModal] = useState(false);
+  const [selectedClassId, setSelectedClassId] = useState(0);
   const isAdmin = user?.role === UserRole.ADMIN;
 
   const getSubmitButton = (classId: number) => {
     if (user && user.role === UserRole.STUDENT) {
       const application = user.applications.find((data) => data.class?.classId === classId);
-      console.log(application);
       if (application) {
         if (application.isActive) {
           return (
             <button
               className="bg-green-500 rounded-md text-white px-2 h-9"
-              onClick={() => onSubmit(classId)}
             >
               신청완료
             </button>
@@ -44,7 +45,7 @@ export default function Page() {
       }
       return (
         <button
-          className="bg-green-500 rounded-md text-white px-2 h-9"
+          className="bg-blue-500 rounded-md text-white px-2 h-9"
           onClick={() => onSubmit(classId)}
         >
           신청하기
@@ -55,7 +56,11 @@ export default function Page() {
     if (user?.role === UserRole.ADMIN) {
       return (
         <button
-          className="bg-green-500 rounded-md text-white px-2 h-9"
+          className="bg-yellow-400 rounded-md text-white px-2 h-9"
+          onClick={() => {
+            setSelectedClassId(classId);
+            setIsShowEditModal(!isShowEditModal);
+          }}
         >
           신청확인
         </button>
@@ -135,6 +140,12 @@ export default function Page() {
         >
           강의 추가하기
         </button>
+      )}
+      {isShowEditModal && (
+        <EditApplicationModal
+          closeModal={() => setIsShowEditModal(false)}
+          classId={selectedClassId}
+        />
       )}
     </div>
   );

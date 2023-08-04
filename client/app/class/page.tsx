@@ -11,6 +11,7 @@ import { selectCurrentUser } from '@/features/auth/authSlice';
 import { UserRole } from '@/model/user';
 import { useAddClassToUserMutation } from '@/services/user';
 import EditApplicationModal from '@/components/modal/EditApplicationModal';
+import Image from 'next/image';
 
 export default function Page() {
   const user = useSelector(selectCurrentUser);
@@ -23,21 +24,19 @@ export default function Page() {
 
   const getSubmitButton = (classId: number) => {
     if (user && user.role === UserRole.STUDENT) {
-      const application = user.applications.find((data) => data.class?.classId === classId);
+      const application = user.applications.find(
+        (data) => data.class?.classId === classId
+      );
       if (application) {
         if (application.isActive) {
           return (
-            <button
-              className="bg-green-500 rounded-md text-white px-2 h-9"
-            >
+            <div className="bg-green-500 rounded-md text-white px-2 h-9 flex items-center justify-center">
               신청완료
-            </button>
+            </div>
           );
         } else {
           return (
-            <div
-              className="bg-gray-400 rounded-md text-white px-2 h-9 flex items-center"
-            >
+            <div className="bg-gray-400 rounded-md text-white px-2 h-9 flex items-center">
               승인요청중
             </div>
           );
@@ -45,7 +44,7 @@ export default function Page() {
       }
       return (
         <button
-          className="bg-blue-500 rounded-md text-white px-2 h-9"
+          className="bg-green-500 rounded-md text-white px-2 h-9"
           onClick={() => onSubmit(classId)}
         >
           신청하기
@@ -76,12 +75,8 @@ export default function Page() {
     }
 
     if (user.role === UserRole.STUDENT) {
-      await addClassToUser({ classId, userId: user.userId});
+      await addClassToUser({ classId, userId: user.userId });
       alert('수강 신청을 요청 했습니다. 관리자의 승인을 기다려주세요.');
-    }
-
-    if (user.role === UserRole.ADMIN) {
-      // open user modal
     }
   };
 
@@ -96,7 +91,13 @@ export default function Page() {
               key={data.classId}
             >
               <div className="flex">
-                <div className="bg-gray-300 rounded-md w-64"></div>
+                <Image
+                  width={256}
+                  height={50}
+                  src={data.thumbnailImage.path}
+                  alt={data.title}
+                  className="rounded-md"
+                />
                 <div className="flex flex-col gap-1 ml-5 w-80">
                   <p className="text-lg font-bold">{data.title}</p>
                   <div className="flex flex-col">
@@ -119,7 +120,7 @@ export default function Page() {
                   </div>
                 </div>
               </div>
-              <div>
+              <div className="flex">
                 {getSubmitButton(data.classId)}
                 {isAdmin && (
                   <button
@@ -129,6 +130,13 @@ export default function Page() {
                     수정하기
                   </button>
                 )}
+
+                <button
+                  className="bg-blue-500 ml-2 rounded-md text-white px-2 h-9"
+                  onClick={() => router.push(`/class/${data.classId}`)}
+                >
+                  강의보기
+                </button>
               </div>
             </div>
           ))}

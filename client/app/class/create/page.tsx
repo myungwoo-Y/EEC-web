@@ -39,7 +39,8 @@ function Page() {
   const router = useRouter();
 
   if (isSuccess) {
-    // router.push('/class');
+    alert('추가를 완료했습니다.')
+    router.push('/class');
   }
 
   return (

@@ -36,7 +36,7 @@ function Date({
       {name && <div className="mb-1">{name}</div>}
       <div className="flex justify-between items-center h-full">
         {register ? (
-          <div className={`flex items-center gap-${gap}`}>
+          <div className={`w-full flex items-center gap-${gap}`}>
             <input
               type="date"
               className={`box-border border-gray-400 border-[1px] p-[6px] bg-gray-50 outline-none rounded-md flex-grow focus:border-primary focus:border-2 ${inputClassName}`}
@@ -52,7 +52,7 @@ function Date({
             />
           </div>
         ) : (
-          <div className={`flex gap-${gap}`}>
+          <div className={`w-full flex gap-${gap}`}>
             <input
               type="date"
               className="box-border border-gray-400 border-[1px] p-[6px] bg-gray-50 outline-none rounded-md flex-grow focus:border-primary focus:border-2"

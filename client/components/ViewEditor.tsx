@@ -5,6 +5,12 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import React from 'react';
+import styles from './TextEditor.module.scss';
+import classNames from 'classnames';
+import Table from '@tiptap/extension-table';
+import TableRow from '@tiptap/extension-table-row';
+import TableHeader from '@tiptap/extension-table-header';
+import TableCell from '@tiptap/extension-table-cell';
 
 type ViewEditorProps = {
   className?: string;
@@ -12,6 +18,15 @@ type ViewEditorProps = {
 };
 
 const ViewEditor = ({ className = '', content }: ViewEditorProps) => {
+  const tableExtensions = [
+    Table.configure({
+      resizable: true,
+    }),
+    TableRow,
+    TableHeader,
+    TableCell,
+  ];
+
   const editor = useEditor({
     extensions: [
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -35,15 +50,17 @@ const ViewEditor = ({ className = '', content }: ViewEditorProps) => {
       Link.configure({
         openOnClick: true,
       }),
+      ...tableExtensions
     ],
+    editable: false,
     content: content
   });
 
   return (
-    <div className={`border-2 border-gray-300 rounded-md ${className}`}>
+    <div className={`${className}`}>
       <EditorContent
         editor={editor}
-        className="p-2 border-t-[1px] border-gray-200 overflow-y-scroll h-96"
+        className={classNames("", styles.tableWrapper, styles.proseMirror, styles.viewEditor)}
       />
     </div>
   );

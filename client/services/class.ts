@@ -9,6 +9,7 @@ const classApi = emptySplitApi.injectEndpoints({
         body: formData,
         method: 'POST',
       }),
+      invalidatesTags: ['Class']
     }),
     getClasses: builder.query<Class[], void>({
       query: () => ({
@@ -30,6 +31,7 @@ const classApi = emptySplitApi.injectEndpoints({
         method: 'PUT',
         body: formData
       }),
+      invalidatesTags: ['Class']
     })
   }),
 });

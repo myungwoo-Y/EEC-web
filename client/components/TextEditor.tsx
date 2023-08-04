@@ -281,7 +281,6 @@ const TextEditor = ({
           [
             styles.proseMirror,
             styles.tableWrapper,
-            styles.tableWrapper,
             styles.resizeCursor,
           ].join(' ')
         }

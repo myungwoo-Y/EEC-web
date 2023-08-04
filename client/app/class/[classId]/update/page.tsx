@@ -39,6 +39,7 @@ function UpdateClass({ params: { classId } }: UpdateClassProps) {
   const router = useRouter();
 
   if (isSuccess) {
+    alert('수정이 완료되었습니다.')
     router.push('/class');
   }
 
@@ -52,10 +53,7 @@ function UpdateClass({ params: { classId } }: UpdateClassProps) {
       if (!classData) {
         return;
       }
-      const thumbnailImage = await getFileFromUrl(
-        `${process.env.NEXT_PUBLIC_SERVER_HOST}/${classData.thumbnailImage.path}`,
-        classData.thumbnailImage.filename
-      );
+      const thumbnailImage = await getFileFromUrl(classData.thumbnailImage.path, classData.thumbnailImage.filename);
       reset({
         title: classData.title,
         target: classData.target,

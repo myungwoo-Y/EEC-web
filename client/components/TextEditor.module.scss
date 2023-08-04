@@ -75,3 +75,9 @@
 .tableWrapper {
   overflow-x: auto;
 }
+
+.viewEditor {
+  > div {
+    padding: 0;
+  }
+}

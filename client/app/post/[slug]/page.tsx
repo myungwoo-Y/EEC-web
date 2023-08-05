@@ -2,8 +2,9 @@
 
 import Download from '@/components/Download';
 import { selectCurrentUser } from '@/features/auth/authSlice';
+import { toInputDate } from '@/lib/date';
 import { downloadFile } from '@/lib/downloadFile';
-import { useDeletePostMutation, useGetPostQuery } from '@/services/post';
+import { useDeletePostMutation, useGetPostQuery, useUpdatePostViewCountMutation } from '@/services/post';
 import { PaperClipIcon } from '@heroicons/react/24/outline';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -22,12 +23,20 @@ function Post({ params: { slug: postId } }: Props) {
   const user = useSelector(selectCurrentUser);
   const router = useRouter();
   const [deletePost, { isSuccess: isPostDeleteSuccess}] = useDeletePostMutation();
+  const [updatePostViewCount] = useUpdatePostViewCountMutation();
+
 
   const editor = useEditor({
     extensions: [StarterKit],
     content: '',
     editable: false,
   });
+
+  useEffect(() => {
+    if (data) {
+      updatePostViewCount(data.postId);
+    }
+  }, [data])
 
   useEffect(() => {
     editor?.commands.setContent(data?.content || '');
@@ -105,20 +114,23 @@ function Post({ params: { slug: postId } }: Props) {
           className="w-full border-gray-200 border-2 appearance-none mt-10 p-2 rounded-md active:border-primary resize-none h-24"
           placeholder="댓글을 입력해주세요"
         ></textarea>
-        <div className="bg-primary text-white rounded-md py-3 text-center mt-2">
+        <button className="bg-primary text-white rounded-md py-3 text-center mt-2 w-full">
           댓글쓰기
-        </div>
+        </button>
       </div>
       <div className="mt-12">
-        <div className="border-b-[1px] border-gray-200 pb-4">
-          <div className="font-bold">양명우</div>
-          <div className="mt-1 text-gray-400">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s,
+        {data?.comments?.map((comment) => (
+          <div
+            className="border-b-[1px] border-gray-200 pb-4"
+            key={comment.commentId}
+          >
+            <div className="font-bold">{comment.user.name}</div>
+            <div className="mt-1 text-gray-400">
+              {comment.content}
+            </div>
+            <div className="mt-1 text-gray-400 text-sm">{toInputDate(comment.createDateTime)}</div>
           </div>
-          <div className="mt-1 text-gray-400 text-sm">2023-06-15</div>
-        </div>
+        ))}
       </div>
     </div>
   );

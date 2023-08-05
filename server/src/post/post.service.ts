@@ -109,6 +109,15 @@ export class PostService {
     });
   }
 
+  async updatePostViewCount(postId: number) {
+    const { viewCount } = await this.postRepository.findOneBy({postId});
+    await this.postRepository.update({
+      postId
+    }, {
+      viewCount: viewCount + 1
+    });
+  }
+
   async deletePost(postId: number) {
     await this.postRepository.delete(postId);
   }

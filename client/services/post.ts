@@ -1,6 +1,6 @@
-import { Categories, Category, Posts } from '@/features/post/postSlice';
+import { Categories, Category } from '@/features/post/postSlice';
 import { emptySplitApi } from './base';
-import { PostClient } from '../features/post/postSlice';
+import { Post } from '@/model/post';
 
 export const postApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,19 +16,19 @@ export const postApi = emptySplitApi.injectEndpoints({
       }),
       providesTags: ['Category'],
     }),
-    getPosts: builder.query<Posts, string>({
+    getPosts: builder.query<Post[], string>({
       query: (category) => ({
         url: `/posts?categoryId=${category}`,
       }),
       providesTags: ['Post', 'Category'],
     }),
-    getPost: builder.query<PostClient, string>({
+    getPost: builder.query<Post, string>({
       query: (postId) => ({
         url: `posts/${postId}`,
       }),
       providesTags: ['Post'],
     }),
-    addPost: builder.mutation<PostClient, FormData>({
+    addPost: builder.mutation<Post, FormData>({
       query: (formData) => ({
         url: 'post',
         body: formData,
@@ -36,7 +36,7 @@ export const postApi = emptySplitApi.injectEndpoints({
       }),
       invalidatesTags: ['Post'],
     }),
-    updatePost: builder.mutation<PostClient, { formData: FormData, postId: string }>({
+    updatePost: builder.mutation<Post, { formData: FormData, postId: string }>({
       query: ({ formData, postId }) => ({
         url: `post/${postId}`,
         body: formData,
@@ -44,7 +44,14 @@ export const postApi = emptySplitApi.injectEndpoints({
       }),
       invalidatesTags: ['Post'],
     }),
-    deletePost: builder.mutation<PostClient, number | string>({
+    updatePostViewCount: builder.mutation<Post, string | number>({
+      query: (postId) => ({
+        url: `/post/viewcount/${postId}`,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['Post'],
+    }),
+    deletePost: builder.mutation<Post, number | string>({
       query: (postId) => ({
         url: `post/${postId}`,
         method: 'DELETE',
@@ -60,5 +67,6 @@ export const {
   useGetCategoryByIdQuery,
   useAddPostMutation,
   useUpdatePostMutation,
-  useDeletePostMutation
+  useDeletePostMutation,
+  useUpdatePostViewCountMutation
 } = postApi;

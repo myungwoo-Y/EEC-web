@@ -115,6 +115,11 @@ export class PostsController {
     return { postId };
   }
 
+  @Put('/post/viewcount/:postId')
+  async updateViewCount(@Param('postId') postId: number) {
+    return this.postService.updatePostViewCount(postId);
+  }
+
   @Delete('/post/:postId')
   deletePost(@Param('postId') postId: number) {
     return this.postService.deletePost(postId);

@@ -14,7 +14,9 @@ const slice = createSlice({
   initialState,
   reducers: {
     setClasses: (state, { payload }: PayloadAction<Class[]>) => {
-      state.classes = payload;
+      return {
+        classes: payload
+      };
     }
   }
 })

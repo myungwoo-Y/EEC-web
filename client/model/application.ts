@@ -1,5 +1,15 @@
-import { Application as SApplication } from "@/../server/src/model/application.entity";
+import { Class } from './class';
+import { BaseEntity } from './common';
+import { User } from './user';
 
-export type Application = NestedSwapDatesWithStrings<SApplication>;
+export type Application = {
+  applicationId: number;
 
-export type CheckedApplication = Application & { checked: boolean};
+  classOrder: number;
+
+  class?: Class;
+
+  user?: User;
+} & BaseEntity;
+
+export type CheckedApplication = Application & { checked: boolean };

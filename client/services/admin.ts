@@ -1,9 +1,9 @@
 import { CertificationHistory } from './../model/certification';
 import { emptySplitApi } from './base';
-import { SendMessageDto } from '../../server/src/msg/msg.dto';
 import { CertificationType } from '@/model/certification';
 import { CertificationUser } from '@/model/user';
 import { Application } from '@/model/application';
+import { SendMessageDto } from '@/model/message';
 
 const messageApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({

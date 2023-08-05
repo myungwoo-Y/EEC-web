@@ -1,4 +1,3 @@
-import Curriculum from '@/../server/src/model/curriculum.entity';
 import { Lecture, NewLecture, UpdateLectures } from '@/model/lecture';
 import { emptySplitApi } from './base';
 

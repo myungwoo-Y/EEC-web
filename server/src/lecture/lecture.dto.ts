@@ -11,6 +11,7 @@ export class CreateLectureDto {
   adminId: number;
 }
 
+
 export class SimpleUpdateLectureDto {
   @IsNotEmpty()
   lectureId: number; 

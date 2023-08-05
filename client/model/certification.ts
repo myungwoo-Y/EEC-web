@@ -1,5 +1,5 @@
 import { User } from '@/model/user';
-import { Certification as SCertification } from '../../server/src/model/certification.entity';
+import { BaseEntity } from './common';
 
 export type Certification = {
   issueNumber: string;
@@ -12,7 +12,24 @@ export type Certification = {
 
 export enum CertificationType {
   Normal = 'normal',
-  Course = 'course'
+  Course = 'course',
 }
 
-export type CertificationHistory = NestedSwapDatesWithStrings<SCertification & User>;
+export type CertificationHistory = {
+  certificationId: number;
+
+  title: string;
+
+  issueNumber: number;
+
+  description: string;
+
+  type: CertificationType;
+
+  startDate: string;
+
+  endDate: string;
+
+  certificationDate: string;
+} & User &
+  BaseEntity;

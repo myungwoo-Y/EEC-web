@@ -6,7 +6,7 @@ import { toInputDate } from '@/lib/date';
 import { getCertificationName } from '@/lib/user';
 import { CertificationHistory, CertificationType } from '@/model/certification';
 import { useGetCertificationAllQuery, useRemoveCertificationMutation } from '@/services/admin';
-import { UserIcon,MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+import { UserIcon } from '@heroicons/react/24/solid';
 import dayjs from 'dayjs';
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';

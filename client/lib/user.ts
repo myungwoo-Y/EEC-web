@@ -1,5 +1,5 @@
 import { CertificationType } from '@/model/certification';
-import { User, UserRole } from '@/model/user';
+import { UpdateUser, User, UserRole } from '@/model/user';
 
 export function getUserRoleName(role: UserRole | string | undefined) {
   if (!role) {
@@ -20,13 +20,13 @@ export function getUserRoleName(role: UserRole | string | undefined) {
 }
 
 
-export function filterExisting(updatedUser: Partial<User>, originUser: User | null): Partial<User> {
+export function filterExisting(updatedUser: UpdateUser, originUser: User | null): UpdateUser {
   if (!originUser) {
     return updatedUser;
   }
   
-  const keys = Object.keys(updatedUser) as (keyof Partial<User>)[];
-  return keys.reduce((obj: Partial<User>, key) => {
+  const keys = Object.keys(updatedUser) as (keyof UpdateUser)[];
+  return keys.reduce((obj: UpdateUser, key) => {
     if (originUser[key] !== updatedUser[key] && updatedUser[key]) {
       return {
         [key]: updatedUser[key],

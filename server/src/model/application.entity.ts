@@ -1,7 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import Class from './class.entity';
-import Lecture from './lecture.entity';
 import { User } from './user.entity';
  
 @Entity('application')

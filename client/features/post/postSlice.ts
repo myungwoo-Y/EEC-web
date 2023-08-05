@@ -1,6 +1,6 @@
+import { Post } from '@/model/post';
 import { RootState } from '@/redux/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Post } from '../../../server/src/model/post.entity';
 export type Category = { name: string; categoryId: number };
 export type Categories = Category[];
 export type PostClient = Omit<Post, 'createDateTime'> & { createDateTime: string }
@@ -39,7 +39,7 @@ const slice = createSlice({
     },
     setPosts: (
       state,
-      { payload: { category, posts } }: PayloadAction<SetPost>
+      { payload: { category, posts } }
     ) => {
       state.postsMap[category] = posts;
     },

@@ -1,5 +1,7 @@
-import { User as SUser } from '@/../server/src/model/user.entity';
+import { Application } from './application';
 import { Certification } from './certification';
+import { BaseEntity } from './common';
+import { Lecture } from './lecture';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -7,14 +9,42 @@ export enum UserRole {
   LECTURER = 'lecturer',
 }
 
-export type User = Omit<SUser, 'classOrder' | 'role'> & {
-  classOrder: number | string;
-  role: string;
-};
+export type User = {
+  userId: number;
 
-export type CreateUser = Partial<User>;
+  email: string;
 
-export type UpdateUser = Partial<User>;
+  password: string;
+
+  name: string;
+
+  role: UserRole;
+
+  phoneNumber: string;
+
+  birthday: Date;
+
+  department: string;
+
+  jobLevel: string;
+
+  classOrder: number;
+
+  agreementTerms: boolean;
+
+  lectures: Lecture[];
+
+  certifications: Certification[];
+
+  applications: Application[];
+
+  comments: Comment[];
+} & BaseEntity
+
+
+export type CreateUser = Partial<Omit<User, 'role' | 'classOrder'> & { role: string, classOrder: string | number}>;
+
+export type UpdateUser = Partial<Omit<User, 'role' | 'classOrder'> & { role: string, classOrder: string | number}>;
 
 export type UpdateRegisterStatus = {
   userId: number;

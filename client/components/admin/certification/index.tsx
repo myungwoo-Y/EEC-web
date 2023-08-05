@@ -17,7 +17,7 @@ function Certification() {
   const [filteredUsers, setFilteredUsers] = useState<CertificationUser[]>([]);
   const [certificationType, setCertificationType] = useState<CertificationType>(CertificationType.Normal);
 
-  const { register, getValues } = useForm<Certification>();
+  const { register, getValues } = useForm<Partial<Certification>>();
 
   const onCertificationTypeChange = () => {
     if (certificationType === CertificationType.Normal) {

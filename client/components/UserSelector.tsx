@@ -44,7 +44,7 @@ function UserSelector<T extends CheckedUser>({
             return false;
           }
 
-          if (classOrder && classOrder != user.classOrder) {
+          if (classOrder && parseInt(classOrder) != user.classOrder) {
             return false;
           }
 
@@ -73,7 +73,7 @@ function UserSelector<T extends CheckedUser>({
           return false;
         }
 
-        if (classOrder && classOrder != user.classOrder) {
+        if (classOrder && parseInt(classOrder) != user.classOrder) {
           return false;
         }
 

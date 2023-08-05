@@ -22,18 +22,23 @@ const slice = createSlice({
       state,
       { payload: { user, token } }: PayloadAction<AuthState>
     ) => {
-      state.user = user
-      state.token = token
-
       if (token) {
         localStorage.setItem('token', token);
+      }
+
+      return {
+        user,
+        token
       }
     },
     setUser: (
       state,
       { payload: { user } }: PayloadAction<{ user: User }>
     ) => {
-      state.user = user
+      return {
+        ...state,
+        user,
+      }
     },
     removeCredentials: (state) => {
       state.user = null;

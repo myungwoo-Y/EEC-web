@@ -5,7 +5,6 @@ import Comments from '@/components/Comments';
 import Download from '@/components/Download';
 import { selectCurrentUser } from '@/features/auth/authSlice';
 import { isQuestion } from '@/lib/category';
-import { toInputDate } from '@/lib/date';
 import { UserRole } from '@/model/user';
 import {
   useAnswerPostMutation,
@@ -14,7 +13,7 @@ import {
   useUpdatePostViewCountMutation,
 } from '@/services/post';
 import { EditorContent, useEditor } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
+import StarterKit from '@tiptap/starter-kit';   
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -86,7 +85,7 @@ function Post({ params: { slug: postId } }: Props) {
         <div className="flex gap-2">
           {isAdmin && data && !data?.isAnswer && (
             <button
-              className="text-base bg-green-500 rounded-md text-white p-2 font-semibold"
+              className="text-base bg-green-600 rounded-md text-white p-2 font-semibold"
               onClick={() => answerPost(data.postId)}
             >
               답변완료
@@ -95,16 +94,16 @@ function Post({ params: { slug: postId } }: Props) {
           {(isAdmin || data?.user.userId === user?.userId) && (
             <>
               <button
+                className="text-base bg-red-600 rounded-md text-white p-2 font-semibold"
+                onClick={() => onDelete(data?.postId ?? '')}
+              >
+                삭제하기
+              </button>
+              <button
                 className="text-base bg-gray-400 rounded-md text-white p-2 font-semibold"
                 onClick={onClickUpdate}
               >
                 업데이트
-              </button>
-              <button
-                className="text-base bg-red-500 rounded-md text-white p-2 font-semibold"
-                onClick={() => onDelete(data?.postId ?? '')}
-              >
-                삭제하기
               </button>
             </>
           )}

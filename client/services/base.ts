@@ -6,7 +6,8 @@ export const emptySplitApi = createApi({
   reducerPath: 'baseApi',
   tagTypes: ['Curriculum', 'Lecture', 'Post', 'User', 'Certification', 'Class', 'Application', 'Category'],
   baseQuery: fetchBaseQuery({
-    baseUrl: `${getBaseHost()}`,
+    // baseUrl: `${getBaseHost()}`,
+    baseUrl: 'http://localhost:8080',
     prepareHeaders: (headers, { getState }) => {
       return addTokenToHeader(headers, getState);
     },

@@ -46,11 +46,11 @@ const MenuBar = ({
   editor: Editor | null;
   addTable?: boolean;
 }) => {
-  if (!editor) {
-    return null;
-  }
 
   const setLink = useCallback(() => {
+    if (!editor) {
+      return null;
+    }
     const previousUrl = editor.getAttributes('link').href;
     const url = window.prompt('URL', previousUrl);
 
@@ -69,6 +69,10 @@ const MenuBar = ({
     // update link
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   }, [editor]);
+
+  if (!editor) {
+    return null;
+  }
 
   return (
     <>

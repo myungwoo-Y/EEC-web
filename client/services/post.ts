@@ -58,6 +58,13 @@ export const postApi = emptySplitApi.injectEndpoints({
       }),
       invalidatesTags: ['Post'],
     }),
+    answerPost: builder.mutation<Post, number | string>({
+      query: (postId) => ({
+        url: `post/answer/${postId}`,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['Post'],
+    }),
   }),
 });
 
@@ -68,5 +75,6 @@ export const {
   useAddPostMutation,
   useUpdatePostMutation,
   useDeletePostMutation,
-  useUpdatePostViewCountMutation
+  useUpdatePostViewCountMutation,
+  useAnswerPostMutation
 } = postApi;

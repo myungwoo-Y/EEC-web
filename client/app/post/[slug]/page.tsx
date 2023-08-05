@@ -1,11 +1,17 @@
 'use client';
 
+import AnswerLabel from '@/components/AnswerLabel';
 import Download from '@/components/Download';
 import { selectCurrentUser } from '@/features/auth/authSlice';
+import { isQuestion } from '@/lib/category';
 import { toInputDate } from '@/lib/date';
-import { downloadFile } from '@/lib/downloadFile';
-import { useDeletePostMutation, useGetPostQuery, useUpdatePostViewCountMutation } from '@/services/post';
-import { PaperClipIcon } from '@heroicons/react/24/outline';
+import { UserRole } from '@/model/user';
+import {
+  useAnswerPostMutation,
+  useDeletePostMutation,
+  useGetPostQuery,
+  useUpdatePostViewCountMutation,
+} from '@/services/post';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useRouter } from 'next/navigation';
@@ -22,9 +28,12 @@ function Post({ params: { slug: postId } }: Props) {
   const { data } = useGetPostQuery(postId);
   const user = useSelector(selectCurrentUser);
   const router = useRouter();
-  const [deletePost, { isSuccess: isPostDeleteSuccess}] = useDeletePostMutation();
+  const [deletePost, { isSuccess: isPostDeleteSuccess }] =
+    useDeletePostMutation();
   const [updatePostViewCount] = useUpdatePostViewCountMutation();
-
+  const [answerPost, { isSuccess: isAnswerSuccess}] = useAnswerPostMutation();
+  const isQuestionPost = isQuestion(data?.category.name);
+  const isAdmin = user?.role === UserRole.ADMIN;
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -36,7 +45,7 @@ function Post({ params: { slug: postId } }: Props) {
     if (data) {
       updatePostViewCount(data.postId);
     }
-  }, [data])
+  }, [data]);
 
   useEffect(() => {
     editor?.commands.setContent(data?.content || '');
@@ -44,10 +53,16 @@ function Post({ params: { slug: postId } }: Props) {
 
   useEffect(() => {
     if (isPostDeleteSuccess) {
-      alert('삭제를 완료했습니다.')
-      router.push(`category/${data?.category.categoryId}`)
+      alert('삭제를 완료했습니다.');
+      router.push(`category/${data?.category.categoryId}`);
     }
-  }, [isPostDeleteSuccess])
+  }, [isPostDeleteSuccess]);
+
+  useEffect(() => {
+    if (isAnswerSuccess) {
+      alert('답변을 완료처리했습니다.')
+    }
+  }, [isAnswerSuccess]);
 
   const onClickUpdate = () => {
     router.push(`/post/${postId}/update`);
@@ -57,34 +72,50 @@ function Post({ params: { slug: postId } }: Props) {
     if (confirm('삭제하시겠습니까?')) {
       deletePost(postId);
     }
-  }
+  };
+
 
   return (
     <div className="pt-10 px-12">
       <div className="font-bold text-2xl w-full flex justify-between">
         {data?.category.name}
         <div className="flex gap-2">
-          {data?.user.userId === user?.userId && (
+          {isAdmin && data && !data?.isAnswer && (
             <button
-              className="text-base bg-red-500 rounded-md text-white p-2 font-semibold"
-              onClick={() => onDelete(data?.postId ?? '')}
+              className="text-base bg-green-500 rounded-md text-white p-2 font-semibold"
+              onClick={() => answerPost(data.postId)}
             >
-              삭제하기
+              답변완료
             </button>
           )}
-          <button
-            className="text-base bg-gray-400 rounded-md text-white p-2 font-semibold"
-            onClick={onClickUpdate}
-          >
-            업데이트
-          </button>
+          {(isAdmin || data?.user.userId === user?.userId) && (
+            <>
+              <button
+                className="text-base bg-gray-400 rounded-md text-white p-2 font-semibold"
+                onClick={onClickUpdate}
+              >
+                업데이트
+              </button>
+              <button
+                className="text-base bg-red-500 rounded-md text-white p-2 font-semibold"
+                onClick={() => onDelete(data?.postId ?? '')}
+              >
+                삭제하기
+              </button>
+            </>
+          )}
         </div>
       </div>
       <div className="bg-gray-100 py-4 flex items-center border-t-[1px] border-t-black mt-10">
-        <div className="w-full text-xl font-semibold text-center">
+        <div className="w-full items-center text-xl font-semibold text-center">
           {data?.title}
         </div>
-        <div className="flex-shrink-0 pr-4">
+        <div className="flex-shrink-0 pr-4 flex items-center">
+          <div>
+            {isQuestionPost && data && (
+              <AnswerLabel className="mx-2" post={data} />
+            )}
+          </div>
           {data?.createDateTime.substr(0, 10)}
         </div>
       </div>
@@ -115,7 +146,7 @@ function Post({ params: { slug: postId } }: Props) {
           placeholder="댓글을 입력해주세요"
         ></textarea>
         <button className="bg-primary text-white rounded-md py-3 text-center mt-2 w-full">
-          댓글쓰기
+          {isAdmin ? '답변작성' : '댓글작성'}
         </button>
       </div>
       <div className="mt-12">
@@ -125,10 +156,10 @@ function Post({ params: { slug: postId } }: Props) {
             key={comment.commentId}
           >
             <div className="font-bold">{comment.user.name}</div>
-            <div className="mt-1 text-gray-400">
-              {comment.content}
+            <div className="mt-1 text-gray-400">{comment.content}</div>
+            <div className="mt-1 text-gray-400 text-sm">
+              {toInputDate(comment.createDateTime)}
             </div>
-            <div className="mt-1 text-gray-400 text-sm">{toInputDate(comment.createDateTime)}</div>
           </div>
         ))}
       </div>

@@ -118,6 +118,14 @@ export class PostService {
     });
   }
 
+  async answerPost(postId: number) {
+    await this.postRepository.update({
+      postId
+    }, {
+      isAnswer: true
+    });
+  }
+
   async deletePost(postId: number) {
     await this.postRepository.delete(postId);
   }

@@ -1,7 +1,8 @@
 'use client';
 
-import AnswerButton from '@/components/AnswerButton';
+import AnswerLabel from '@/components/AnswerLabel';
 import { selectCurrentCategoryName } from '@/features/post/postSlice';
+import { isQuestion } from '@/lib/category';
 import { postApi } from '@/services/post';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -18,6 +19,8 @@ function Page({ params: { slug: categoryId } }: Props) {
   const { data } = postApi.useGetPostsQuery(categoryId);
   const router = useRouter()
 
+  const isQuestionPost = isQuestion(category);
+
   return (
     <div className="pt-10 px-12">
       <div className="font-bold text-2xl">{category}</div>
@@ -28,7 +31,7 @@ function Page({ params: { slug: categoryId } }: Props) {
             <th className="w-3/5">제목</th>
             <th>작성자</th>
             <th>등록일</th>
-            <th>{category === 'Q&A' ? '처리결과' : '조회수'}</th>
+            <th>{isQuestionPost ? '처리결과' : '조회수'}</th>
           </tr>
         </thead>
         <tbody>
@@ -45,7 +48,7 @@ function Page({ params: { slug: categoryId } }: Props) {
                 {post.createDateTime?.slice(0, 10)}
               </td>
               <td className="text-center">
-                {category !== 'Q&A' ? post.viewCount : <AnswerButton post={post} />}
+                {!isQuestionPost ? post.viewCount : <AnswerLabel post={post} />}
               </td>
             </tr>
           ))}
@@ -55,7 +58,7 @@ function Page({ params: { slug: categoryId } }: Props) {
         className="float-right w-24 bg-primary px-3 py-2 text-white ml-auto text-center rounded-md mt-10"
         onClick={() => router.push(window.location.href + '/create')}
       >
-        {category === 'Q&A' ? '질문하기' : '작성하기'}
+        {isQuestionPost ? '질문하기' : '작성하기'}
       </button>
     </div>
   );

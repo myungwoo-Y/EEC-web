@@ -2,13 +2,13 @@ import { Post } from '@/model/post';
 import classNames from 'classnames';
 import React from 'react'
 
-type AnswerButtonProps = {
+type AnswerLabelProps = {
   post: Post
   className?: string;
   onClick?: () => void
 }
 
-function AnswerButton({ post, onClick, className = '' }: AnswerButtonProps) {
+function AnswerLabel({ post, onClick, className = '' }: AnswerLabelProps) {
   return (
     <button 
       className={classNames(`${post.isAnswer ? 'border-primary text-primary' : 'border-red-500 text-red-500'} border-[1px] text-center py-1 px-2 rounded-md`, className)}
@@ -19,4 +19,4 @@ function AnswerButton({ post, onClick, className = '' }: AnswerButtonProps) {
   )
 }
 
-export default AnswerButton
+export default AnswerLabel

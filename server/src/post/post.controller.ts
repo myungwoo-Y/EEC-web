@@ -115,6 +115,11 @@ export class PostsController {
     return { postId };
   }
 
+  @Put('/post/answer/:postId')
+  async answerPost(@Param('postId') postId: number) {
+    return this.postService.answerPost(postId);
+  }
+
   @Put('/post/viewcount/:postId')
   async updateViewCount(@Param('postId') postId: number) {
     return this.postService.updatePostViewCount(postId);

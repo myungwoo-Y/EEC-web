@@ -7,10 +7,11 @@ import { Post } from 'src/model/post.entity';
 import FileService from 'src/file/file.service';
 import { FileModule } from 'src/file/file.module';
 import File from 'src/model/file.entity';
+import { Comment } from 'src/model/comment.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Post, PostCategory, File]),
+    TypeOrmModule.forFeature([Post, PostCategory, File, Comment]),
     FileModule,
   ],
   providers: [PostService, FileService],

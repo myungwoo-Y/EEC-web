@@ -32,3 +32,27 @@ export class UpdatePostDto {
   @IsString()
   categoryId: number;
 }
+
+export class CreateCommentDto {
+  @IsNotEmpty()
+  @IsString()
+  content: string;
+
+  @IsNotEmpty()
+  @IsString()
+  postId: number;
+
+  @IsNotEmpty()
+  @IsString()
+  userId: number;
+}
+
+export class UpdateCommentDto {
+  @IsNotEmpty()
+  @IsString()
+  content: string;
+
+  @IsNotEmpty()
+  @IsString()
+  commentId: string;
+}

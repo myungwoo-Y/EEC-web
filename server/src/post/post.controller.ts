@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   MaxFileSizeValidator,
   Param,
@@ -16,7 +17,7 @@ import {
 import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 import { PostService } from './post.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { CreatePostDto, UpdatePostDto } from './post.dto';
+import { CreateCommentDto, CreatePostDto, UpdateCommentDto, UpdatePostDto } from './post.dto';
 import FileService from 'src/file/file.service';
 
 @Controller()
@@ -112,5 +113,25 @@ export class PostsController {
     });
 
     return { postId };
+  }
+
+  @Delete('/post/:postId')
+  deletePost(@Param('postId') postId: number) {
+    return this.postService.deletePost(postId);
+  }
+
+  @Post('/comment')
+  createComment(@Body() createCommentDto: CreateCommentDto) {
+    return this.postService.createComment(createCommentDto);
+  }
+
+  @Put('/comment/content')
+  updateContentInComment(@Body() updateCommentDto: UpdateCommentDto) {
+    return this.postService.updateContentInComment(updateCommentDto);
+  }
+
+  @Delete('/comment/:commentId')
+  deleteComment(@Param('commentId') commentId: string) {
+    return this.postService.deleteComment(commentId);
   }
 }

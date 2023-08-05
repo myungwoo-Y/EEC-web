@@ -8,25 +8,25 @@ export const postApi = emptySplitApi.injectEndpoints({
       query: () => ({
         url: 'categories',
       }),
-      providesTags: ['Lecture'],
+      providesTags: ['Category'],
     }),
     getCategoryById: builder.query<Category, string>({
       query: (id) => ({
         url: `categories/${id}`,
       }),
-      providesTags: ['Lecture'],
+      providesTags: ['Category'],
     }),
     getPosts: builder.query<Posts, string>({
       query: (category) => ({
-        url: `posts?categoryId=${category}`,
+        url: `/posts?categoryId=${category}`,
       }),
-      providesTags: ['Lecture'],
+      providesTags: ['Post', 'Category'],
     }),
     getPost: builder.query<PostClient, string>({
       query: (postId) => ({
         url: `posts/${postId}`,
       }),
-      providesTags: ['Lecture'],
+      providesTags: ['Post'],
     }),
     addPost: builder.mutation<PostClient, FormData>({
       query: (formData) => ({
@@ -34,7 +34,7 @@ export const postApi = emptySplitApi.injectEndpoints({
         body: formData,
         method: 'POST',
       }),
-      invalidatesTags: ['Lecture'],
+      invalidatesTags: ['Post'],
     }),
     updatePost: builder.mutation<PostClient, { formData: FormData, postId: string }>({
       query: ({ formData, postId }) => ({
@@ -42,7 +42,14 @@ export const postApi = emptySplitApi.injectEndpoints({
         body: formData,
         method: 'PUT',
       }),
-      invalidatesTags: ['Lecture'],
+      invalidatesTags: ['Post'],
+    }),
+    deletePost: builder.mutation<PostClient, number | string>({
+      query: (postId) => ({
+        url: `post/${postId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Post'],
     }),
   }),
 });
@@ -52,5 +59,6 @@ export const {
   useGetPostQuery,
   useGetCategoryByIdQuery,
   useAddPostMutation,
-  useUpdatePostMutation
+  useUpdatePostMutation,
+  useDeletePostMutation
 } = postApi;

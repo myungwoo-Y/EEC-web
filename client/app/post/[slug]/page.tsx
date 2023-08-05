@@ -1,13 +1,15 @@
 'use client';
 
 import Download from '@/components/Download';
+import { selectCurrentUser } from '@/features/auth/authSlice';
 import { downloadFile } from '@/lib/downloadFile';
-import { useGetPostQuery } from '@/services/post';
+import { useDeletePostMutation, useGetPostQuery } from '@/services/post';
 import { PaperClipIcon } from '@heroicons/react/24/outline';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 type Props = {
   params: {
@@ -17,35 +19,57 @@ type Props = {
 
 function Post({ params: { slug: postId } }: Props) {
   const { data } = useGetPostQuery(postId);
+  const user = useSelector(selectCurrentUser);
   const router = useRouter();
+  const [deletePost, { isSuccess: isPostDeleteSuccess}] = useDeletePostMutation();
 
   const editor = useEditor({
-    extensions: [
-      StarterKit
-    ],
+    extensions: [StarterKit],
     content: '',
     editable: false,
   });
 
   useEffect(() => {
     editor?.commands.setContent(data?.content || '');
-  }, [data, editor])
+  }, [data, editor]);
+
+  useEffect(() => {
+    if (isPostDeleteSuccess) {
+      alert('삭제를 완료했습니다.')
+      router.push(`category/${data?.category.categoryId}`)
+    }
+  }, [isPostDeleteSuccess])
 
   const onClickUpdate = () => {
     router.push(`/post/${postId}/update`);
-  }
+  };
 
+  const onDelete = (postId: number | string) => {
+    if (confirm('삭제하시겠습니까?')) {
+      deletePost(postId);
+    }
+  }
 
   return (
     <div className="pt-10 px-12">
       <div className="font-bold text-2xl w-full flex justify-between">
         {data?.category.name}
-        <button 
-          className="text-base bg-gray-400 rounded-md text-white p-2 font-semibold"
-          onClick={onClickUpdate}
-        >
-          업데이트
-        </button>
+        <div className="flex gap-2">
+          {data?.user.userId === user?.userId && (
+            <button
+              className="text-base bg-red-500 rounded-md text-white p-2 font-semibold"
+              onClick={() => onDelete(data?.postId ?? '')}
+            >
+              삭제하기
+            </button>
+          )}
+          <button
+            className="text-base bg-gray-400 rounded-md text-white p-2 font-semibold"
+            onClick={onClickUpdate}
+          >
+            업데이트
+          </button>
+        </div>
       </div>
       <div className="bg-gray-100 py-4 flex items-center border-t-[1px] border-t-black mt-10">
         <div className="w-full text-xl font-semibold text-center">
@@ -58,15 +82,17 @@ function Post({ params: { slug: postId } }: Props) {
       <div className="border-t-[1px] border-x-[1px] border-gray-200 px-4 py-2">
         작성자: {data?.user.name}
       </div>
-      <div className="border-y-[1px] border-x-[1px] border-gray-200 px-4 py-4">
-        {data?.files.map((file) => (
-          <Download
-            key={file.fileId}
-            fileName={file.filename}
-            path={file.path}
-          />
-        ))}
-      </div>
+      {!!data?.files.length && (
+        <div className="border-y-[1px] border-x-[1px] border-gray-200 px-4 py-4">
+          {data?.files.map((file) => (
+            <Download
+              key={file.fileId}
+              fileName={file.filename}
+              path={file.path}
+            />
+          ))}
+        </div>
+      )}
       <div className="border-y-[1px] border-x-[1px] border-gray-200 px-4 py-4">
         <EditorContent editor={editor} />
       </div>

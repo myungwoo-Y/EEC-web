@@ -49,6 +49,13 @@ function Page({ params: { slug: postId } }: Props) {
   };
 
   useEffect(() => {
+    if (isSuccess) {
+      alert('수정을 완료했습니다.');
+      router.push(`/category/${post?.category.categoryId}`)
+    }
+  }, [isSuccess])
+
+  useEffect(() => {
     if (post) {
       reset({
         title: post?.title,
@@ -94,8 +101,8 @@ function Page({ params: { slug: postId } }: Props) {
                 <option value='' disabled>
                   공개 여부를 선택해주세요
                 </option>
-                <option value="true" selected={post?.isOpen ? true : false}>전체공개</option>
-                <option value="false" selected={post?.isOpen ? false : true}>비공개</option>
+                <option value="true">전체공개</option>
+                <option value="false">비공개</option>
               </Select>
             </td>
           </tr>

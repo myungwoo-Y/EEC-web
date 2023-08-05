@@ -14,7 +14,7 @@ export class Comment extends BaseEntity {
   commentId: string;
 
   @Column({ type: 'varchar', length: 500 })
-  contents: string;
+  content: string;
 
   @ManyToOne((type) => User, (user) => user.comments, {
     cascade: true,

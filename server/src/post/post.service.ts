@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Comment } from 'src/model/comment.entity';
 import { Post } from 'src/model/post.entity';
 import { PostCategory } from 'src/model/postCategory.entity';
 import { Repository } from 'typeorm';
-import { CreatePostDto, UpdatePostDto } from './post.dto';
+import { CreateCommentDto, CreatePostDto, UpdateCommentDto, UpdatePostDto } from './post.dto';
 
 @Injectable()
 export class PostService {
@@ -12,6 +13,8 @@ export class PostService {
     private postRepository: Repository<Post>,
     @InjectRepository(PostCategory)
     private postCategoryRepository: Repository<PostCategory>,
+    @InjectRepository(Comment)
+    private commentRepository: Repository<Comment>,
   ) {}
 
   createCategory(name: string) {
@@ -65,9 +68,11 @@ export class PostService {
         user: {
           name: true,
           role: true,
+          userId: true,
         },
         category: {
           name: true,
+          categoryId: true,
         },
         files: true
       },
@@ -101,6 +106,34 @@ export class PostService {
     await this.postRepository.update(updatePost.postId, {
       title: updatePost.title,
       content: updatePost.content,
+    });
+  }
+
+  async deletePost(postId: number) {
+    await this.postRepository.delete(postId);
+  }
+
+  async updateContentInComment(updateCommentDto: UpdateCommentDto) {
+    const { content, commentId } = updateCommentDto;
+    return this.commentRepository.update(commentId, {
+      content
+    });
+  }
+
+  async deleteComment(commentId: string) {
+    return this.commentRepository.delete(commentId);
+  }
+
+  async createComment(createCommentDto: CreateCommentDto) {
+    const { userId, postId, content } = createCommentDto;
+    return this.commentRepository.insert({
+      content,
+      user: {
+        userId 
+      },
+      post: {
+        postId
+      }
     });
   }
 }

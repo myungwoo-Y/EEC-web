@@ -34,7 +34,7 @@ export class Post extends BaseEntity {
   @JoinColumn({ name: 'categoryId', referencedColumnName: 'categoryId' })
   category: PostCategory;
 
-  @OneToMany(() => File, (file) => file.post)
+  @OneToMany(() => File, (file) => file.post, { cascade: true })
   files: File[]
 
   @OneToMany((type) => Comment, (comment) => comment.post)

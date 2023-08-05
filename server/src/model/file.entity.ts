@@ -26,7 +26,9 @@ class File extends BaseEntity {
   mimetype: string;
 
   @JoinColumn({ name: 'postId', referencedColumnName: 'postId' })
-  @ManyToOne(() => Post)
+  @ManyToOne(() => Post, {
+    onDelete: 'CASCADE'
+  })
   public post?: Post;
 
   @JoinColumn({ name: 'classId', referencedColumnName: 'classId' })

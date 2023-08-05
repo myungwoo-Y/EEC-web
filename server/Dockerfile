@@ -1,0 +1,25 @@
+FROM node:18-alpine3.15
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN apk add --no-cache --virtual .gyp \
+        make \
+        python2 \
+        python3 \
+        pkgconfig \
+        g++ \
+        build-base \
+        cairo-dev \
+        jpeg-dev \
+        pango-dev \
+        giflib-dev
+        
+RUN npm ci
+
+COPY . .
+
+RUN npm run build
+
+CMD [ "node", "dist/main.js" ]

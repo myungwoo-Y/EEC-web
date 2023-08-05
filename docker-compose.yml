@@ -1,0 +1,13 @@
+# We use "3" because it's the last version at this time.
+version: "3"
+services:
+  server:
+    build: ./server
+    container_name: server
+    volumes:
+      - .:/usr/app
+    command: npm run start:dev
+    env_file:
+      - ./server/.env
+    ports:
+      - 8080:8080

@@ -88,6 +88,11 @@ export class PostService {
           user: true
         },
       },
+      order: {
+        comments: {
+          createDateTime: 'ASC'
+        }
+      }
     });
   }
 

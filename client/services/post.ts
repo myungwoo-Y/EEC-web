@@ -73,6 +73,21 @@ export const postApi = emptySplitApi.injectEndpoints({
       }),
       invalidatesTags: ['Post'],
     }),
+    updateComment: builder.mutation<Post, { content: string, commentId: string }>({
+      query: (body) => ({
+        url: '/comment/content',
+        method: 'PUT',
+        body
+      }),
+      invalidatesTags: ['Post'],
+    }),
+    deleteComment: builder.mutation<Post, string>({
+      query: (commentId) => ({
+        url: `/comment/${commentId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Post'],
+    }),
   }),
 });
 
@@ -85,5 +100,7 @@ export const {
   useDeletePostMutation,
   useUpdatePostViewCountMutation,
   useAnswerPostMutation,
-  useAddCommentMutation
+  useAddCommentMutation,
+  useUpdateCommentMutation,
+  useDeleteCommentMutation
 } = postApi;

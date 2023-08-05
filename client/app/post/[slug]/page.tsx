@@ -54,8 +54,8 @@ function Post({ params: { slug: postId } }: Props) {
 
   useEffect(() => {
     if (isPostDeleteSuccess) {
-      alert('삭제를 완료했습니다.');
       router.push(`category/${data?.category.categoryId}`);
+      alert('삭제를 완료했습니다.');
     }
   }, [isPostDeleteSuccess]);
 
@@ -74,6 +74,10 @@ function Post({ params: { slug: postId } }: Props) {
       deletePost(postId);
     }
   };
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <div className="pt-10 px-12">

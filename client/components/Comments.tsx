@@ -1,5 +1,4 @@
 import { selectCurrentUser } from '@/features/auth/authSlice';
-import { toInputDate } from '@/lib/date';
 import { Comment } from '@/model/post';
 import { UserRole } from '@/model/user';
 import { useAddCommentMutation } from '@/services/post';

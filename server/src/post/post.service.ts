@@ -74,6 +74,7 @@ export class PostService {
           name: true,
           categoryId: true,
         },
+        comments: true,
         files: true
       },
       where: {
@@ -83,6 +84,9 @@ export class PostService {
         category: true,
         user: true,
         files: true,
+        comments: {
+          user: true
+        },
       },
     });
   }

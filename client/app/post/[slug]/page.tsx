@@ -1,6 +1,7 @@
 'use client';
 
 import AnswerLabel from '@/components/AnswerLabel';
+import Comments from '@/components/Comments';
 import Download from '@/components/Download';
 import { selectCurrentUser } from '@/features/auth/authSlice';
 import { isQuestion } from '@/lib/category';
@@ -31,7 +32,7 @@ function Post({ params: { slug: postId } }: Props) {
   const [deletePost, { isSuccess: isPostDeleteSuccess }] =
     useDeletePostMutation();
   const [updatePostViewCount] = useUpdatePostViewCountMutation();
-  const [answerPost, { isSuccess: isAnswerSuccess}] = useAnswerPostMutation();
+  const [answerPost, { isSuccess: isAnswerSuccess }] = useAnswerPostMutation();
   const isQuestionPost = isQuestion(data?.category.name);
   const isAdmin = user?.role === UserRole.ADMIN;
 
@@ -60,7 +61,7 @@ function Post({ params: { slug: postId } }: Props) {
 
   useEffect(() => {
     if (isAnswerSuccess) {
-      alert('답변을 완료처리했습니다.')
+      alert('답변을 완료처리했습니다.');
     }
   }, [isAnswerSuccess]);
 
@@ -73,7 +74,6 @@ function Post({ params: { slug: postId } }: Props) {
       deletePost(postId);
     }
   };
-
 
   return (
     <div className="pt-10 px-12">
@@ -137,31 +137,7 @@ function Post({ params: { slug: postId } }: Props) {
         <EditorContent editor={editor} />
       </div>
       <div className="mt-12">
-        <textarea
-          id="story"
-          name="story"
-          rows={5}
-          cols={20}
-          className="w-full border-gray-200 border-2 appearance-none mt-10 p-2 rounded-md active:border-primary resize-none h-24"
-          placeholder="댓글을 입력해주세요"
-        ></textarea>
-        <button className="bg-primary text-white rounded-md py-3 text-center mt-2 w-full">
-          {isAdmin ? '답변작성' : '댓글작성'}
-        </button>
-      </div>
-      <div className="mt-12">
-        {data?.comments?.map((comment) => (
-          <div
-            className="border-b-[1px] border-gray-200 pb-4"
-            key={comment.commentId}
-          >
-            <div className="font-bold">{comment.user.name}</div>
-            <div className="mt-1 text-gray-400">{comment.content}</div>
-            <div className="mt-1 text-gray-400 text-sm">
-              {toInputDate(comment.createDateTime)}
-            </div>
-          </div>
-        ))}
+        {data && <Comments postId={data.postId} comments={data.comments ?? []} />}
       </div>
     </div>
   );

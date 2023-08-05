@@ -1,5 +1,6 @@
 import { Column, Entity, Generated, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from './base.entity';
+import { Comment } from './comment.entity';
 import File from './file.entity';
 import { PostCategory } from './postCategory.entity';
 import { User } from './user.entity';
@@ -35,4 +36,7 @@ export class Post extends BaseEntity {
 
   @OneToMany(() => File, (file) => file.post)
   files: File[]
+
+  @OneToMany((type) => Comment, (comment) => comment.post)
+  comments: Comment[];
 }

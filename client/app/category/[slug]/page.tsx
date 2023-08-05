@@ -23,8 +23,8 @@ function Page({ params: { slug: categoryId } }: Props) {
       <div className="font-bold text-2xl">{category}</div>
       <table className="w-full mt-10">
         <thead>
-          <tr className="border-t-2 border-t-black border-b-[1px] bg-gray-100">
-            <th className="py-1">번호</th>
+          <tr className="border-t-2 border-t-black border-b-[1px] bg-gray-50">
+            <th className="py-3">번호</th>
             <th className="w-3/5">제목</th>
             <th>작성자</th>
             <th>등록일</th>
@@ -37,7 +37,7 @@ function Page({ params: { slug: categoryId } }: Props) {
               className="border-y-[1px] hover:bg-gray-50"
               onClick={() => router.push(`/post/${post.postId}`)}
             >
-              <td className="text-center py-2">{post.postId}</td>
+              <td className="text-center py-3">{post.postId}</td>
               <td>{post.title}</td>
               <td className="text-center">{post?.user?.name}</td>
               <td className="text-center">

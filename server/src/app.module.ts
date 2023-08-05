@@ -18,13 +18,14 @@ import { CertificationModule } from './certification/certification.module';
 import Class from './model/class.entity';
 import { Application } from './model/application.entity';
 import { ApplicationModule } from './application/application.module';
+import { Comment } from './model/comment.entity';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(process.cwd(), '/upload/'),
     }),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
-    TypeOrmModule.forFeature([User, Class, Application]),
+    TypeOrmModule.forFeature([User, Class, Application, Comment, Comment]),
     UserModule,
     AuthModule,
     PostModule,

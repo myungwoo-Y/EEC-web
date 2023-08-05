@@ -1,22 +1,28 @@
 import { Certification } from './certification.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { BaseEntity } from "./base.entity";
-import Lecture from "./lecture.entity";
-import Class from './class.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { BaseEntity } from './base.entity';
+import Lecture from './lecture.entity';
 import { Application } from './application.entity';
+import { Comment } from './comment.entity';
 
 export enum UserRole {
-  ADMIN = "admin",
-  STUDENT = "student",
-  LECTURER = "lecturer"
+  ADMIN = 'admin',
+  STUDENT = 'student',
+  LECTURER = 'lecturer',
 }
-
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
-  @Column({ type: 'integer'})
+  @Column({ type: 'integer' })
   @PrimaryGeneratedColumn('increment')
-  userId: number
+  userId: number;
 
   @Column({ type: 'varchar', length: 300 })
   email: string;
@@ -28,9 +34,9 @@ export class User extends BaseEntity {
   name: string;
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: UserRole,
-    default: UserRole.STUDENT
+    default: UserRole.STUDENT,
   })
   role: UserRole;
 
@@ -49,7 +55,7 @@ export class User extends BaseEntity {
   @Column({ type: 'integer', default: 1 })
   classOrder: number;
 
-  @Column({ type: 'boolean', default: true }) 
+  @Column({ type: 'boolean', default: true })
   agreementTerms: boolean;
 
   @OneToMany((type) => Lecture, (lecture) => lecture.admin)
@@ -62,4 +68,7 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => Application, (application) => application.user)
   applications: Application[];
+
+  @OneToMany((type) => Comment, (comment) => comment.user)
+  comments: Comment[];
 }

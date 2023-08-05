@@ -1,7 +1,7 @@
 FROM node:18-alpine3.15
 
-WORKDIR /usr/src/app
-
+WORKDIR /app
+VOLUME ["/app"]
 COPY package*.json ./
 
 RUN apk add --no-cache --virtual .gyp \

@@ -2,7 +2,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { config } from 'dotenv';
 import { join } from 'path';
 
-const envPath = process.env.NODE_ENV === 'PROD' ? '.env.prod' : '.env';
+const envPath = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env';
 
 config({ path: join(process.cwd(), envPath)});
 class ConfigService {

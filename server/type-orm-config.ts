@@ -11,7 +11,7 @@ import Lecture from 'src/model/lecture.entity';
 import { Application } from 'src/model/application.entity';
 import { Comment } from 'src/model/comment.entity';
 
-const isProd = process.env.NODE_ENV === 'PROD';
+const isProd = process.env.NODE_ENV === 'production';
 
 export default new DataSource({
   type: 'postgres',

@@ -5,13 +5,13 @@ services:
     container_name: eec-server
     volumes:
       - /app/server
-    command: npm run start
+    command: npm run start:pm2-runtime
     env_file:
       - ./server/.env.prod
     ports:
       - 8080:8080
     environment:
-      NODE_ENV: PROD
+      NODE_ENV: production
   client:
     build: ./client
     container_name: eec-client
@@ -23,6 +23,6 @@ services:
     ports:
       - 3000:3000
     environment:
-      NODE_ENV: PROD
+      NODE_ENV: production
     depends_on:
       - server

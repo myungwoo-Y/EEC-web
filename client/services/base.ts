@@ -7,7 +7,7 @@ export const emptySplitApi = createApi({
   tagTypes: ['Curriculum', 'Lecture', 'Post', 'User', 'Certification', 'Class', 'Application', 'Category'],
   baseQuery: fetchBaseQuery({
     // baseUrl: `${getBaseHost()}`,
-    baseUrl: process.env.NEXT_PUBLIC_SERVER_HOST,
+    baseUrl: `http://${typeof window !== "undefined" && window?.location?.hostname}:8080`,
     prepareHeaders: (headers, { getState }) => {
       return addTokenToHeader(headers, getState);
     },

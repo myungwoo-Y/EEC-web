@@ -1,7 +1,7 @@
 FROM node:18-alpine3.15
 
-WORKDIR /app
-VOLUME ["/app"]
+WORKDIR /app/server
+
 COPY package*.json ./
 
 RUN apk add --no-cache --virtual .gyp \
@@ -21,5 +21,7 @@ RUN npm ci
 COPY . .
 
 RUN npm run build
+RUN npm install pm2 -g
+
 EXPOSE 8080
-CMD [ "node", "dist/main.js" ]
+CMD [ "pm2", "start", "dist/src/main.js", "--name" "eec-server" ]

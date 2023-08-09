@@ -92,8 +92,8 @@ export default function Page() {
             >
               <div className="flex">
                 <Image
-                  width={256}
-                  height={50}
+                  width={140}
+                  height={100}
                   src={data.thumbnailImage.path}
                   alt={data.title}
                   className="rounded-md"
@@ -114,7 +114,7 @@ export default function Page() {
                   </div>
                   <div>
                     <div className="flex items-center">
-                      <BookOpenIcon width={16} className="mr-1" /> 구성 과목
+                      <BookOpenIcon width={16} className="mr-1" /> 구성 설명
                     </div>
                     <p className="text-gray-400">{data.description}</p>
                   </div>

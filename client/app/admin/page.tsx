@@ -10,7 +10,7 @@ const menus = [
   '회원 관리',
   '증명서 발급',
   '증명서 발급내역',
-  '교육생관리',
+  // '교육생관리',
   '교과목관리',
 ];
 
@@ -27,8 +27,8 @@ function Admin() {
         return <ResultTable />;
       case 3:
         return <ClassManagement />;
-      case 4:
-        return <ClassManagement />;
+      // case 4:
+      //   return <ClassManagement />;
     }
 
     return null;

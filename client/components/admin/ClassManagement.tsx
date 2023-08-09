@@ -24,7 +24,7 @@ function ClassManagement() {
   const { data: curriculums } = useGetCurriculumsQuery(
     {
       classOrder: parseInt(classOrder || '0'),
-      classId: classes?.[classIdx].classId || 0,
+      classId: classes?.[classIdx]?.classId || 0,
     },
     { skip: !classOrder || !classes }
   );
@@ -43,7 +43,7 @@ function ClassManagement() {
       return;
     }
 
-    if (!classes) {
+    if (!classes?.length) {
       alert('과정을 추가해주세요');
       return;
     }

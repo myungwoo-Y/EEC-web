@@ -1,8 +1,16 @@
-"use client"
+'use client';
 
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { HomeIcon, ClipboardDocumentListIcon, PencilIcon, PresentationChartBarIcon, DocumentMagnifyingGlassIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
+import {
+  HomeIcon,
+  ClipboardDocumentListIcon,
+  PencilIcon,
+  PresentationChartBarIcon,
+  DocumentMagnifyingGlassIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import { useGetCategoriesQuery } from '@/services/post';
 import { useDispatch } from 'react-redux';
@@ -10,9 +18,8 @@ import { setCategories } from '@/features/post/postSlice';
 import { useGetClassesQuery } from '@/services/class';
 import { setClasses } from '@/features/class/classSlice';
 
-
 function SideBar() {
-  const { data: categories } = useGetCategoriesQuery('');
+  const { data: categories } = useGetCategoriesQuery();
   const { data: classes } = useGetClassesQuery();
   const [selectedMenu, setSelectedMenu] = useState<'' | 'board' | 'class'>('');
   const dispatch = useDispatch();
@@ -21,13 +28,13 @@ function SideBar() {
   const isSelectClass = selectedMenu === 'class';
 
   useEffect(() => {
-    dispatch(setCategories({categories: categories || []}));
-  }, [categories, dispatch])
+    dispatch(setCategories({ categories: categories || [] }));
+  }, [categories, dispatch]);
 
   useEffect(() => {
     dispatch(setClasses(classes || []));
-  }, [classes, dispatch])
-  
+  }, [classes, dispatch]);
+
   return (
     <div className="bg-secondary min-h-screen">
       <div className="px-8 pt-10 mb-16">
@@ -79,6 +86,22 @@ function SideBar() {
             </Link>
           );
         })}
+      {isSelectClass && (
+        <>
+          <Link
+            href={`/category/4`}
+            className="flex text-[16px] text-white items-center mx-3 px-3 pl-10 py-3 hover:bg-primary rounded-xl"
+          >
+            자료실
+          </Link>
+          <Link
+            href={`/category/5`}
+            className="flex text-[16px] text-white items-center mx-3 px-3 pl-10 py-3 hover:bg-primary rounded-xl"
+          >
+            교육수료심사
+          </Link>
+        </>
+      )}
       <div
         className="flex text-[16px] text-white items-center justify-between  my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl"
         onClick={() => setSelectedMenu(isSelectBoard ? '' : 'board')}
@@ -95,7 +118,8 @@ function SideBar() {
       </div>
       {isSelectBoard &&
         categories &&
-        categories.map((category) => {
+        categories.map((category, idx) => {
+          if (idx > 2) return null;
           return (
             <Link
               key={category.categoryId}

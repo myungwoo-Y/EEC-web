@@ -22,9 +22,9 @@ export class PostService {
   }
 
   async getCategories() {
-    const categories = this.postCategoryRepository.find();
+    const categories = await this.postCategoryRepository.find();
 
-    return (await categories).map((category) => ({
+    return categories.map((category) => ({
       name: category.name,
       categoryId: category.categoryId,
     }));

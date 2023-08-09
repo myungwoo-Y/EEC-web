@@ -42,7 +42,7 @@ function Select({
       {label && <label className="block mb-1">{label}</label>}
       {register ? (
         <select
-          className={`border-[1px] border-gray-300 rounded-md py-1 px-3 focus:bg-white focus:border-primary w-full appearance-none bg-[url('/icon/caret-down-solid.svg')] bg-[length:12px_12px] bg-no-repeat bg-right 
+          className={`border-[1px] border-gray-300 rounded-md py-1 px-3 focus:bg-white focus:border-primary w-full appearance-none bg-[url('https://kr.object.ncloudstorage.com/eec/caret-down-solid.svg')] bg-[length:12px_12px] bg-no-repeat bg-right 
             ${watch && watch(name) ? 'text-black' : 'text-gray-400'}
             ${error && 'border-red-600'}
             ${disabled ? 'text-gray-400 bg-gray-50' : ''}`}
@@ -55,7 +55,7 @@ function Select({
         </select>
       ) : (
         <select
-          className={`border-[1px] border-gray-300 rounded-md py-1 px-3 focus:bg-white focus:border-primary w-full appearance-none bg-[url('/icon/caret-down-solid.svg')] bg-[length:12px_12px] bg-no-repeat bg-right 
+          className={`border-[1px] border-gray-300 rounded-md py-1 px-3 focus:bg-white focus:border-primary w-full appearance-none bg-[url('https://kr.object.ncloudstorage.com/eec/caret-down-solid.svg')] bg-[length:12px_12px] bg-no-repeat bg-right 
           ${value ? '' : 'text-gray-400'}
           ${error && 'border-red-600'}
             ${disabled ? 'text-gray-400 bg-gray-50' : ''}

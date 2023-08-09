@@ -4,7 +4,7 @@ import { Post } from '@/model/post';
 
 export const postApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    getCategories: builder.query<Categories, any>({
+    getCategories: builder.query<Categories, void>({
       query: () => ({
         url: 'categories',
       }),
@@ -16,13 +16,13 @@ export const postApi = emptySplitApi.injectEndpoints({
       }),
       providesTags: ['Category'],
     }),
-    getPosts: builder.query<Post[], string>({
+    getPosts: builder.query<Post[], string | number>({
       query: (category) => ({
         url: `/posts?categoryId=${category}`,
       }),
       providesTags: ['Post', 'Category'],
     }),
-    getPost: builder.query<Post, string>({
+    getPost: builder.query<Post, string | number>({
       query: (postId) => ({
         url: `posts/${postId}`,
       }),
@@ -102,5 +102,6 @@ export const {
   useAnswerPostMutation,
   useAddCommentMutation,
   useUpdateCommentMutation,
-  useDeleteCommentMutation
+  useDeleteCommentMutation,
+  useGetPostsQuery
 } = postApi;

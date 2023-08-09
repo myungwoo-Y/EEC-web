@@ -21,26 +21,22 @@ export default function Home() {
     <div className="pt-5">
       <div className="text-3xl font-bold flex items-center px-5">
         <HomeIcon width={32} className="mr-2" />
-        역학교육센터
+        홈
       </div>
 
       <section
-        className="mt-10 py-14 px-10 flex justify-evenly"
+        className="mt-10 py-6 px-10 flex justify-evenly"
         style={{
           background:
-            'linear-gradient(280.99deg, rgba(0, 123, 255, 0.097) 2.68%, rgba(8, 207, 253, 0.0989063) 50.23%, rgba(35, 98, 186, 0.1) 97.04%)',
+            'linear-gradient(280.99deg, rgba(0, 123, 255, 0.1455) 2.68%, rgba(8, 207, 253, 0.148359) 50.23%, rgba(35, 98, 186, 0.15) 97.04%)',
         }}
       >
-        <Image
-          src="https://nowzone.b-cdn.net/eec/main.png"
-          alt="main img"
-          width={200}
-          height={200}
-          className="w-fit"
-        />
-        <div>
-          <p className="text-2xl font-bold text-primary">역학교육센터는?</p>
-          <p className="mt-5 text-lg text-gray-600">
+                <div>
+          <div className="text-3xl font-bold w-fit">
+            역학교육센터는
+            <div className="w-full h-1 bg-primary rounded-md -mt-1"></div>
+          </div>
+          <p className="mt-5 text-lg text-gray-700">
             가축전염병의 예방 및 확산 방지를 위한 역학조사 업무를 수행하는
             <br />
             역학조사관의 역량 강화, 전문인력 양성을 위한 교육.훈련
@@ -50,6 +46,13 @@ export default function Home() {
             교육센터입니다
           </p>
         </div>
+        <Image
+          src="https://kr.object.ncloudstorage.com/eec/home-hero.jpg"
+          alt="main img"
+          width={420}
+          height={400}
+          className="w-fit rounded-md opacity-80"
+        />
       </section>
       <section className="px-5 flex justify-between gap-16 min-h-[200px]">
         <div className="w-full mt-10">

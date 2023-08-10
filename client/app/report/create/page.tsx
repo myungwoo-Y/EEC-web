@@ -8,23 +8,39 @@ import { useSelector } from 'react-redux';
 import checkboxStyles from '../../../components/Checkbox.module.scss';
 import classNames from 'classnames';
 import Basis from '@/components/report/Basis';
-import { useGetClassesQuery } from '@/services/class';
+import { BasisCount, fileNames } from '@/model/report';
+import dayjs from 'dayjs';
+import FileTable from '@/components/report/FileTable';
 
 
 function CreateReportPage() {
-  const { register } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const user = useSelector(selectCurrentUser);
-  const { data: classes } = useGetClassesQuery();
-  const [basisState, setBasisState] = useState<(number | string)[]>([]);
+  const [files, setFiles] = useState<File[][]>(Array(fileNames.length).fill([]));
 
-  useEffect(() => {
-    const commonInputCount = 33;
-    if (classes?.length) {
-      setBasisState(Array(commonInputCount + (classes.length * 4)).fill(''));
-    } else {
-      setBasisState(Array(commonInputCount).fill(''));
-    }
-  }, [classes]);
+  const setFileOnTable = (newFiles: File[], pos: number) => {
+    const nextFiles = [...files];
+    nextFiles[pos] = newFiles;
+    setFiles(nextFiles);
+  }
+
+  const onSave = (data: Record<string, any>) => {
+    const basis = Array(BasisCount);
+    Object.keys(data).map((key, idx) => {
+      if (!isNaN(+key)) {
+        basis[idx+1] = key;
+      }
+    });
+
+    const formData = {
+      basis,
+      year: data.year,
+      quarter: data.quarter,
+      certificationDate: dayjs(data.certificationDate).toISOString(),
+    };
+
+  }
+
 
   return (
     <div className="pt-10 px-12">
@@ -66,8 +82,12 @@ function CreateReportPage() {
               <td className="border-gray-300 border-[1px] p-2 w-16">
                 <Input type="number" register={register} name="quarter" />
               </td>
-              <td className="border-gray-300 border-[1px] p-2">{user?.department}</td>
-              <td className="border-gray-300 border-[1px] p-2">{user?.jobLevel}</td>
+              <td className="border-gray-300 border-[1px] p-2">
+                {user?.department}
+              </td>
+              <td className="border-gray-300 border-[1px] p-2">
+                {user?.jobLevel}
+              </td>
               <td className="border-gray-300 border-[1px] p-2">{user?.name}</td>
               <td className="border-gray-300 border-[1px] p-2">
                 <div className="flex items-center justify-center">
@@ -89,7 +109,22 @@ function CreateReportPage() {
           </tbody>
         </table>
       </div>
-      <Basis classes={classes}/>
+      <Basis register={register} />
+      <FileTable 
+        files={files}
+        setFiles={setFileOnTable}
+      />
+      <div className="flex gap-3 float-right pb-6 mt-10">
+        <button className="bg-gray-300 flex items-center justify-center text-lg font-bold py-3 mt-7 w-24 rounded-md">
+          취소
+        </button>
+        <button
+          onClick={handleSubmit(onSave)}
+          className="bg-primary flex items-center justify-center text-white text-lg font-bold py-3 mt-7 w-24 rounded-md"
+        >
+          저장
+        </button>
+      </div>
     </div>
   );
 }

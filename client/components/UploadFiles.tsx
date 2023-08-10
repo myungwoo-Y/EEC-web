@@ -10,7 +10,7 @@ import checkboxStyles from './Checkbox.module.scss';
 
 type UploadFilesProps = {
   files: File[];
-  setFiles: Dispatch<SetStateAction<File[]>>;
+  setFiles: (v: File[]) => void
   name?: string;
 };
 

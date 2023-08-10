@@ -83,7 +83,7 @@ function Post({ params: { slug: postId } }: Props) {
       <div className="font-bold text-2xl w-full flex justify-between">
         {data?.category.name}
         <div className="flex gap-2">
-          {isAdmin && data && !data?.isAnswer && (
+          {isAdmin && isQuestionPost && data && !data?.isAnswer && (
             <button
               className="text-base bg-green-600 rounded-md text-white p-2 font-semibold"
               onClick={() => answerPost(data.postId)}

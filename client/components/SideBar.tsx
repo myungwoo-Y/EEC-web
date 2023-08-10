@@ -29,7 +29,6 @@ function SideBar() {
   const pathname = usePathname();
   const isSelectBoard = selectedMenu === 'board';
   const isSelectClass = selectedMenu === 'class';
-  console.log(pathname);
   useEffect(() => {
     dispatch(setCategories({ categories: categories || [] }));
   }, [categories, dispatch]);

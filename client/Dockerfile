@@ -16,10 +16,10 @@ FROM node:18-alpine AS runner
 WORKDIR /app/client
 
 ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+RUN npm install --global pm2
 
 COPY --from=builder --chown=nextjs:nodejs /app/client/.next ./.next
 COPY --from=builder /app/client/node_modules ./node_modules
@@ -32,4 +32,4 @@ EXPOSE 3000
 
 ENV PORT 3000
 
-CMD ["npm", "start"]
+CMD [ "pm2-runtime", "start", "npm", "--", "run", "start:prod"]

@@ -11,23 +11,79 @@ import Basis from '@/components/report/Basis';
 import { BasisCount, fileENNames, fileNames } from '@/model/report';
 import dayjs from 'dayjs';
 import FileTable from '@/components/report/FileTable';
-import { useAddReportMutation } from '@/services/report';
+import { useGetReportQuery, useUpdateReportMutation } from '@/services/report';
 import { useRouter } from 'next/navigation';
+import { toInputDate } from '@/lib/date';
+import { getFileFromUrl } from '@/lib/downloadFile';
+
+type UpdateReportProps = {
+  params: {
+    slug: string;
+  };
+};
 
 
-function CreateReportPage() {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+function UpdateReport({ params: { slug: reportId }}: UpdateReportProps) {
+  const {data: report} = useGetReportQuery(reportId);
+  const { register, handleSubmit, watch, formState: { errors }, reset } = useForm();
   const user = useSelector(selectCurrentUser);
   const [files, setFiles] = useState<File[][]>(Array(fileNames.length).fill([]));
-  const [addReport, { isSuccess }] = useAddReportMutation();
+  const [updateReport, { isSuccess }] = useUpdateReportMutation();
   const router = useRouter();
 
   useEffect(() => {
-    if (isSuccess) {
-      alert('추가에 성공했습니다.')
-      router.push('/report');
+    async function resetData() {
+      if (report) {
+        const resetObj: Record<string | number, string> = {
+          year: report.year,
+          quarter: report.quarter,
+          agree: 'true',
+          certificationDate: toInputDate(report.certificationDate)
+        };
+        const basisList = report.basis.split('|');
+        console.log(basisList);
+        for (let i = 0; i < BasisCount; i++) {
+          resetObj[i+1] = basisList[i];
+        }
+        reset(resetObj);
+
+        const revisedFiles = await Promise.all(
+          report.revisedFiles?.map(
+            async (file) => await getFileFromUrl(file.path, file.filename)
+          )
+        );
+        const presentationFiles = await Promise.all(
+          report.presentationFiles?.map(
+            async (file) => await getFileFromUrl(file.path, file.filename)
+          )
+        );
+        const reportFiles = await Promise.all(
+          report.reportFiles?.map(
+            async (file) => await getFileFromUrl(file.path, file.filename)
+          )
+        );
+        const pressFiles = await Promise.all(
+          report.pressFiles?.map(
+            async (file) => await getFileFromUrl(file.path, file.filename)
+          )
+        );
+        const paperFiles = await Promise.all(
+          report.paperFiles?.map(
+            async (file) => await getFileFromUrl(file.path, file.filename)
+          )
+        );
+        setFiles([revisedFiles, presentationFiles, reportFiles, pressFiles, paperFiles]);
+      }
     }
-  }, [isSuccess])
+
+    resetData();
+  }, [report]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      alert('업데이트를 완료했습니다.')
+    }
+  }, [isSuccess]);
 
   const setFileOnTable = (newFiles: File[], pos: number) => {
     const nextFiles = [...files];
@@ -49,7 +105,7 @@ function CreateReportPage() {
         basis[idx] = data[key];
       }
     });
-    formData.append('userId', user?.userId + '');
+
     formData.append('basis', basis.join('|'));
     formData.append('year', data.year);
     formData.append('quarter', data.quarter);
@@ -61,7 +117,7 @@ function CreateReportPage() {
       });
     })
 
-    addReport(formData);
+    updateReport({reportId, formData});
   }
 
 
@@ -106,10 +162,10 @@ function CreateReportPage() {
                 <Input type="number" register={register} name="quarter" option={{ required: true }} error={errors.quarter?.type === "required" ? ' ' : ''} />
               </td>
               <td className="border-gray-300 border-[1px] p-2">
-                {user?.department}
+                {report?.user?.department}
               </td>
               <td className="border-gray-300 border-[1px] p-2">
-                {user?.jobLevel}
+                {report?.user?.jobLevel}
               </td>
               <td className="border-gray-300 border-[1px] p-2">{user?.name}</td>
               <td className="border-gray-300 border-[1px] p-2">
@@ -152,4 +208,4 @@ function CreateReportPage() {
   );
 }
 
-export default CreateReportPage;
+export default UpdateReport;

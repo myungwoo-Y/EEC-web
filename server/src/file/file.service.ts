@@ -24,24 +24,26 @@ class FileService {
   }
 
   async uploadFileToS3(file: Express.Multer.File, fileName: string) {
-    await this.s3.putObject({
-      Bucket: 'eec',
-      Key: fileName,
-      ACL: 'public-read',
-      Body: file.buffer,
-    }).promise();
+    await this.s3
+      .putObject({
+        Bucket: 'eec',
+        Key: fileName,
+        ACL: 'public-read',
+        Body: file.buffer,
+      })
+      .promise();
   }
 
   async uploadFileKeyVal({
     file,
     columnKey,
     idKey,
-    id
+    id,
   }: {
     file: Express.Multer.File;
-    columnKey: string,
-    idKey: string,
-    id: string | number
+    columnKey: string;
+    idKey: string;
+    id: string | number;
   }): Promise<null | File> {
     const fileName = getKRFileName(file);
     const key = generateFileKey(fileName);
@@ -54,8 +56,8 @@ class FileService {
       mimetype: file.mimetype,
       path,
       [columnKey]: {
-        [idKey]: id
-      }
+        [idKey]: id,
+      },
     });
 
     if (newFile) {
@@ -65,18 +67,42 @@ class FileService {
     return null;
   }
 
+  async deleteFilesKeyVal({
+    columnKey,
+    idKey,
+    id,
+  }: {
+    columnKey: string;
+    idKey: string;
+    id: string | number;
+  }) {
+    const files = await this.fileRepository.find({
+      where: {
+        [columnKey]: {
+          [idKey]: id,
+        },
+      },
+    });
+
+    await Promise.all(
+      files.map(async (file) => {
+        await this.fileRepository.delete(file.fileId);
+      }),
+    );
+  }
+
   async uploadFile({
     file,
     postId,
     classId,
     lectureId,
-    lectureWithReferenceId
+    lectureWithReferenceId,
   }: {
     file: Express.Multer.File;
     postId?: number;
     classId?: number;
     lectureId?: number;
-    lectureWithReferenceId?: number
+    lectureWithReferenceId?: number;
   }): Promise<null | File> {
     let newFile: InsertResult = null;
 
@@ -110,8 +136,8 @@ class FileService {
         mimetype: file.mimetype,
         path,
         lecture: {
-          lectureId
-        }
+          lectureId,
+        },
       });
     } else if (lectureWithReferenceId) {
       newFile = await this.fileRepository.insert({
@@ -119,8 +145,8 @@ class FileService {
         mimetype: file.mimetype,
         path,
         lectureWithReference: {
-          lectureId: lectureWithReferenceId
-        }
+          lectureId: lectureWithReferenceId,
+        },
       });
     }
 
@@ -143,7 +169,7 @@ class FileService {
     postId,
     classId,
     lectureId,
-    lectureWithReferenceId
+    lectureWithReferenceId,
   }: {
     postId?: number;
     classId?: number;
@@ -160,9 +186,9 @@ class FileService {
           },
         },
       });
-      files = [...files ,...newFiles];
+      files = [...files, ...newFiles];
     }
-    
+
     if (classId) {
       const newFiles = await this.fileRepository.find({
         where: {
@@ -171,9 +197,9 @@ class FileService {
           },
         },
       });
-      files = [...files ,...newFiles];
+      files = [...files, ...newFiles];
     }
-    
+
     if (lectureId) {
       const newFiles = await this.fileRepository.find({
         where: {
@@ -183,9 +209,9 @@ class FileService {
         },
       });
 
-      files = [...files ,...newFiles];
+      files = [...files, ...newFiles];
     }
-    
+
     if (lectureWithReferenceId) {
       const newFiles = await this.fileRepository.find({
         where: {
@@ -194,7 +220,7 @@ class FileService {
           },
         },
       });
-      files = [...files ,...newFiles];
+      files = [...files, ...newFiles];
     }
 
     await Promise.all(

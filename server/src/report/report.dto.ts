@@ -16,3 +16,17 @@ export class CreateReportDto {
   @IsNotEmpty()
   certificationDate: string;
 }
+
+export class UpdateReportDto {
+  @IsNotEmpty()
+  quarter: string;
+
+  @IsNotEmpty()
+  basis: string;
+
+  @IsNotEmpty()
+  year: string;
+
+  @IsNotEmpty()
+  certificationDate: string;
+}

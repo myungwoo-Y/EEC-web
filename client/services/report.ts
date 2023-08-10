@@ -4,17 +4,31 @@ import { emptySplitApi } from './base';
 const lectureApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     addReport: builder.mutation<void, FormData>({
-      query: (forData) => ({
+      query: (formData) => ({
         url: '/report',
-        body: forData,
+        body: formData,
         method: 'POST',
       }),
       invalidatesTags: ['Report'],
     }),
+    updateReport: builder.mutation<void, {formData: FormData, reportId: number | string}>({
+      query: ({ formData, reportId }) => ({
+        url: `/report/${reportId}`,
+        body: formData,
+        method: 'PUT',
+      }),
+      invalidatesTags: ['Report'],
+    }),
     getReports: builder.query<Report[], void>({
-      query: (forData) => ({
+      query: () => ({
         url: '/report',
-        body: forData,
+        method: 'GET',
+      }),
+      providesTags: ['Report'],
+    }),
+    getReport: builder.query<Report, number | string>({
+      query: (reportId) => ({
+        url: `/report/${reportId}`,
         method: 'GET',
       }),
       providesTags: ['Report'],
@@ -22,4 +36,4 @@ const lectureApi = emptySplitApi.injectEndpoints({
   }),
 });
 
-export const { useAddReportMutation, useGetReportsQuery } = lectureApi;
+export const { useAddReportMutation, useGetReportsQuery, useUpdateReportMutation, useGetReportQuery } = lectureApi;

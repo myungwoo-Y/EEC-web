@@ -24,7 +24,7 @@ export class Report extends BaseEntity {
   @OneToMany(() => File, (file) => file.reportRevised, { cascade: true })
   revisedFiles: File[];
 
-  @OneToMany(() => File, (file) => file.reportpresentation, { cascade: true })
+  @OneToMany(() => File, (file) => file.reportPresentation, { cascade: true })
   presentationFiles: File[];
 
   @OneToMany(() => File, (file) => file.reportReport, { cascade: true })

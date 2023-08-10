@@ -70,7 +70,7 @@ function Basis({ register, watch }: BasisProps) {
                 </Select>
               </div>
             </td>
-            <td className="w-64">
+            <td className="w-124">
               <Select register={register} watch={watch} name="3">
                 <option value="">
                   선택
@@ -152,7 +152,7 @@ function Basis({ register, watch }: BasisProps) {
             <td>역학조사 관련</td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" className="w-6" register={register} name="14" /> 회
+                <Input type="number" className="w-12" register={register} name="14" /> 회
               </div>
             </td>
             <td>
@@ -163,7 +163,7 @@ function Basis({ register, watch }: BasisProps) {
             <td>가축방역 관련</td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" className="w-6" register={register} name="16" /> 회
+                <Input type="number" className="w-12" register={register} name="16" /> 회
               </div>
             </td>
             <td>
@@ -174,7 +174,7 @@ function Basis({ register, watch }: BasisProps) {
             <td>기타</td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" className="w-6" register={register} name="18" /> 회
+                <Input type="number" className="w-12" register={register} name="18" /> 회
               </div>
             </td>
             <td>
@@ -188,7 +188,7 @@ function Basis({ register, watch }: BasisProps) {
             <td colSpan={2}>역학조사 관련</td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" className="w-6" register={register} name="20"/> 회
+                <Input type="number" className="w-12" register={register} name="20"/> 회
               </div>
             </td>
             <td>
@@ -199,7 +199,7 @@ function Basis({ register, watch }: BasisProps) {
             <td colSpan={2}>가축방역 관련</td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" className="w-6" register={register} name="22" /> 회
+                <Input type="number" className="w-12" register={register} name="22" /> 회
               </div>
             </td>
             <td>
@@ -210,7 +210,7 @@ function Basis({ register, watch }: BasisProps) {
             <td colSpan={2}>기타</td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" register={register} name="24" className="w-6" /> 회
+                <Input type="number" register={register} name="24" className="w-12" /> 회
               </div>
             </td>
             <td>
@@ -222,7 +222,7 @@ function Basis({ register, watch }: BasisProps) {
             <td colSpan={2}>규정,지침 등 제.개정</td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" className="w-6" register={register} name="26"/> 회
+                <Input type="number" className="w-12" register={register} name="26"/> 회
               </div>
             </td>
             <td>
@@ -233,7 +233,7 @@ function Basis({ register, watch }: BasisProps) {
             <td colSpan={2}>세미나.학회 등 발표</td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" className="w-6" register={register} name="28" /> 회
+                <Input type="number" className="w-12" register={register} name="28" /> 회
               </div>
             </td>
             <td>
@@ -244,9 +244,9 @@ function Basis({ register, watch }: BasisProps) {
             <td colSpan={2}>현장 역학조사 </td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" className="w-6" register={register} name="30" /> 회 
+                <Input type="number" className="w-12" register={register} name="30" /> 회 
                 <span>/</span>
-                <Input type="number" className="w-6" register={register} name="31" /> 일
+                <Input type="number" className="w-12" register={register} name="31" /> 일
               </div>
             </td>
             <td>
@@ -257,7 +257,7 @@ function Basis({ register, watch }: BasisProps) {
             <td colSpan={2}>현장 역학조사보고서 작성 </td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" className="w-6" register={register} name="33" /> 회
+                <Input type="number" className="w-12" register={register} name="33" /> 회
               </div>
             </td>
             <td>
@@ -268,7 +268,7 @@ function Basis({ register, watch }: BasisProps) {
             <td colSpan={2}>역학조사 관련 공무국외여행 </td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" className="w-6" register={register} name="35" /> 회
+                <Input type="number" className="w-12" register={register} name="35" /> 회
               </div>
             </td>
             <td>
@@ -279,7 +279,7 @@ function Basis({ register, watch }: BasisProps) {
             <td colSpan={2}>보도자료 작성 </td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" className="w-6" register={register} name="37" /> 회
+                <Input type="number" className="w-12" register={register} name="37" /> 회
               </div>
             </td>
             <td>
@@ -290,7 +290,7 @@ function Basis({ register, watch }: BasisProps) {
             <td colSpan={2}>역학조사 분석관련 회의 참석 </td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" className="w-6" register={register} name="39" /> 회
+                <Input type="number" className="w-12" register={register} name="39" /> 회
               </div>
             </td>
             <td>
@@ -302,7 +302,7 @@ function Basis({ register, watch }: BasisProps) {
             <td colSpan={2}>논문</td>
             <td>
               <div className="flex justify-center items-center gap-2">
-                <Input type="number" className="w-6" register={register} name="41" /> 회
+                <Input type="number" className="w-12" register={register} name="41" /> 회
               </div>
             </td>
             <td>

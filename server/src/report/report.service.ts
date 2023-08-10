@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import FileService from 'src/file/file.service';
 import { Report } from 'src/model/report.entity';
 import { Repository } from 'typeorm';
-import { CreateReportDto } from './report.dto';
+import { CreateReportDto, UpdateReportDto } from './report.dto';
 
 @Injectable()
 export class ReportService {
@@ -16,8 +16,83 @@ export class ReportService {
   findAll() {
     return this.reportRepository.find({
       relations: {
-        user: true
-      }
+        user: true,
+      },
+    });
+  }
+
+  findOne(reportId: number) {
+    return this.reportRepository.findOne({
+      where: {
+        reportId,
+      },
+      relations: {
+        user: true,
+        revisedFiles: true,
+        presentationFiles: true,
+        reportFiles: true,
+        pressFiles: true,
+        paperFiles: true,
+      },
+    });
+  }
+
+  async updateReport({
+    reportId,
+    revisedFiles = [],
+    presentationFiles = [],
+    reportFiles = [],
+    pressFiles = [],
+    paperFiles = [],
+    updateReportDto
+  }: {
+    revisedFiles?: Express.Multer.File[];
+    presentationFiles?: Express.Multer.File[];
+    reportFiles?: Express.Multer.File[];
+    pressFiles?: Express.Multer.File[];
+    paperFiles?: Express.Multer.File[];
+    reportId: number;
+    updateReportDto: UpdateReportDto
+  }) {
+    await this.reportRepository.update(reportId, { ...updateReportDto });
+
+    await this.fileService.deleteFilesKeyVal({
+      columnKey: 'reportRevised',
+      idKey: 'reportId',
+      id: reportId,
+    });
+
+    await this.fileService.deleteFilesKeyVal({
+      columnKey: 'reportPresentation',
+      idKey: 'reportId',
+      id: reportId,
+    });
+
+    await this.fileService.deleteFilesKeyVal({
+      columnKey: 'reportReport',
+      idKey: 'reportId',
+      id: reportId,
+    });
+
+    await this.fileService.deleteFilesKeyVal({
+      columnKey: 'reportPress',
+      idKey: 'reportId',
+      id: reportId,
+    });
+
+    await this.fileService.deleteFilesKeyVal({
+      columnKey: 'reportPaper',
+      idKey: 'reportId',
+      id: reportId,
+    });
+
+    await this.addFiles({
+      reportId,
+      revisedFiles,
+      presentationFiles,
+      reportFiles,
+      pressFiles,
+      paperFiles,
     });
   }
 
@@ -43,14 +118,39 @@ export class ReportService {
       certificationDate,
       basis,
       user: {
-        userId
-      }
+        userId,
+      },
     });
 
     const { reportId } = newReport.raw[0];
 
     if (!reportId) return;
 
+    await this.addFiles({
+      reportId,
+      revisedFiles,
+      presentationFiles,
+      reportFiles,
+      pressFiles,
+      paperFiles,
+    });
+  }
+
+  async addFiles({
+    reportId,
+    revisedFiles = [],
+    presentationFiles = [],
+    reportFiles = [],
+    pressFiles = [],
+    paperFiles = [],
+  }: {
+    reportId: number;
+    revisedFiles?: Express.Multer.File[];
+    presentationFiles?: Express.Multer.File[];
+    reportFiles?: Express.Multer.File[];
+    pressFiles?: Express.Multer.File[];
+    paperFiles?: Express.Multer.File[];
+  }) {
     const revisedFileUploadPromise = revisedFiles.map((revisedFile) =>
       this.fileService.uploadFileKeyVal({
         file: revisedFile,

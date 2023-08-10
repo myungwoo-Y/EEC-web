@@ -57,7 +57,7 @@ class File extends BaseEntity {
   @ManyToOne(() => Report, (report) => report.presentationFiles, {
     onDelete: 'CASCADE',
   })
-  reportpresentation: Report;
+  reportPresentation: Report;
 
   @ManyToOne(() => Report, (report) => report.reportFiles, {
     onDelete: 'CASCADE',

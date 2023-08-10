@@ -21,6 +21,7 @@ RUN npm ci
 COPY . .
 
 RUN npm run build
+RUN npm install sharp
 RUN npm install pm2 -g
 
 EXPOSE 8080

@@ -25,7 +25,7 @@ export default function Home() {
       </div>
 
       <section
-        className="mt-10 py-6 px-10 flex justify-evenly"
+        className="mt-10 py-6 px-10 flex justify-evenly bg-gray-100"
         style={{
           background:
             'linear-gradient(280.99deg, rgba(0, 123, 255, 0.1455) 2.68%, rgba(8, 207, 253, 0.148359) 50.23%, rgba(35, 98, 186, 0.15) 97.04%)',
@@ -45,9 +45,14 @@ export default function Home() {
             <br />
             교육센터입니다
           </p>
+          <button className="flex items-center justify-center py-3 px-8 bg-gradient-to-br from-primary to-third rounded-md text-white mt-5 font-bold">
+            <Link href="/class">
+              강의보기
+            </Link>
+          </button>
         </div>
         <Image
-          src="https://kr.object.ncloudstorage.com/eec/home-hero.jpg"
+          src="https://kr.object.ncloudstorage.com/eec/hero.png"
           alt="main img"
           width={420}
           height={400}

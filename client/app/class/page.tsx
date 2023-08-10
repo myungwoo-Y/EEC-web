@@ -92,11 +92,11 @@ export default function Page() {
             >
               <div className="flex">
                 <Image
-                  width={140}
-                  height={100}
+                  width={180}
+                  height={120}
                   src={data.thumbnailImage.path}
                   alt={data.title}
-                  className="rounded-md"
+                  className="rounded-md w-fit"
                 />
                 <div className="flex flex-col gap-1 ml-5 w-80">
                   <p className="text-lg font-bold">{data.title}</p>

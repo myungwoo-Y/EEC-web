@@ -1,5 +1,5 @@
 import React from 'react';
-import { UseFormRegister } from 'react-hook-form';
+import { FieldValues, UseFormRegister, UseFormWatch } from 'react-hook-form';
 import Select from '../Select';
 import Input from '../Input';
 import tableStyles from '../../components/table/Table.module.scss';
@@ -9,9 +9,10 @@ import { CertificateState } from '@/model/report';
 
 type BasisProps = {
   register: UseFormRegister<Record<string, any>>;
+  watch?: UseFormWatch<FieldValues>;
 };
 
-function Basis({ register }: BasisProps) {
+function Basis({ register, watch }: BasisProps) {
   return (
     <div className="mt-7">
       <p className="text-xl font-semibold">관련근거</p>
@@ -47,8 +48,8 @@ function Basis({ register }: BasisProps) {
             <td>
               <div className="flex items-center justify-center gap-1">
                 기본교육
-                <Select className="w-24" register={register} name="1">
-                  <option value="" disabled>
+                <Select className="w-24" register={register} watch={watch} name="1">
+                  <option value="">
                     년도선택
                   </option>
                   <option value="2023">2023</option>
@@ -57,8 +58,8 @@ function Basis({ register }: BasisProps) {
                   <option value="2026">2026</option>
                   <option value="2027">2027</option>
                 </Select>
-                <Select className="w-24" register={register} name="2">
-                  <option value="" disabled>
+                <Select className="w-24" register={register} watch={watch} name="2">
+                  <option value="">
                     기수선택
                   </option>
                   {classOrderList.map((classOrder, idx) => (
@@ -70,8 +71,8 @@ function Basis({ register }: BasisProps) {
               </div>
             </td>
             <td className="w-64">
-              <Select register={register} name="3">
-                <option value="" disabled>
+              <Select register={register} watch={watch} name="3">
+                <option value="">
                   선택
                 </option>
                 <option value={CertificateState.DONE}>이수완료</option>
@@ -87,8 +88,8 @@ function Basis({ register }: BasisProps) {
             <td>
               <div className="flex items-center justify-center gap-1">
                 실무교육
-                <Select className="w-24" register={register} name="5">
-                  <option value="" disabled>
+                <Select className="w-24" register={register} watch={watch} name="5">
+                  <option value="">
                     년도선택
                   </option>
                   <option value="2023">2023</option>
@@ -97,8 +98,8 @@ function Basis({ register }: BasisProps) {
                   <option value="2026">2026</option>
                   <option value="2027">2027</option>
                 </Select>
-                <Select className="w-24" register={register} name="6">
-                  <option value="" disabled>
+                <Select className="w-24" register={register} watch={watch} name="6">
+                  <option value="">
                     기수선택
                   </option>
                   {classOrderList.map((classOrder, idx) => (
@@ -110,8 +111,8 @@ function Basis({ register }: BasisProps) {
               </div>
             </td>
             <td>
-              <Select register={register} name="7">
-                <option value="" disabled>
+              <Select register={register} watch={watch} name="7">
+                <option value="">
                   선택
                 </option>
                 <option value={CertificateState.DONE}>이수완료</option>

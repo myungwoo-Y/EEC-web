@@ -12,6 +12,15 @@ export class ReportService {
     private reportRepository: Repository<Report>,
     private fileService: FileService,
   ) {}
+
+  findAll() {
+    return this.reportRepository.find({
+      relations: {
+        user: true
+      }
+    });
+  }
+
   async addReport({
     createReportDto,
     revisedFiles = [],
@@ -27,7 +36,16 @@ export class ReportService {
     paperFiles?: Express.Multer.File[];
     createReportDto: CreateReportDto;
   }) {
-    const newReport = await this.reportRepository.insert(createReportDto);
+    const { year, quarter, certificationDate, basis, userId } = createReportDto;
+    const newReport = await this.reportRepository.insert({
+      year,
+      quarter,
+      certificationDate,
+      basis,
+      user: {
+        userId
+      }
+    });
 
     const { reportId } = newReport.raw[0];
 
@@ -45,7 +63,7 @@ export class ReportService {
       (presentationFile) =>
         this.fileService.uploadFileKeyVal({
           file: presentationFile,
-          columnKey: 'reportRevised',
+          columnKey: 'reportPresentation',
           idKey: 'reportId',
           id: reportId,
         }),
@@ -53,7 +71,7 @@ export class ReportService {
     const reportFilesUploadPromise = reportFiles.map((reportFile) =>
       this.fileService.uploadFileKeyVal({
         file: reportFile,
-        columnKey: 'reportRevised',
+        columnKey: 'reportReport',
         idKey: 'reportId',
         id: reportId,
       }),
@@ -61,7 +79,7 @@ export class ReportService {
     const pressFilesUploadPromise = pressFiles.map((pressFile) =>
       this.fileService.uploadFileKeyVal({
         file: pressFile,
-        columnKey: 'reportRevised',
+        columnKey: 'reportPress',
         idKey: 'reportId',
         id: reportId,
       }),
@@ -69,7 +87,7 @@ export class ReportService {
     const paperFilesUploadPromise = paperFiles.map((paperFile) =>
       this.fileService.uploadFileKeyVal({
         file: paperFile,
-        columnKey: 'reportRevised',
+        columnKey: 'reportPaper',
         idKey: 'reportId',
         id: reportId,
       }),

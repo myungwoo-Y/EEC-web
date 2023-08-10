@@ -27,6 +27,7 @@ function FileTable({ files, setFiles }: FileTableProps) {
                 <UploadFiles
                   files={files[idx]}
                   setFiles={(newFiles: File[]) => setFiles(newFiles, idx)}
+                  name={fileName}
                 />
               </td>
             </tr>

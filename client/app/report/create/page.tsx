@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation';
 
 
 function CreateReportPage() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const user = useSelector(selectCurrentUser);
   const [files, setFiles] = useState<File[][]>(Array(fileNames.length).fill([]));
   const [addReport, { isSuccess }] = useAddReportMutation();
@@ -50,6 +50,7 @@ function CreateReportPage() {
       }
     });
 
+    formData.append('userId', user?.userId + '');
     formData.append('basis', basis.join('|'));
     formData.append('year', data.year);
     formData.append('quarter', data.year);
@@ -132,7 +133,7 @@ function CreateReportPage() {
           </tbody>
         </table>
       </div>
-      <Basis register={register} />
+      <Basis register={register} watch={watch}/>
       <FileTable 
         files={files}
         setFiles={setFileOnTable}

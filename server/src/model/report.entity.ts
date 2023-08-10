@@ -1,6 +1,7 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import File from './file.entity';
+import { User } from './user.entity';
 
 @Entity({ name: 'report' })
 export class Report extends BaseEntity {
@@ -34,4 +35,9 @@ export class Report extends BaseEntity {
 
   @OneToMany(() => File, (file) => file.reportPaper, { cascade: true })
   paperFiles: File[];
+
+  @ManyToOne(() => User, {
+    onDelete: 'CASCADE',
+  })
+  user: User;
 }

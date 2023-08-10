@@ -71,4 +71,5 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => Comment, (comment) => comment.user)
   comments: Comment[];
+
 }

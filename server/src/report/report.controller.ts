@@ -1,4 +1,4 @@
-import { Body, Post, Controller, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Post, Controller, UploadedFiles, UseInterceptors, Get } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { CreateReportDto } from './report.dto';
 import { ReportService } from './report.service';
@@ -6,6 +6,11 @@ import { ReportService } from './report.service';
 @Controller('report')
 export class ReportController {
   constructor (private reportService: ReportService) {}
+
+  @Get()
+  findAll() {
+    return this.reportService.findAll();
+  }
 
   @Post()
   @UseInterceptors(

@@ -3,12 +3,15 @@
 import CreateLectureModal from '@/components/modal/CreateLectureModal';
 import LectureModal from '@/components/modal/LectureModal';
 import Select from '@/components/Select';
+import { selectCurrentUser } from '@/features/auth/authSlice';
 import { classOrderList } from '@/model/classOrder';
 import { Lecture } from '@/model/lecture';
+import { UserRole } from '@/model/user';
 import { useGetClassesQuery } from '@/services/class';
 import { useGetCurriculumsQuery } from '@/services/curriculum';
 import { useGetLecturesQuery } from '@/services/lecture';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 interface LecturesProps {
   params: {
@@ -31,12 +34,18 @@ function Lectures({ params: { classId } }: LecturesProps) {
   );
   const [selectedCurriculumIdx, setSelectedCurriculumIdx] = useState(0);
   const currentCurriculum = curriculums?.[selectedCurriculumIdx];
-  const { data: lectures } = useGetLecturesQuery(currentCurriculum?.curriculumId || 0, {
-    skip: !currentCurriculum
-  });
+  const { data: lectures } = useGetLecturesQuery(
+    currentCurriculum?.curriculumId || 0,
+    {
+      skip: !currentCurriculum,
+    }
+  );
 
   const [isShowModal, setShowModal] = useState(false);
   const [currentLecture, setCurrentLecture] = useState<Lecture | null>(null);
+
+  const user = useSelector(selectCurrentUser);
+  const isAdmin = user?.role === UserRole.ADMIN;
 
   return (
     <div className="">
@@ -115,7 +124,8 @@ function Lectures({ params: { classId } }: LecturesProps) {
                       </td>
                       <td className="px-3">
                         <p>
-                          [{lecture.curriculum?.class?.title}/{lecture.curriculum?.title}]
+                          [{lecture.curriculum?.class?.title}/
+                          {lecture.curriculum?.title}]
                         </p>
                         <div>
                           <span className="mr-3">집필: {lecture.author}</span>
@@ -129,12 +139,19 @@ function Lectures({ params: { classId } }: LecturesProps) {
           </div>
         </>
       )}
-      {isShowModal && currentLecture && (
+      {(isShowModal && currentLecture) && isAdmin && (
+        <CreateLectureModal
+          lecture={currentLecture}
+          closeModal={() => setShowModal(false)}
+        />
+      )}
+      {(isShowModal && currentLecture) && !isAdmin && (
         <LectureModal
           lecture={currentLecture}
           closeModal={() => setShowModal(false)}
         />
       )}
+      
     </div>
   );
 }

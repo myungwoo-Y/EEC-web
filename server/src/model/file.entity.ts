@@ -49,10 +49,30 @@ class File extends BaseEntity {
   })
   lectureWithReference: Lecture;
 
-  @ManyToOne(() => Lecture, {
+  @ManyToOne(() => Report, (report) => report.revisedFiles, {
     onDelete: 'CASCADE',
   })
-  report: Report;
+  reportRevised: Report;
+
+  @ManyToOne(() => Report, (report) => report.presentationFiles, {
+    onDelete: 'CASCADE',
+  })
+  reportpresentation: Report;
+
+  @ManyToOne(() => Report, (report) => report.reportFiles, {
+    onDelete: 'CASCADE',
+  })
+  reportReport: Report;
+
+  @ManyToOne(() => Report, (report) => report.pressFiles, {
+    onDelete: 'CASCADE',
+  })
+  reportPress: Report;
+
+  @ManyToOne(() => Report, (report) => report.paperFiles, {
+    onDelete: 'CASCADE',
+  })
+  reportPaper: Report;
 }
 
 export default File;

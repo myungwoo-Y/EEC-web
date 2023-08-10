@@ -6,7 +6,7 @@ import File from './file.entity';
 export class Report extends BaseEntity {
   @Column({ type: 'integer'})
   @PrimaryGeneratedColumn('increment')
-  reportID: number;
+  reportId: number;
 
   @Column({ type: 'text' })
   basis: string;
@@ -20,18 +20,18 @@ export class Report extends BaseEntity {
   @Column({ type: 'timestamptz', nullable: true })
   certificationDate: Date;
 
-  @OneToMany(() => File, (file) => file.report, { cascade: true })
+  @OneToMany(() => File, (file) => file.reportRevised, { cascade: true })
   revisedFiles: File[];
 
-  @OneToMany(() => File, (file) => file.report, { cascade: true })
+  @OneToMany(() => File, (file) => file.reportpresentation, { cascade: true })
   presentationFiles: File[];
 
-  @OneToMany(() => File, (file) => file.report, { cascade: true })
+  @OneToMany(() => File, (file) => file.reportReport, { cascade: true })
   reportFiles: File[];
 
-  @OneToMany(() => File, (file) => file.report, { cascade: true })
+  @OneToMany(() => File, (file) => file.reportPress, { cascade: true })
   pressFiles: File[];
 
-  @OneToMany(() => File, (file) => file.report, { cascade: true })
+  @OneToMany(() => File, (file) => file.reportPaper, { cascade: true })
   paperFiles: File[];
 }

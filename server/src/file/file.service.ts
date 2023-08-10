@@ -32,6 +32,39 @@ class FileService {
     }).promise();
   }
 
+  async uploadFileKeyVal({
+    file,
+    columnKey,
+    idKey,
+    id
+  }: {
+    file: Express.Multer.File;
+    columnKey: string,
+    idKey: string,
+    id: string | number
+  }): Promise<null | File> {
+    const fileName = getKRFileName(file);
+    const key = generateFileKey(fileName);
+    const path = `${process.env.NAVER_CLOUD_BUCKET_PATH}/${key}`;
+
+    await this.uploadFileToS3(file, key);
+
+    const newFile = await this.fileRepository.insert({
+      filename: fileName,
+      mimetype: file.mimetype,
+      path,
+      [columnKey]: {
+        [idKey]: id
+      }
+    });
+
+    if (newFile) {
+      return newFile.raw[0];
+    }
+
+    return null;
+  }
+
   async uploadFile({
     file,
     postId,

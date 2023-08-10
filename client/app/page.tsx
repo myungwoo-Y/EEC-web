@@ -45,11 +45,11 @@ export default function Home() {
             <br />
             교육센터입니다
           </p>
-          <button className="flex items-center justify-center py-3 px-8 bg-gradient-to-br from-primary to-third rounded-md text-white mt-5 font-bold">
-            <Link href="/class">
-              강의보기
-            </Link>
-          </button>
+          <Link href="/class">
+            <button className="flex items-center justify-center py-3 px-8 bg-gradient-to-br from-primary to-third rounded-md text-white mt-5 font-bold">
+                강의보기
+            </button>
+          </Link>
         </div>
         <Image
           src="https://kr.object.ncloudstorage.com/eec/hero.png"

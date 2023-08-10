@@ -19,6 +19,7 @@ import Class from './model/class.entity';
 import { Application } from './model/application.entity';
 import { ApplicationModule } from './application/application.module';
 import { Comment } from './model/comment.entity';
+import { ReportModule } from './report/report.module';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -34,7 +35,8 @@ import { Comment } from './model/comment.entity';
     LectureModule,
     MsgModule,
     CertificationModule,
-    ApplicationModule
+    ApplicationModule,
+    ReportModule
   ],
   controllers: [AppController],
   providers: [AppService, UserService],

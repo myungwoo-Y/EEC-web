@@ -10,6 +10,7 @@ import { BaseEntity } from './base.entity';
 import Class from './class.entity';
 import Lecture from './lecture.entity';
 import { Post } from './post.entity';
+import { Report } from './report.entity';
 
 @Entity('file')
 class File extends BaseEntity {
@@ -47,6 +48,11 @@ class File extends BaseEntity {
     onDelete: 'CASCADE',
   })
   lectureWithReference: Lecture;
+
+  @ManyToOne(() => Lecture, {
+    onDelete: 'CASCADE',
+  })
+  report: Report;
 }
 
 export default File;

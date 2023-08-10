@@ -8,15 +8,26 @@ import { useSelector } from 'react-redux';
 import checkboxStyles from '../../../components/Checkbox.module.scss';
 import classNames from 'classnames';
 import Basis from '@/components/report/Basis';
-import { BasisCount, fileNames } from '@/model/report';
+import { BasisCount, fileENNames, fileNames } from '@/model/report';
 import dayjs from 'dayjs';
 import FileTable from '@/components/report/FileTable';
+import { useAddReportMutation } from '@/services/report';
+import { useRouter } from 'next/navigation';
 
 
 function CreateReportPage() {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const user = useSelector(selectCurrentUser);
   const [files, setFiles] = useState<File[][]>(Array(fileNames.length).fill([]));
+  const [addReport, { isSuccess }] = useAddReportMutation();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isSuccess) {
+      alert('추가에 성공했습니다.')
+      router.push('/report');
+    }
+  }, [isSuccess])
 
   const setFileOnTable = (newFiles: File[], pos: number) => {
     const nextFiles = [...files];
@@ -25,20 +36,32 @@ function CreateReportPage() {
   }
 
   const onSave = (data: Record<string, any>) => {
+    if (!data.agree) {
+      alert('서명동의를 체크해주세요');
+      return;
+    }
+
+    const formData  = new FormData();
+
     const basis = Array(BasisCount);
     Object.keys(data).map((key, idx) => {
       if (!isNaN(+key)) {
-        basis[idx+1] = key;
+        basis[idx+1] = data[key];
       }
     });
 
-    const formData = {
-      basis,
-      year: data.year,
-      quarter: data.quarter,
-      certificationDate: dayjs(data.certificationDate).toISOString(),
-    };
+    formData.append('basis', basis.join('|'));
+    formData.append('year', data.year);
+    formData.append('quarter', data.year);
+    formData.append('certificationDate', dayjs(data.certificationDate).toISOString());
 
+    files.map((newFiles, idx) => {
+      newFiles.map(file => {
+        formData.append(fileENNames[idx], file)
+      });
+    })
+
+    addReport(formData);
   }
 
 
@@ -77,10 +100,10 @@ function CreateReportPage() {
           <tbody>
             <tr className="text-center">
               <td className="border-gray-300 border-[1px] p-2">
-                <Input type="number" register={register} name="year" />
+                <Input type="number" register={register} name="year" option={{ required: true }} error={errors.year?.type === "required" ? ' ' : ''} />
               </td>
               <td className="border-gray-300 border-[1px] p-2 w-16">
-                <Input type="number" register={register} name="quarter" />
+                <Input type="number" register={register} name="quarter" option={{ required: true }} error={errors.quarter?.type === "required" ? ' ' : ''} />
               </td>
               <td className="border-gray-300 border-[1px] p-2">
                 {user?.department}
@@ -101,8 +124,8 @@ function CreateReportPage() {
               <td className="border-gray-300 border-[1px] p-2 w-44">
                 <input
                   type="date"
-                  className="h-8 box-border border-gray-400 border-[1px] p-[6px] outline-none rounded-md flex-grow focus:border-primary focus:border-2"
-                  {...register('certificationDate')}
+                  className={`h-8 box-border border-gray-400 border-[1px] p-[6px] outline-none rounded-md flex-grow focus:border-primary focus:border-2 ${errors.certificationDate?.type === "required" ? 'border-red-500' : ''}`}
+                  {...register('certificationDate', { required: true })}
                 />
               </td>
             </tr>

@@ -10,6 +10,7 @@ import Curriculum from 'src/model/curriculum.entity';
 import Lecture from 'src/model/lecture.entity';
 import { Application } from 'src/model/application.entity';
 import { Comment } from 'src/model/comment.entity';
+import { Report } from 'src/model/report.entity';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -22,7 +23,7 @@ export default new DataSource({
   username: configService.getValue('POSTGRES_USER'),
   password: configService.getValue('POSTGRES_PASSWORD'),
   database: configService.getValue('POSTGRES_DATABASE'),
-  entities: [User, Post, PostCategory, File, Class, Curriculum, Lecture, Certification, Application, Comment],
+  entities: [User, Post, PostCategory, File, Class, Curriculum, Lecture, Certification, Application, Comment, Report],
   migrationsTableName: 'eec_web_migration',
   migrations: [isProd ? 'migrations-prod/*{.ts,.js}' : 'migrations/*{.ts,.js}'],
   synchronize: false,

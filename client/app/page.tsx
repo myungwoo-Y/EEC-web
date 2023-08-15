@@ -20,13 +20,13 @@ export default function Home() {
   const { data: notices } = useGetPostsQuery(1);
 
   return (
-    <div className="pt-5">
-      <div className="text-3xl font-bold flex items-center px-5">
+    <div className="lg:pt-5">
+      <div className="text-3xl font-bold items-center px-5 hidden lg:flex">
         <HomeIcon width={32} className="mr-2" />홈
       </div>
 
       <section
-        className={classNames(styles.hero, "mt-10 py-14 px-10 flex justify-evenly")}
+        className={classNames(styles.hero, "lg:mt-10 py-14 px-10 flex justify-evenly")}
       >
         <div>
           <div className="text-3xl font-bold w-fit">

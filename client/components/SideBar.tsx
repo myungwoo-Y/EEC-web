@@ -18,8 +18,19 @@ import { setCategories } from '@/features/post/postSlice';
 import { useGetClassesQuery } from '@/services/class';
 import { setClasses } from '@/features/class/classSlice';
 import { usePathname } from 'next/navigation';
+import classNames from 'classnames';
 
-function SideBar() {
+type SideBarProps = {
+  isShowLogo?: boolean;
+  className?: string;
+  children?: JSX.Element;
+};
+
+function SideBar({
+  className = '',
+  children,
+  isShowLogo = true,
+}: SideBarProps) {
   const { data: categories } = useGetCategoriesQuery();
   const { data: classes } = useGetClassesQuery();
   const [selectedMenu, setSelectedMenu] = useState<
@@ -41,18 +52,25 @@ function SideBar() {
   }, [classes, dispatch]);
 
   return (
-    <div className="bg-secondary min-h-screen hidden lg:block min-w-[200px] w-[200px]">
+    <div
+      className={classNames(
+        'bg-secondary min-h-screen min-w-[200px] w-[200px]',
+        className
+      )}
+    >
       <div className="mb-6 w-full py-5 px-2">
-        <Link href="/" className="relative">
-          <Image
-            src="https://nowzone.b-cdn.net/eec/logo.png"
-            alt="home"
-            width={200}
-            height={40}
-            className="w-fit px-3 py-5"
-          />
-          <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-[hsl(0,0%,98.4%,0.2)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100 rounded-md"></div>
-        </Link>
+        {isShowLogo && (
+          <Link href="/" className="relative">
+            <Image
+              src="https://nowzone.b-cdn.net/eec/logo.png"
+              alt="home"
+              width={200}
+              height={40}
+              className="w-fit px-3 py-5"
+            />
+            <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-[hsl(0,0%,98.4%,0.2)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100 rounded-md"></div>
+          </Link>
+        )}
       </div>
       <Link
         href="/"
@@ -180,6 +198,7 @@ function SideBar() {
           </Link>
         </>
       )}
+      {children && children}
     </div>
   );
 }

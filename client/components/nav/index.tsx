@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import NavItem from '../NavItem';
 import { useGetUserQuery } from '@/services/user';
 import PCNav from './PCNav';
+import MobileNav from './MobileNav';
 
 function Nav() {
   const user = useSelector(selectCurrentUser);
@@ -46,6 +47,9 @@ function Nav() {
     <>
       <div className="hidden lg:block">
         <PCNav user={user}/>
+      </div>
+      <div className="block lg:hidden">
+        <MobileNav />
       </div>
     </>
   );

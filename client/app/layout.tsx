@@ -40,7 +40,9 @@ export default function RootLayout({
       <body suppressHydrationWarning={true} className={pretendard.className}>
         <Providers>
           <div className="flex">
-            <SideBar />
+            <div className="hidden lg:block">
+              <SideBar />
+            </div>
             <div className="bg-[#EDEFF3] w-full flex flex-col lg:pb-6">
               <Nav />
               <div className="bg-white lg:mx-6 rounded-sm h-full">{children}</div>

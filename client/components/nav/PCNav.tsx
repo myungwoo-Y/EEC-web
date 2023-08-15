@@ -15,7 +15,6 @@ type PCNavProps = {
 function PCNav({ user }: PCNavProps ) {
   const dispatch = useDispatch();
 
-
   return (
     <div className="flex w-full h-14 py-4 flex-row-reverse px-8 gap-4">
       {user ? (

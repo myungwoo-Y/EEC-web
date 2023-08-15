@@ -95,14 +95,14 @@ function UserUpdate() {
 
   return (
     <div className="flex flex-col items-center justify-center h-full mt-5">
-      <form className="pb-24" onSubmit={handleSubmit}>
+      <form className="pb-24 w-full lg:w-fit px-3" onSubmit={handleSubmit}>
         <p className="text-3xl font-semibold">정보수정</p>
         <p className="text-lg mt-2 text-gray-400">
           아래의 정보들을 입력해주세요
         </p>
         <Input
           type="email"
-          className="w-[600px] mt-4"
+          className="w-full lg:w-[600px] mt-4"
           placeholder="이메일"
           value={user?.email || ''}
           label="이메일"
@@ -112,7 +112,7 @@ function UserUpdate() {
         <Input
           type="password"
           autoComplete="new-password"
-          className="w-[600px] mt-4"
+          className="w-full lg:w-[600px] mt-4"
           placeholder="비밀번호를 입력해주세요"
           value={updatedUser.password || ''}
           label="비밀번호"
@@ -125,7 +125,7 @@ function UserUpdate() {
         <Input
           type="password"
           autoComplete="new-password"
-          className="w-[600px] mt-4"
+          className="w-full lg:w-[600px] mt-4"
           placeholder="한번 더 입력해주세요"
           value={confirPassword}
           onChange={(e) => {
@@ -137,7 +137,7 @@ function UserUpdate() {
         />
         <Input
           type="email"
-          className="w-[600px] mt-4"
+          className="w-full lg:w-[600px] mt-4"
           placeholder="구분"
           value={getUserRoleName(user?.role)}
           label="구분"
@@ -145,7 +145,7 @@ function UserUpdate() {
         />
         <Input
           type="text"
-          className="w-[600px] mt-4"
+          className="w-full lg:w-[600px] mt-4"
           autoComplete="name"
           value={updatedUser.name || ''}
           label="이름"
@@ -157,7 +157,7 @@ function UserUpdate() {
         />
         <Input
           type="number"
-          className="w-[600px] mt-4"
+          className="w-full lg:w-[600px] mt-4"
           placeholder="6자리 숫자"
           maxLength={6}
           value={birthday}
@@ -178,7 +178,7 @@ function UserUpdate() {
         />
         <Input
           type="number"
-          className="w-[600px] mt-4"
+          className="w-full lg:w-[600px] mt-4"
           placeholder="'-'(하이픈)을 제외해주세요"
           value={updatedUser.phoneNumber || ''}
           label="핸드폰번호"
@@ -193,7 +193,7 @@ function UserUpdate() {
         />
         <Input
           type="text"
-          className="w-[600px] mt-4"
+          className="w-full lg:w-[600px] mt-4"
           value={updatedUser.department || ''}
           label="소속"
           error={errorMsgMap.department}
@@ -204,7 +204,7 @@ function UserUpdate() {
         />
         <Input
           type="text"
-          className="w-[600px] mt-4"
+          className="w-full lg:w-[600px] mt-4"
           value={updatedUser.jobLevel || ''}
           label="직급"
           error={errorMsgMap.jobLevel}
@@ -214,7 +214,7 @@ function UserUpdate() {
           }}
         />
         <Select
-          className="mt-4 w-[600px]"
+          className="mt-4 w-full lg:w-[600px]"
           label="기수"
           error={errorMsgMap.classOrder}
           onChange={(e) => {

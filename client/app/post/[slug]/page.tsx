@@ -79,7 +79,7 @@ function Post({ params: { slug: postId } }: Props) {
   }
 
   return (
-    <div className="pt-10 px-12">
+    <div className="lg:pt-10 px-3 lg:px-12 mt-5 lg:mt-0">
       <div className="font-bold text-2xl w-full flex justify-between">
         {data?.category.name}
         <div className="flex gap-2">

@@ -11,7 +11,7 @@ type FileTableProps = {
 
 function FileTable({ files, setFiles }: FileTableProps) {
   return (
-    <div className="mt-7">
+    <div className="mt-7 overflow-x-auto">
       <p className="text-xl font-semibold">첨부자료</p>
       <table
         className={classNames(

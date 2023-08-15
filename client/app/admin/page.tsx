@@ -35,7 +35,7 @@ function Admin() {
   };
 
   return (
-    <div className="pt-10 px-12">
+    <div className="py-5 lg:py-10 px-3 lg:px-12">
       <p className="font-bold text-2xl">관리자</p>
       <div className="mt-8 w-auto lg:w-[900px] flex rounded-sm border-[1px] border-gray-300">
         {menus.map((menu, idx) => (

@@ -73,15 +73,15 @@ function Signup() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-full mt-5">
+    <div className="flex flex-col items-center justify-center h-full mt-5 px-3 lg:px-0">
       <form className="pb-24" onSubmit={handleSubmit}>
-        <p className="text-3xl font-semibold">회원가입</p>
+        <p className="text-xl lg:text-3xl font-semibold">회원가입</p>
         <p className="text-lg mt-2 text-gray-400">
           아래의 정보들을 입력해주세요
         </p>
         <Input
           type="email"
-          className="w-[600px] mt-4"
+          className="lg:w-[600px] mt-4"
           placeholder="이메일"
           autoComplete="off"
           value={newUser.email}
@@ -102,7 +102,7 @@ function Signup() {
         <Input
           type="password"
           autoComplete="new-password"
-          className="w-[600px] mt-4"
+          className="lg:w-[600px] mt-4"
           placeholder="비밀번호를 입력해주세요"
           value={newUser.password}
           label="비밀번호"
@@ -115,7 +115,7 @@ function Signup() {
         <Input
           type="password"
           autoComplete="new-password"
-          className="w-[600px] mt-4"
+          className="lg:w-[600px] mt-4"
           placeholder="한번 더 입력해주세요"
           value={confirPassword}
           onChange={(e) => {
@@ -126,7 +126,7 @@ function Signup() {
           error={errorMsgMap.confirmPassword}
         />
         <Select
-          className="mt-4 w-[600px]"
+          className="mt-4 lg:w-[600px]"
           label="구분"
           error={errorMsgMap.role}
           onChange={(e) => {
@@ -142,7 +142,7 @@ function Signup() {
         </Select>
         <Input
           type="text"
-          className="w-[600px] mt-4"
+          className="lg:w-[600px] mt-4"
           autoComplete="name"
           value={newUser.name}
           label="이름"
@@ -154,7 +154,7 @@ function Signup() {
         />
         <Input
           type="number"
-          className="w-[600px] mt-4"
+          className="lg:w-[600px] mt-4"
           placeholder="6자리 숫자"
           maxLength={6}
           value={birthday}
@@ -175,7 +175,7 @@ function Signup() {
         />
         <Input
           type="number"
-          className="w-[600px] mt-4"
+          className="lg:w-[600px] mt-4"
           placeholder="'-'(하이픈)을 제외해주세요"
           value={newUser.phoneNumber}
           label="핸드폰번호"
@@ -190,7 +190,7 @@ function Signup() {
         />
         <Input
           type="text"
-          className="w-[600px] mt-4"
+          className="lg:w-[600px] mt-4"
           value={newUser.department}
           label="소속"
           error={errorMsgMap.department}
@@ -201,7 +201,7 @@ function Signup() {
         />
         <Input
           type="text"
-          className="w-[600px] mt-4"
+          className="lg:w-[600px] mt-4"
           value={newUser.jobLevel}
           label="직급"
           error={errorMsgMap.jobLevel}
@@ -211,7 +211,7 @@ function Signup() {
           }}
         />
         <Select
-          className="mt-4 w-[600px]"
+          className="mt-4 lg:w-[600px]"
           label="기수"
           error={errorMsgMap.classOrder}
           onChange={(e) => {
@@ -235,7 +235,7 @@ function Signup() {
         </Select>
         <Agreement
           isChecked={isAgreementChecked}
-          className="w-[600px] mt-10"
+          className="lg:w-[600px] mt-10"
           onClick={() => setisAgreementChecked((checked) => !checked)}
         />
         <button

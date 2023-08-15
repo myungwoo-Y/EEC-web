@@ -26,7 +26,7 @@ export default function Home() {
       </div>
 
       <section
-        className={classNames(styles.hero, "lg:mt-10 py-14 px-10 flex justify-evenly")}
+        className={classNames(styles.hero, "lg:mt-10 py-14 px-10 flex justify-evenly flex-col lg:flex-row")}
       >
         <div>
           <div className="text-3xl font-bold w-fit">
@@ -44,7 +44,7 @@ export default function Home() {
           </p>
           <Link href="/class">
             <button className="flex items-center justify-center py-3 px-8 bg-gradient-to-br from-primary to-third rounded-md text-white mt-10 font-bold">
-              강의보기
+              수강신청
             </button>
           </Link>
         </div>
@@ -56,7 +56,7 @@ export default function Home() {
           className="rounded-md opacity-80"
         />
       </section>
-      <section className="px-5 flex justify-between gap-16 min-h-[200px]">
+      <section className="px-5 flex flex-col lg:flex-row justify-between gap-16 min-h-[200px]">
         <div className="w-full mt-10">
           <div className="text-2xl font-bold flex items-center justify-between">
             <div className="flex">
@@ -75,7 +75,7 @@ export default function Home() {
               notices.map((notice) => (
                 <Link href={`/post/${notice.postId}`} key={notice.postId}>
                   <li className="mt-1 group">
-                    <span className="w-96 text-ellipsis group-hover:underline">
+                    <span className="inline-block w-60 lg:w-96 h-6 overflow-hidden whitespace-nowrap text-ellipsis group-hover:underline">
                       {notice.title}
                     </span>
                     <span className="float-right text-gray-400 group-hover:underline">
@@ -103,7 +103,7 @@ export default function Home() {
             {classes?.map((data) => (
               <Link key={data.classId} href={`/class`}>
                 <li className="mt-1 group">
-                  <span className="w-96 text-ellipsis group-hover:underline">
+                  <span className="inline-block w-60 lg:w-96 h-6 overflow-hidden whitespace-nowrap text-ellipsis group-hover:underline">
                     {data.title}
                   </span>
                   <span className="float-right text-gray-400 group-hover:underline">
@@ -116,8 +116,8 @@ export default function Home() {
         </div>
       </section>
       <section className="bg-gray-100 w-full py-16 p-44 mt-10">
-        <div className="flex gap-4 w-full justify-between">
-          <Link href="/class" className="text-center group">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-4 w-full justify-between items-center">
+          <Link href="https://www.qia.go.kr/listindexWebAction.do" className="text-center group">
             <div className="w-40 h-40 bg-white rounded-full flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-primary group-hover:to-third group-hover:text-white">
               <DocumentMagnifyingGlassIcon
                 width="72"
@@ -126,7 +126,7 @@ export default function Home() {
               />
             </div>
             <p className="text-xl font-bold mt-3 group-hover:underline">
-              수강신청
+              검역본부 바로가기
             </p>
           </Link>
           <Link href="/category/1" className="text-center group">

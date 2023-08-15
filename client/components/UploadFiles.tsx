@@ -7,14 +7,16 @@ import {
 } from '@heroicons/react/24/solid';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import checkboxStyles from './Checkbox.module.scss';
+import classNames from 'classnames';
 
 type UploadFilesProps = {
   files: File[];
   setFiles: (v: File[]) => void
   name?: string;
+  className?: string;
 };
 
-function UploadFiles({ files, setFiles, name = '' }: UploadFilesProps) {
+function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps) {
   const [checkedStatus, setCheckedStatus] = useState<boolean[]>([]);
   const isEmpty = !files || !files.length;
 
@@ -46,7 +48,7 @@ function UploadFiles({ files, setFiles, name = '' }: UploadFilesProps) {
   };
 
   return (
-    <div className={`mb-3 ${isEmpty ? 'pt-6' : ''}`}>
+    <div className={classNames(className, 'mb-3', isEmpty ? 'pt-6' : '')}>
       <div className="mt-3">
         {files.map((file, idx) => (
           <div key={idx} className="flex items-center mt-1">

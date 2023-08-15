@@ -41,11 +41,11 @@ export default function RootLayout({
         <Providers>
           <div className="flex">
             <div className="hidden lg:block">
-              <SideBar />
+              <SideBar className="lg:fixed" />
             </div>
-            <div className="bg-[#EDEFF3] w-full flex flex-col lg:pb-6">
+            <div className="lg:bg-[#EDEFF3] w-full flex flex-col lg:pb-6 h-screen overflow-y-auto lg:pl-[200px]">
               <Nav />
-              <div className="bg-white lg:mx-6 rounded-sm h-full">{children}</div>
+              <div className="bg-white lg:mx-6 rounded-sm lg:h-full lg:overflow-y-auto">{children}</div>
             </div>
           </div>
         </Providers>

@@ -47,12 +47,12 @@ function Page({params: { slug }}: Props) {
   };
 
   return (
-    <div className="pt-10 px-12">
+    <div className="py-5 lg:py-10 px-3 lg:px-12">
       <div className="font-bold text-2xl">{category?.name}</div>
       <table className="border-t-[1px] border-t-black w-full mt-10 border-x-[1px] p-2">
         <tbody>
           <tr className="border-b-2">
-            <td className="py-5 px-1 w-28 bg-gray-100 text-center">제목</td>
+            <td className="py-5 min-w-[70px] px-1 w-28 bg-gray-100 text-center">제목</td>
             <td className="px-4">
               <Input
                 type="text"
@@ -80,7 +80,9 @@ function Page({params: { slug }}: Props) {
           <tr className="border-b-2">
             <td className="py-5 px-1 w-28 bg-gray-100 text-center">첨부파일</td>
             <td className="px-4">
-              <UploadFiles files={files} setFiles={setFiles} />
+              <div className="overflow-x-auto w-[250px] lg:w-full">
+                <UploadFiles className="w-fit" files={files} setFiles={setFiles} />
+              </div>
             </td>
           </tr>
         </tbody>

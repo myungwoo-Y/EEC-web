@@ -14,7 +14,7 @@ type BasisProps = {
 
 function Basis({ register, watch }: BasisProps) {
   return (
-    <div className="mt-7">
+    <div className="mt-7 overflow-x-auto">
       <p className="text-xl font-semibold">관련근거</p>
       <table className={classNames(tableStyles.normal, 'w-full mt-2 mb-10')}>
         <thead>
@@ -48,7 +48,7 @@ function Basis({ register, watch }: BasisProps) {
             <td>
               <div className="flex items-center justify-center gap-1">
                 기본교육
-                <Select className="w-24" register={register} watch={watch} name="1">
+                <Select className="min-w-[100px]" register={register} watch={watch} name="1">
                   <option value="">
                     년도선택
                   </option>
@@ -58,7 +58,7 @@ function Basis({ register, watch }: BasisProps) {
                   <option value="2026">2026</option>
                   <option value="2027">2027</option>
                 </Select>
-                <Select className="w-24" register={register} watch={watch} name="2">
+                <Select className="min-w-[100px]" register={register} watch={watch} name="2">
                   <option value="">
                     기수선택
                   </option>
@@ -80,7 +80,7 @@ function Basis({ register, watch }: BasisProps) {
                 <option value={CertificateState.NONE}>해당없음</option>
               </Select>
             </td>
-            <td className="w-96">
+            <td className="min-w-[300px]">
               <Input type="text" register={register} name="4" />
             </td>
           </tr>
@@ -88,7 +88,7 @@ function Basis({ register, watch }: BasisProps) {
             <td>
               <div className="flex items-center justify-center gap-1">
                 실무교육
-                <Select className="w-24" register={register} watch={watch} name="5">
+                <Select className="min-w-[100px]" register={register} watch={watch} name="5">
                   <option value="">
                     년도선택
                   </option>
@@ -98,7 +98,7 @@ function Basis({ register, watch }: BasisProps) {
                   <option value="2026">2026</option>
                   <option value="2027">2027</option>
                 </Select>
-                <Select className="w-24" register={register} watch={watch} name="6">
+                <Select className="min-w-[100px]" register={register} watch={watch} name="6">
                   <option value="">
                     기수선택
                   </option>

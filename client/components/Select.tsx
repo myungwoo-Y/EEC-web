@@ -45,7 +45,7 @@ function Select({
           className={`border-[1px] border-gray-300 rounded-md py-1 px-3 focus:bg-white focus:border-primary w-full appearance-none bg-[url('https://kr.object.ncloudstorage.com/eec/caret-down-solid.svg')] bg-[length:12px_12px] bg-no-repeat bg-right 
             ${watch && watch(name) ? 'text-black' : 'text-gray-400'}
             ${error && 'border-red-600'}
-            ${disabled ? 'text-gray-400 bg-gray-50' : ''}`}
+            ${disabled ? 'text-gray-400 bg-gray-50' : 'bg-white'}`}
           style={{ backgroundPositionX: 'calc(100% - 5px)' }}
           {...register(name, option)}
           value={watch && watch(name)}
@@ -58,7 +58,7 @@ function Select({
           className={`border-[1px] border-gray-300 rounded-md py-1 px-3 focus:bg-white focus:border-primary w-full appearance-none bg-[url('https://kr.object.ncloudstorage.com/eec/caret-down-solid.svg')] bg-[length:12px_12px] bg-no-repeat bg-right 
           ${value ? '' : 'text-gray-400'}
           ${error && 'border-red-600'}
-            ${disabled ? 'text-gray-400 bg-gray-50' : ''}
+            ${disabled ? 'text-gray-400 bg-gray-50' : 'bg-white'}
           `}
           style={{ backgroundPositionX: 'calc(100% - 5px)' }}
           onChange={(e) => {

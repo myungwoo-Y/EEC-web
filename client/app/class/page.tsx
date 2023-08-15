@@ -81,13 +81,13 @@ export default function Page() {
   };
 
   return (
-    <div className="pt-10 px-12">
+    <div className="pt-4 lg:pt-10 px-2 lg:px-12">
       <div className="font-bold text-2xl">강의일정</div>
-      <div className="w-full flex flex-col gap-6 mt-16">
+      <div className="w-full flex flex-col gap-6 mt-10 lg:mt-16">
         {classes &&
           classes.map((data) => (
             <div
-              className="w-full flex justify-between border-b-2 border-gray-100 pb-4"
+              className="w-full flex flex-col lg:flex-row justify-between border-b-2 border-gray-100 pb-4"
               key={data.classId}
             >
               <div className="flex">
@@ -96,7 +96,7 @@ export default function Page() {
                   height={120}
                   src={data.thumbnailImage.path}
                   alt={data.title}
-                  className="rounded-md w-fit"
+                  className="rounded-md w-24 h-24 lg:w-fit"
                 />
                 <div className="flex flex-col gap-1 ml-5 w-80">
                   <p className="text-lg font-bold">{data.title}</p>
@@ -120,7 +120,7 @@ export default function Page() {
                   </div>
                 </div>
               </div>
-              <div className="flex">
+              <div className="flex justify-end mt-3 lg:mt-0">
                 {getSubmitButton(data.classId)}
                 {isAdmin && (
                   <button

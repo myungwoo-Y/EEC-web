@@ -122,10 +122,10 @@ function UpdateReport({ params: { slug: reportId }}: UpdateReportProps) {
 
 
   return (
-    <div className="pt-10 px-12">
+    <div className="py-5 lg:pt-10 px-3 lg:px-12">
       <div className="font-bold text-2xl">역학조사관 분기실적보고</div>
 
-      <div className="mt-10">
+      <div className="mt-10 overflow-x-auto">
         <p className="text-xl font-semibold">기본정보</p>
         <table className="w-full mt-2">
           <thead>
@@ -156,20 +156,22 @@ function UpdateReport({ params: { slug: reportId }}: UpdateReportProps) {
           <tbody>
             <tr className="text-center">
               <td className="border-gray-300 border-[1px] p-2">
-                <Input type="number" register={register} name="year" option={{ required: true }} error={errors.year?.type === "required" ? ' ' : ''} />
+                <Input className="w-20" type="number" register={register} name="year" option={{ required: true }} error={errors.year?.type === "required" ? ' ' : ''} />
               </td>
               <td className="border-gray-300 border-[1px] p-2 w-16">
-                <Input type="number" register={register} name="quarter" option={{ required: true }} error={errors.quarter?.type === "required" ? ' ' : ''} />
+                <Input className="w-10" type="number" register={register} name="quarter" option={{ required: true }} error={errors.quarter?.type === "required" ? ' ' : ''} />
               </td>
               <td className="border-gray-300 border-[1px] p-2">
-                {report?.user?.department}
+                <div className="min-w-[100px]">{report?.user?.department}</div>
               </td>
               <td className="border-gray-300 border-[1px] p-2">
-                {report?.user?.jobLevel}
+                <div className="min-w-[100px]">{report?.user?.jobLevel}</div>
               </td>
-              <td className="border-gray-300 border-[1px] p-2">{user?.name}</td>
               <td className="border-gray-300 border-[1px] p-2">
-                <div className="flex items-center justify-center">
+                <div className="min-w-[100px]">{user?.name}</div>
+              </td>
+              <td className="border-gray-300 border-[1px] p-2">
+                <div className="flex items-center justify-center min-w-[50px]">
                   <input
                     type="checkbox"
                     className={classNames(checkboxStyles.rectangle)}

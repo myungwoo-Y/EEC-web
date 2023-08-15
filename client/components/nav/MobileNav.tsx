@@ -2,12 +2,24 @@
 
 import { User } from '@/model/user';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import SideBar from '../SideBar';
 import Link from 'next/link';
 import FadeIn from '../animation/FadeIn';
 import { Transition } from '@headlessui/react';
+import {
+  ArrowRightOnRectangleIcon,
+  Cog6ToothIcon,
+  PencilSquareIcon,
+  UserCircleIcon,
+  UserIcon,
+  UserMinusIcon,
+} from '@heroicons/react/24/outline';
+import { removeCredentials } from '@/features/auth/authSlice';
+import NavItem from '../NavItem';
+import { getUserRoleName } from '@/lib/user';
+import { useDispatch } from 'react-redux';
 
 type MobileNavProps = {
   user: User | null;
@@ -15,10 +27,26 @@ type MobileNavProps = {
 
 function MobileNav({ user }: MobileNavProps) {
   const [isHamburgerClick, setIsHamburgerClick] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isHamburgerClick) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'scroll';
+    }
+    return () => {
+      document.body.style.overflow = 'scroll';
+    };
+  }, [isHamburgerClick]);
 
   return (
-    <>
-      <div className="h-14 flex justify-between items-center px-4 bg-secondary text-white">
+    <div className="overscroll-y-auto">
+      <div
+        className={classNames(
+          'h-14 flex justify-between items-center px-4 bg-secondary text-white'
+        )}
+      >
         <Link href="/">
           <Image
             src="https://nowzone.b-cdn.net/eec/logo.png"
@@ -58,16 +86,48 @@ function MobileNav({ user }: MobileNavProps) {
         leave="transform transition ease-in-out duration-500"
         leaveFrom="translate-x-0"
         leaveTo="translate-x-full"
-        className="relative z-50"
+        className="fixed z-50 w-full"
       >
-        <SideBar
-          className="absolute z-50 right-0 min-w-[90%]"
-          isShowLogo={false}
-        >
-          <div>hello</div>
+        <SideBar className="float-right min-w-[90%] h-full" isShowLogo={false}>
+          <div className="flex flex-col w-full h-14 py-4 px-6 gap-6 mt-10 text-white">
+            {user ? (
+              <>
+                <div className="flex items-center">
+                  <UserCircleIcon className="w-4 h-4 mr-1" />
+                  {`${user.name}(${getUserRoleName(user.role)})님, 환영합니다`}
+                </div>
+                <NavItem text="서비스관리" path="/admin" Icon={Cog6ToothIcon} />
+                <NavItem
+                  text="정보수정"
+                  path="/update"
+                  Icon={PencilSquareIcon}
+                />
+                <button
+                  className="flex items-center hover:text-primary"
+                  onClick={() => dispatch(removeCredentials())}
+                >
+                  <UserMinusIcon className="w-4 h-4 mr-1" /> 로그아웃
+                </button>
+              </>
+            ) : (
+              <>
+                <NavItem
+                  text="로그인"
+                  path="/login"
+                  Icon={ArrowRightOnRectangleIcon}
+                />
+                <NavItem
+                  text="회원가입"
+                  path="/signup"
+                  className=""
+                  Icon={UserIcon}
+                />
+              </>
+            )}
+          </div>
         </SideBar>
       </Transition>
-    </>
+    </div>
   );
 }
 

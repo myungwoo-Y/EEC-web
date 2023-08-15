@@ -49,7 +49,7 @@ function Lectures({ params: { classId } }: LecturesProps) {
 
   return (
     <div className="">
-      <div className="pt-10 px-12 flex justify-between">
+      <div className="py-5 lg:py-10 px-3 lg:px-12 flex justify-between">
         <div className="flex">
           <p className="font-bold text-2xl">{currentClass?.title}</p>
           <Select

@@ -15,9 +15,9 @@ function ClassPage({ params: { classId } }: ClassProps) {
   const { data } = useGetClassQuery(classId);
 
   return (
-    <div className="py-10 px-12">
+    <div className="py-5 lg:py-10 px-3 lg:px-12">
       {data && (
-        <div className="flex flex-col gap-4 mx-auto w-[800px]">
+        <div className="flex flex-col gap-4 mx-auto lg:w-[800px]">
           <p className="font-bold text-2xl">{data.title}</p>
           <div>
             <div className="bm-1">강의 이름</div>

@@ -44,10 +44,10 @@ function Page() {
   }
 
   return (
-    <div className="py-10 px-12">
+    <div className="py-5 lg:py-10 px-3 lg:px-12">
       <p className="font-bold text-2xl">강의 추가하기</p>
-      <div className="flex flex-col items-center gap-4 mt-10 mx-auto w-[800px]">
-        <p className="font-bold text-2xl">아래 정보를 입력해주세요</p>
+      <div className="flex flex-col items-center gap-4 mt-5 lg:mt-10 mx-auto w-full lg:w-[800px]">
+        <p className="font-bold text-xl lg:text-2xl">아래 정보를 입력해주세요</p>
         <Input
           type="text"
           register={register}

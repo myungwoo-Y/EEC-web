@@ -22,14 +22,14 @@ function Page({ params: { slug: categoryId } }: Props) {
   const isQuestionPost = isQuestion(category);
 
   return (
-    <div className="pt-10 px-12">
+    <div className="py-5 lg:py-10 px-3 lg:px-12">
       <div className="font-bold text-2xl">{category}</div>
       <table className="w-full mt-10">
         <thead>
           <tr className="border-t-2 border-t-black border-b-[1px] bg-gray-50">
-            <th className="py-3">번호</th>
-            <th className="w-3/5">제목</th>
-            <th>작성자</th>
+            <th className="py-3 min-w-[40px] hidden lg:block">번호</th>
+            <th className="w-3/5 py-3">제목</th>
+            <th className="py-3 min-w-[60px] hidden lg:block">작성자</th>
             <th>등록일</th>
             <th>{isQuestionPost ? '처리결과' : '조회수'}</th>
           </tr>
@@ -41,9 +41,9 @@ function Page({ params: { slug: categoryId } }: Props) {
               className="border-y-[1px] hover:bg-gray-50"
               onClick={() => router.push(`/post/${post.postId}`)}
             >
-              <td className="text-center py-3">{post.postId}</td>
-              <td>{post.title}</td>
-              <td className="text-center">{post?.user?.name}</td>
+              <td className="text-center py-3 hidden lg:block">{post.postId}</td>
+              <td className="py-3">{post.title}</td>
+              <td className="text-center hidden lg:block">{post?.user?.name}</td>
               <td className="text-center">
                 {post.createDateTime?.slice(0, 10)}
               </td>

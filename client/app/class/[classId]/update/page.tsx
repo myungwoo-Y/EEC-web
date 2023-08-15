@@ -85,9 +85,9 @@ function UpdateClass({ params: { classId } }: UpdateClassProps) {
   };
 
   return (
-    <div className="py-10 px-12">
+    <div className="py-5 lg:py-10 px-3 lg:px-12">
       <p className="font-bold text-2xl">강의 수정하기</p>
-      <div className="flex flex-col items-center gap-4 mt-10 mx-auto w-[800px]">
+      <div className="flex flex-col items-center gap-4 mt-10 mx-auto lg:w-[800px]">
         <p className="font-bold text-2xl">아래 정보를 수정해주세요</p>
         <Input
           type="text"

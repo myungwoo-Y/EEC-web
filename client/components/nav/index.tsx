@@ -49,7 +49,7 @@ function Nav() {
         <PCNav user={user}/>
       </div>
       <div className="block lg:hidden">
-        <MobileNav />
+        <MobileNav user={user} />
       </div>
     </>
   );

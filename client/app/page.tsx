@@ -28,13 +28,13 @@ export default function Home() {
         className="mt-10 py-14 px-10 flex justify-evenly bg-gray-100"
         style={{
           background:
-            'linear-gradient(280.99deg, rgba(0, 123, 255, 0.1455) 2.68%, rgba(8, 207, 253, 0.148359) 50.23%, rgba(35, 98, 186, 0.15) 97.04%)',
+            'linear-gradient(281deg, rgba(0, 121, 251, 0.20) 0%, rgba(8, 207, 253, 0.20) 72.77%);',
         }}
       >
                 <div>
           <div className="text-3xl font-bold w-fit">
             역학교육센터는
-            <div className="w-full h-1 bg-primary rounded-md -mt-1"></div>
+            <div className="w-full h-3 bg-primary opacity-40 rounded-sm -mt-3"></div>
           </div>
           <p className="mt-10 text-lg text-gray-700">
             가축전염병의 예방 및 확산 방지를 위한 역학조사 업무를 수행하는
@@ -52,11 +52,11 @@ export default function Home() {
           </Link>
         </div>
         <Image
-          src="https://kr.object.ncloudstorage.com/eec/hero.png"
+          src="https://kr.object.ncloudstorage.com/eec/hero.svg"
           alt="main img"
-          width={420}
-          height={400}
-          className="w-fit rounded-md opacity-80"
+          width={600}
+          height={300}
+          className="rounded-md opacity-80"
         />
       </section>
       <section className="px-5 flex justify-between gap-16 min-h-[200px]">

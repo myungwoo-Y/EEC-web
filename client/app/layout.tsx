@@ -1,6 +1,6 @@
 import './globals.css';
 import SideBar from '@/components/SideBar';
-import Nav from '@/components/Nav';
+import Nav from '@/components/nav';
 import { Providers } from '@/redux/provider';
 import localFont from 'next/font/local';
 
@@ -41,9 +41,9 @@ export default function RootLayout({
         <Providers>
           <div className="flex">
             <SideBar />
-            <div className="bg-[#EDEFF3] w-full flex flex-col pb-6">
+            <div className="bg-[#EDEFF3] w-full flex flex-col lg:pb-6">
               <Nav />
-              <div className="bg-white mx-6 rounded-sm h-full">{children}</div>
+              <div className="bg-white lg:mx-6 rounded-sm h-full">{children}</div>
             </div>
           </div>
         </Providers>

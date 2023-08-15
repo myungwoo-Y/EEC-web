@@ -9,9 +9,11 @@ import {
   PlusCircleIcon,
 } from '@heroicons/react/24/outline';
 import { HomeIcon } from '@heroicons/react/24/solid';
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
+import styles from './home.module.scss';
 
 export default function Home() {
   const { data: classes } = useGetClassesQuery();
@@ -20,18 +22,13 @@ export default function Home() {
   return (
     <div className="pt-5">
       <div className="text-3xl font-bold flex items-center px-5">
-        <HomeIcon width={32} className="mr-2" />
-        홈
+        <HomeIcon width={32} className="mr-2" />홈
       </div>
 
       <section
-        className="mt-10 py-14 px-10 flex justify-evenly bg-gray-100"
-        style={{
-          background:
-            'linear-gradient(281deg, rgba(0, 121, 251, 0.20) 0%, rgba(8, 207, 253, 0.20) 72.77%);',
-        }}
+        className={classNames(styles.hero, "mt-10 py-14 px-10 flex justify-evenly")}
       >
-                <div>
+        <div>
           <div className="text-3xl font-bold w-fit">
             역학교육센터는
             <div className="w-full h-3 bg-primary opacity-40 rounded-sm -mt-3"></div>
@@ -47,7 +44,7 @@ export default function Home() {
           </p>
           <Link href="/class">
             <button className="flex items-center justify-center py-3 px-8 bg-gradient-to-br from-primary to-third rounded-md text-white mt-10 font-bold">
-                강의보기
+              강의보기
             </button>
           </Link>
         </div>
@@ -106,7 +103,9 @@ export default function Home() {
             {classes?.map((data) => (
               <Link key={data.classId} href={`/class`}>
                 <li className="mt-1 group">
-                  <span className="w-96 text-ellipsis group-hover:underline">{data.title}</span>
+                  <span className="w-96 text-ellipsis group-hover:underline">
+                    {data.title}
+                  </span>
                   <span className="float-right text-gray-400 group-hover:underline">
                     {dayjs(data.registerStart).format('YYYY.MM.DD')}
                   </span>

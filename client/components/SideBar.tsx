@@ -41,15 +41,18 @@ function SideBar() {
   }, [classes, dispatch]);
 
   return (
-    <div className="bg-secondary min-h-screen">
-      <div className="px-8 pt-10 mb-16">
-        <Image
-          src="https://nowzone.b-cdn.net/eec/logo.png"
-          alt="home"
-          width={200}
-          height={40}
-          className="h-[40px]"
-        />
+    <div className="bg-secondary min-h-screen hidden lg:block min-w-[200px] w-[200px]">
+      <div className="mb-6 w-full py-5 px-2">
+        <Link href="/" className="relative">
+          <Image
+            src="https://nowzone.b-cdn.net/eec/logo.png"
+            alt="home"
+            width={200}
+            height={40}
+            className="w-fit px-3 py-5"
+          />
+          <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-[hsl(0,0%,98.4%,0.2)] bg-fixed opacity-0 transition duration-300 ease-in-out hover:opacity-100 rounded-md"></div>
+        </Link>
       </div>
       <Link
         href="/"

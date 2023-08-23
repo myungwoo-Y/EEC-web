@@ -93,7 +93,7 @@ function MobileNav({ user }: MobileNavProps) {
         enter="transform transition ease-in-out duration-500"
         enterFrom="translate-x-full"
         enterTo="translate-x-0"
-        leave="transform transition ease-in-out duration-100"
+        leave="transform transition ease-in-out duration-200"
         leaveFrom="translate-x-0"
         leaveTo="translate-x-full"
         className="fixed z-50 w-full"

@@ -1,12 +1,13 @@
-"use client"
+'use client';
 
-import Input from '@/components/Input'
-import Select from '@/components/Select'
+import Input from '@/components/Input';
+import Select from '@/components/Select';
 import TextEditor from '@/components/TextEditor';
 import UploadFiles from '@/components/UploadFiles';
 import { useAddPostMutation, useGetCategoryByIdQuery } from '@/services/post';
+import classNames from 'classnames';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type Props = {
@@ -15,8 +16,7 @@ type Props = {
   };
 };
 
-
-function Page({params: { slug }}: Props) {
+function Page({ params: { slug } }: Props) {
   const { data: category } = useGetCategoryByIdQuery(slug);
   const [files, setFiles] = useState<File[]>([]);
   const [content, setContent] = useState('');
@@ -28,22 +28,29 @@ function Page({params: { slug }}: Props) {
     register,
     handleSubmit,
     formState: { errors },
-    watch
+    watch,
   } = useForm();
 
+  if (isSuccess) {
+    alert('게시물이 추가되었습니다');
+    router.back();
+  }
+
   const onSubmit = (data: Record<string, any>) => {
-    const formData  = new FormData();
-    files.map(file => {
-      formData.append('files', file)
+    if (!content) {
+      alert('내용을 입력해주세요');
+      return;
+    }
+
+    const formData = new FormData();
+    files.map((file) => {
+      formData.append('files', file);
     });
     formData.append('title', data.title);
     formData.append('content', content);
     formData.append('categoryId', category?.categoryId + '');
     formData.append('isOpen', data.isOpen);
     addPost(formData);
-
-    alert('게시물이 추가되었습니다.');
-    router.back();
   };
 
   return (
@@ -52,14 +59,18 @@ function Page({params: { slug }}: Props) {
       <table className="border-t-[1px] border-t-black w-full mt-10 border-x-[1px] p-2">
         <tbody>
           <tr className="border-b-2">
-            <td className="py-5 min-w-[70px] px-1 w-28 bg-gray-100 text-center">제목</td>
+            <td className="py-5 min-w-[70px] px-1 w-28 bg-gray-100 text-center">
+              제목
+            </td>
             <td className="px-4">
               <Input
                 type="text"
                 register={register}
                 name="title"
                 option={{ required: true }}
-                error={errors.title?.type === "required" ? '제목을 입력해주세요' : ''}
+                error={
+                  errors.title?.type === 'required' ? '제목을 입력해주세요' : ''
+                }
               />
             </td>
           </tr>
@@ -81,13 +92,23 @@ function Page({params: { slug }}: Props) {
             <td className="py-5 px-1 w-28 bg-gray-100 text-center">첨부파일</td>
             <td className="px-4">
               <div className="overflow-x-auto w-[250px] lg:w-full">
-                <UploadFiles className="w-fit" files={files} setFiles={setFiles} />
+                <UploadFiles
+                  className="w-fit"
+                  files={files}
+                  setFiles={setFiles}
+                />
               </div>
             </td>
           </tr>
         </tbody>
       </table>
-      <TextEditor className="mt-6" setContent={setContent} content={content} />
+      <div>
+        <TextEditor
+          className="mt-6"
+          setContent={setContent}
+          content={content}
+        />
+      </div>
       <div className="flex justify-center mt-10 mb-6">
         <div>
           <button

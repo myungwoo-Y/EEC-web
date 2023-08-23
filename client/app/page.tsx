@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './home.module.scss';
+import Carousel from '@/components/Carousel';
 
 export default function Home() {
   const { data: classes } = useGetClassesQuery();
@@ -48,13 +49,7 @@ export default function Home() {
             </button>
           </Link>
         </div>
-        <Image
-          src="https://kr.object.ncloudstorage.com/eec/hero.svg"
-          alt="main img"
-          width={600}
-          height={300}
-          className="rounded-md opacity-80"
-        />
+        <Carousel />
       </section>
       <section className="px-5 flex flex-col lg:flex-row justify-between gap-16 min-h-[200px]">
         <div className="w-full mt-10">

@@ -20,6 +20,7 @@ import { removeCredentials } from '@/features/auth/authSlice';
 import NavItem from '../NavItem';
 import { getUserRoleName } from '@/lib/user';
 import { useDispatch } from 'react-redux';
+import { usePathname } from 'next/navigation';
 
 type MobileNavProps = {
   user: User | null;
@@ -28,6 +29,15 @@ type MobileNavProps = {
 function MobileNav({ user }: MobileNavProps) {
   const [isHamburgerClick, setIsHamburgerClick] = useState(false);
   const dispatch = useDispatch();
+  const pathname = usePathname();
+
+  const toggle = () => setIsHamburgerClick(!isHamburgerClick);
+
+  useEffect(() => {
+    if (isHamburgerClick) {
+      toggle();
+    }
+  }, [pathname])
 
   useEffect(() => {
     if (isHamburgerClick) {
@@ -58,7 +68,7 @@ function MobileNav({ user }: MobileNavProps) {
         </Link>
         <div
           className="flex flex-col items-center justify-center cursor-pointer w-5 h-5 "
-          onClick={() => setIsHamburgerClick(!isHamburgerClick)}
+          onClick={toggle}
         >
           <div
             className={classNames(
@@ -83,7 +93,7 @@ function MobileNav({ user }: MobileNavProps) {
         enter="transform transition ease-in-out duration-500"
         enterFrom="translate-x-full"
         enterTo="translate-x-0"
-        leave="transform transition ease-in-out duration-500"
+        leave="transform transition ease-in-out duration-100"
         leaveFrom="translate-x-0"
         leaveTo="translate-x-full"
         className="fixed z-50 w-full"

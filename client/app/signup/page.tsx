@@ -73,7 +73,7 @@ function Signup() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-full mt-5 px-3 lg:px-0">
+    <div className="flex flex-col items-center justify-center mt-5 px-3 lg:px-0">
       <form className="pb-24" onSubmit={handleSubmit}>
         <p className="text-xl lg:text-3xl font-semibold">회원가입</p>
         <p className="text-lg mt-2 text-gray-400">

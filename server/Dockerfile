@@ -25,4 +25,6 @@ RUN npm install sharp
 RUN npm install pm2 -g
 
 EXPOSE 8080
+RUN npm run typeorm:generate-migration-prod
+RUN npm run typeorm:run-migration-prod
 CMD [ "pm2", "start", "dist/src/main.js", "--name" "eec-server" ]

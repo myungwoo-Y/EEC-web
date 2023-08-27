@@ -37,6 +37,7 @@ lerna-debug.log*
 # ENV value
 .env
 .env.prod
+.env.naver
 
 # Script
 src/scripts

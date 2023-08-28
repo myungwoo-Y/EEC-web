@@ -23,7 +23,6 @@ export function toInputDate(date: string) {
   if (!date) {
     return '';
   }
-  
   return dayjs.utc(date).format('YYYY-MM-DD');
 }
 
@@ -32,5 +31,9 @@ export function toKoreaDate(date: string) {
     return '';
   }
   return dayjs.utc(date).format('YYYY년 M월 D일');
+}
+
+export function toISOString(date: string | number) {
+  return dayjs.utc(date).toISOString();
 }
 

@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 import FileTable from '@/components/report/FileTable';
 import { useGetReportQuery, useUpdateReportMutation } from '@/services/report';
 import { useRouter } from 'next/navigation';
-import { toInputDate } from '@/lib/date';
+import { toISOString, toInputDate } from '@/lib/date';
 import { getFileFromUrl } from '@/lib/downloadFile';
 
 type UpdateReportProps = {
@@ -109,7 +109,7 @@ function UpdateReport({ params: { slug: reportId }}: UpdateReportProps) {
     formData.append('basis', basis.join('|'));
     formData.append('year', data.year);
     formData.append('quarter', data.quarter);
-    formData.append('certificationDate', dayjs(data.certificationDate).toISOString());
+    formData.append('certificationDate', toISOString(data.certificationDate));
 
     files.map((newFiles, idx) => {
       newFiles.map(file => {

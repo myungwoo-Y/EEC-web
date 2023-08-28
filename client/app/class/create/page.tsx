@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
+import { toISOString } from '@/lib/date';
 
 function Page() {
   const {
@@ -28,10 +29,10 @@ function Page() {
     formData.append('target', data.target);
     formData.append('description', data.description);
     formData.append('detail', detail);
-    formData.append('classStart', dayjs(data.classStart).toISOString());
-    formData.append('classEnd', dayjs(data.classEnd).toISOString());
-    formData.append('registerStart', dayjs(data.registerStart).toISOString());
-    formData.append('registerEnd', dayjs(data.registerEnd).toISOString());
+    formData.append('classStart', toISOString(data.classStart));
+    formData.append('classEnd', toISOString(data.classEnd));
+    formData.append('registerStart', toISOString(data.registerStart));
+    formData.append('registerEnd', toISOString(data.registerEnd));
     formData.append('thumbnailImage', data.thumbnailImage[0]);
     addClass(formData);
   };

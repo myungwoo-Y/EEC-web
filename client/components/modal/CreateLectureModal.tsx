@@ -1,6 +1,6 @@
 'use client';
 
-import { toInputDate } from '@/lib/date';
+import { toISOString, toInputDate } from '@/lib/date';
 import { getFileFromUrl } from '@/lib/downloadFile';
 import { openNewTap } from '@/lib/url';
 import { Lecture, UpdateLecture } from '@/model/lecture';
@@ -44,7 +44,12 @@ function CreateLectureModal({ lecture, closeModal }: LectureModalProps) {
     { skip: !currentClassId }
   );
   const { data: admins } = useGetUsersQuery();
-  const [updateLecture] = useUpdateLectureMutation();
+  const [updateLecture, { isSuccess }] = useUpdateLectureMutation();
+
+  if (isSuccess) {
+    alert('저장이 완료되었습니다.');
+    closeModal();
+  }
 
   useEffect(() => {
     const {
@@ -99,30 +104,30 @@ function CreateLectureModal({ lecture, closeModal }: LectureModalProps) {
     formData.append('lecturer', data.lecturer);
     formData.append('curriculumId', lecture.curriculum?.curriculumId + '');
     formData.append('adminId', data.admin);
-    formData.append('startDate', dayjs(data.startDate).toISOString());
-    formData.append('endDate', dayjs(data.endDate).toISOString());
+    formData.append('startDate', toISOString(data.startDate));
+    formData.append('endDate', toISOString(data.endDate));
     formData.append('intro', data.intro);
     formData.append('lectureLink', data.lectureLink);
     data.evaluateStartDate &&
       formData.append(
         'evaluateStartDate',
-        dayjs(data.evaluateStartDate).toISOString()
+        toISOString(data.evaluateStartDate)
       );
     data.evaluateEndDate &&
       formData.append(
         'evaluateEndDate',
-        dayjs(data.evaluateEndDate).toISOString()
+        toISOString(data.evaluateEndDate)
       );
     formData.append('evaluateLink', data.evaluateLink);
     data.lecturerEvaluateStartDate &&
       formData.append(
         'lecturerEvaluateStartDate',
-        dayjs(data.lecturerEvaluateStartDate).toISOString()
+        toISOString(data.lecturerEvaluateStartDate)
       );
     data.lecturerEvaluateEndDate &&
       formData.append(
         'lecturerEvaluateEndDate',
-        dayjs(data.lecturerEvaluateEndDate).toISOString()
+        toISOString(data.lecturerEvaluateEndDate)
       );
     formData.append('lecturerEvaluateLink', data.lecturerEvaluateLink);
 
@@ -130,9 +135,6 @@ function CreateLectureModal({ lecture, closeModal }: LectureModalProps) {
       lectureId: lecture.lectureId,
       formData,
     });
-
-    alert('저장이 완료되었습니다.');
-    closeModal();
   };
 
   return (

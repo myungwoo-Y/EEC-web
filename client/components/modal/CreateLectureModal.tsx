@@ -16,6 +16,7 @@ import Date from '../Date';
 import Input from '../Input';
 import Select from '../Select';
 import UploadFiles from '../UploadFiles';
+import { isString } from '@/lib/string';
 
 type LectureModalProps = {
   lecture: Lecture;
@@ -108,23 +109,23 @@ function CreateLectureModal({ lecture, closeModal }: LectureModalProps) {
     formData.append('endDate', toISOString(data.endDate));
     formData.append('intro', data.intro);
     formData.append('lectureLink', data.lectureLink);
-    data.evaluateStartDate &&
+    isString(data.evaluateStartDate) &&
       formData.append(
         'evaluateStartDate',
         toISOString(data.evaluateStartDate)
       );
-    data.evaluateEndDate &&
+    isString(data.evaluateEndDate) &&
       formData.append(
         'evaluateEndDate',
         toISOString(data.evaluateEndDate)
       );
     formData.append('evaluateLink', data.evaluateLink);
-    data.lecturerEvaluateStartDate &&
+    isString(data.lecturerEvaluateStartDate) &&
       formData.append(
         'lecturerEvaluateStartDate',
         toISOString(data.lecturerEvaluateStartDate)
       );
-    data.lecturerEvaluateEndDate &&
+    isString(data.lecturerEvaluateEndDate) &&
       formData.append(
         'lecturerEvaluateEndDate',
         toISOString(data.lecturerEvaluateEndDate)

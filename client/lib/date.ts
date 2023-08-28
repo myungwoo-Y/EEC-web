@@ -21,19 +21,22 @@ export function addSlashToStr(date: string, split = 2) {
 
 export function toInputDate(date: string) {
   if (!date) {
-    return '';
+    return '-infinity';
   }
   return dayjs.utc(date).format('YYYY-MM-DD');
 }
 
 export function toKoreaDate(date: string) {
   if (!date) {
-    return '';
+    return '-infinity';
   }
   return dayjs.utc(date).format('YYYY년 M월 D일');
 }
 
 export function toISOString(date: string | number) {
+  if (!date) {
+    return '-infinity';
+  }
   return dayjs.utc(date).toISOString();
 }
 

@@ -151,7 +151,7 @@ function ClassManagement() {
                     onClick={() => setSelectedCurriculumId(curriculum.curriculumId)}
                   >
                     <td className="border-gray-300 border-[1px] border-t-black py-3">
-                      {curriculum.curriculumId}
+                      {idx+1}
                     </td>
                     <td className="border-gray-300 border-[1px] border-t-black py-3">
                       {curriculum.class?.title}

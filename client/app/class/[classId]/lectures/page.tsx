@@ -92,9 +92,9 @@ function Lectures({ params: { classId } }: LecturesProps) {
             <table className="w-full mt-10">
               <tbody className="border-t-[1px] border-t-black">
                 {lectures &&
-                  lectures.map((lecture) => (
+                  lectures.map((lecture, idx) => (
                     <tr
-                      key={lecture.lectureId}
+                      key={idx+1}
                       className="border-[1px] border-t-0"
                     >
                       <td className="w-3 text-center py-12 px-5 text-lg text-gray-500">

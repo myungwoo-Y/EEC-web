@@ -107,7 +107,7 @@ function LectureManagement({ curriculumId }: LectureManagement) {
             ? lectures.map((lecture, idx) => (
                 <tr key={lecture.lectureId} className="text-center">
                   <td className="border-gray-300 border-[1px] border-t-black py-3">
-                    {lecture.lectureId}
+                    {idx+1}
                   </td>
                   <td className="border-gray-300 border-[1px] border-t-black py-3">
                     {lecture.curriculum?.title}

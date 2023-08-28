@@ -98,7 +98,7 @@ function Lectures({ params: { classId } }: LecturesProps) {
                       className="border-[1px] border-t-0"
                     >
                       <td className="w-3 text-center py-12 px-5 text-lg text-gray-500">
-                        {lecture.lectureId}
+                        {idx+1}
                       </td>
                       <td className="w-1/2 lg:w-2/3">
                         <div className="h-14 text-lg flex items-center break-words">

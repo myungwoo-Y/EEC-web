@@ -53,6 +53,7 @@ export class PostService {
       .leftJoin('p.user', 'u')
       .leftJoin('p.category', 'c')
       .where(`c.categoryId = ${categoryId}`)
+      .orderBy('p.createDateTime', 'DESC')
       .getMany();
   }
 

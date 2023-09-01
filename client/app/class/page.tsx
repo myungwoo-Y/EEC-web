@@ -12,6 +12,7 @@ import { UserRole } from '@/model/user';
 import { useAddClassToUserMutation } from '@/services/user';
 import EditApplicationModal from '@/components/modal/EditApplicationModal';
 import Image from 'next/image';
+import parse from 'html-react-parser';
 
 export default function Page() {
   const user = useSelector(selectCurrentUser);
@@ -116,7 +117,11 @@ export default function Page() {
                     <div className="flex items-center">
                       <BookOpenIcon width={16} className="mr-1" /> 구성 설명
                     </div>
-                    <p className="text-gray-400">{data.description}</p>
+                    <p className="text-gray-400">
+                      <div className="whitespace-pre-wrap">
+                        {data.description}
+                      </div>
+                    </p>
                   </div>
                 </div>
               </div>

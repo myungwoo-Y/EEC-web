@@ -28,6 +28,7 @@ export default function Carousel() {
             alt="carousel content"
             key={idx}
             className="relative aspect-video lg:h-[300px]"
+            priority
           />
         ))}
       </Flickity>

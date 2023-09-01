@@ -67,7 +67,7 @@ export default function Home() {
           </div>
           <ul className="mt-5">
             {notices &&
-              notices.map((notice) => (
+              notices.slice(0, 5).map((notice) => (
                 <Link href={`/post/${notice.postId}`} key={notice.postId}>
                   <li className="mt-1 group">
                     <span className="inline-block w-60 lg:w-96 h-6 overflow-hidden whitespace-nowrap text-ellipsis group-hover:underline">

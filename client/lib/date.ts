@@ -37,7 +37,6 @@ export function toISOString(date: string | number) {
   if (!date || date === '-infinity') {
     return '-infinity';
   }
-  console.log(date);
   return dayjs.utc(date).toISOString();
 }
 

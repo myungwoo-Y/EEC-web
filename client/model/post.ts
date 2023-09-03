@@ -40,3 +40,14 @@ export type Comment = {
   post: Post;
 } & BaseEntity;
 
+export type CreatePost = {
+  title: string;
+
+  content: string;
+
+  categoryId: number;
+
+  files: File[];
+
+  isOpen: boolean;
+}

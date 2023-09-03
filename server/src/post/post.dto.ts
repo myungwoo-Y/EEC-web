@@ -11,8 +11,11 @@ export class CreatePostDto {
   content: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsNumber()
   categoryId: number;
+
+  @IsNotEmpty()
+  isOpen: boolean;
 
   files: File[]
 }

@@ -1,6 +1,6 @@
 import { Categories, Category } from '@/features/post/postSlice';
 import { emptySplitApi } from './base';
-import { Post } from '@/model/post';
+import { CreatePost, Post } from '@/model/post';
 import { File } from '@/model/file';
 
 export const postApi = emptySplitApi.injectEndpoints({
@@ -29,10 +29,10 @@ export const postApi = emptySplitApi.injectEndpoints({
       }),
       providesTags: ['Post'],
     }),
-    addPost: builder.mutation<Post, FormData>({
-      query: (formData) => ({
+    addPost: builder.mutation<Post, CreatePost>({
+      query: (post) => ({
         url: 'post',
-        body: formData,
+        body: post,
         method: 'POST',
       }),
       invalidatesTags: ['Post'],

@@ -1,6 +1,7 @@
 import { Categories, Category } from '@/features/post/postSlice';
 import { emptySplitApi } from './base';
 import { Post } from '@/model/post';
+import { File } from '@/model/file';
 
 export const postApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -36,10 +37,10 @@ export const postApi = emptySplitApi.injectEndpoints({
       }),
       invalidatesTags: ['Post'],
     }),
-    updatePost: builder.mutation<Post, { formData: FormData, postId: string }>({
-      query: ({ formData, postId }) => ({
-        url: `post/${postId}`,
-        body: formData,
+    updatePost: builder.mutation<Post, Partial<Post> & {categoryId: number, files: File[]}>({
+      query: (post) => ({
+        url: `post/${post.postId}`,
+        body: post,
         method: 'PUT',
       }),
       invalidatesTags: ['Post'],

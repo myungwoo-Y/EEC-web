@@ -34,18 +34,13 @@ function Page({ params: { slug: postId } }: Props) {
   } = useForm();
 
   const onSubmit = (data: Record<string, any>) => {
-    const formData = new FormData();
-    files.map((file) => {
-      formData.append('files', JSON.stringify(file));
-    });
-    formData.append('title', data.title);
-    formData.append('content', content);
-    formData.append('categoryId', post?.category.categoryId + '');
-    formData.append('isOpen', data.isOpen);
-    formData.append('postId', postId);
     updatePost({
-      formData,
-      postId
+      postId: parseInt(postId),
+      title: data.title,
+      content,
+      categoryId: post?.category.categoryId ?? -1,
+      isOpen: data.isOpen,
+      files
     });
   };
 
@@ -107,7 +102,7 @@ function Page({ params: { slug: postId } }: Props) {
           <tr className="border-b-2">
             <td className="py-5 px-1 w-28 bg-gray-100 text-center">첨부파일</td>
             <td className="px-4">
-              <div className="overflow-x-auto w-[250px] lg:w-full">
+              <div className="overflow-x-auto w-[250px]  sm:w-[500px] md:w-[600px] lg:w-full">
                 <UploadFiles className="w-fit" files={files} setFiles={setFiles} />
               </div>
             </td>

@@ -52,7 +52,7 @@ export class LectureService {
   }) {
     const { adminId, curriculumId, lectureFiles, referenceFiles } = updateLectureDto;
     
-    await this.fileService.removeFilesById({lectureId: lectureId, lectureWithReferenceId: lectureId});
+    await this.fileService.resetFiles({lectureId: lectureId, lectureWithReferenceId: lectureId});
 
     const lectureFileUploadPromise = lectureFiles.map((lectureFile) =>
       this.fileService.linkFileToParent({

@@ -71,7 +71,7 @@ export class ClassController {
       classId,
     );
 
-    await this.fileService.removeFilesById({ classId });
+    await this.fileService.resetFiles({ classId });
 
     await this.fileService.uploadFile({
       file: thumbnailImage,

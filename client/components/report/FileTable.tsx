@@ -3,6 +3,7 @@ import tableStyles from '../table/Table.module.scss';
 import classNames from 'classnames';
 import UploadFiles from '../UploadFiles';
 import { fileNames } from '@/model/report';
+import { File } from '@/model/file';
 
 type FileTableProps = {
   files: File[][];

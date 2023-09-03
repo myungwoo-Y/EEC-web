@@ -131,11 +131,16 @@ export class PostService {
       title: updatePost.title,
       content: updatePost.content,
     });
+    
+    await this.fileService.unlinkFiles({
+      parentColumnName: 'post',
+      parentIdName: 'postId',
+      parentId: postId,
+    });
 
-    await this.fileService.removeFilesById({ postId: postId });
+    await Promise.all(files.map(async (file) => {
 
-    await Promise.all(files.map((file) => {
-      this.fileService.linkFileToParent({
+      await this.fileService.linkFileToParent({
         fileId: file.fileId,
         parentColumnName: 'post',
         parentIdName: 'postId',

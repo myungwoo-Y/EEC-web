@@ -65,27 +65,33 @@ class FileService {
     return null;
   }
 
-  async deleteFilesKeyVal({
-    columnKey,
-    idKey,
-    id,
-  }: {
-    columnKey: string;
-    idKey: string;
-    id: string | number;
+  async unlinkFiles({
+    parentColumnName,
+    parentIdName,
+    parentId,
   }) {
     const files = await this.fileRepository.find({
       where: {
-        [columnKey]: {
-          [idKey]: id,
+        [parentColumnName]: {
+          [parentIdName]: parentId,
         },
       },
     });
 
-    await Promise.all(
-      files.map(async (file) => {
-        await this.fileRepository.delete(file.fileId);
-      }),
+    await Promise.all(files.map(async (file) => (
+      await this.fileRepository.save({
+        fileId: file.fileId,
+        post: null,
+        class: null,
+        lecture: null,
+        lectureWithReference: null,
+        reportRevised: null,
+        reportPresentation: null,
+        reportReport: null,
+        reportPress: null,
+        reportPaper: null,
+      })
+    ))
     );
   }
 
@@ -173,7 +179,7 @@ class FileService {
     return file;
   }
 
-  async removeFilesById({
+  async resetFiles({
     postId,
     classId,
     lectureId,
@@ -233,7 +239,10 @@ class FileService {
 
     await Promise.all(
       files.map(async (file) => {
-        await this.fileRepository.delete(file.fileId);
+        await this.fileRepository.save({
+          fileId: file.fileId,
+
+        });
       }),
     );
   }

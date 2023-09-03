@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 import FileTable from '@/components/report/FileTable';
 import { useAddReportMutation } from '@/services/report';
 import { useRouter } from 'next/navigation';
+import { File } from '@/model/file';
 
 
 function CreateReportPage() {
@@ -57,7 +58,7 @@ function CreateReportPage() {
 
     files.map((newFiles, idx) => {
       newFiles.map(file => {
-        formData.append(fileENNames[idx], file)
+        formData.append(fileENNames[idx], JSON.stringify(file))
       });
     })
 

@@ -1,8 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import File from 'src/model/file.entity';
 import { InsertResult, Repository } from 'typeorm';
-import { unlink } from 'fs';
-import { join } from 'path';
 import * as AWS from 'aws-sdk';
 import { generateFileKey, getKRFileName } from 'src/lib/string';
 
@@ -148,10 +146,20 @@ class FileService {
           lectureId: lectureWithReferenceId,
         },
       });
+    } else {
+      newFile = await this.fileRepository.insert({
+        filename: fileName,
+        mimetype: file.mimetype,
+        path,
+      });
     }
 
     if (newFile) {
-      return newFile.raw[0];
+      const fileId = newFile.raw[0]?.fileId as string;
+      if (typeof fileId !== 'string') {
+        return newFile.raw[0];
+      }
+      return this.fileRepository.findOneBy({fileId});
     }
 
     return null;
@@ -228,6 +236,25 @@ class FileService {
         await this.fileRepository.delete(file.fileId);
       }),
     );
+  }
+
+  async linkFileToParent({
+    parentColumnName,
+    parentIdName,
+    parentId,
+    fileId,
+  }: {
+    parentColumnName: string,
+    parentIdName: string,
+    parentId: string | number,
+    fileId: string
+  }) {
+    return this.fileRepository.save({
+      fileId,
+      [parentColumnName]: {
+        [parentIdName]: parentId
+      }
+    });
   }
 }
 

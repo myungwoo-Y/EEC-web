@@ -10,13 +10,14 @@ import { useUpdateLectureMutation } from '@/services/lecture';
 import { useGetUsersQuery } from '@/services/user';
 import { EyeIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import dayjs from 'dayjs';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Date from '../Date';
 import Input from '../Input';
 import Select from '../Select';
 import UploadFiles from '../UploadFiles';
 import { isString } from '@/lib/string';
+import { File, FileMeta } from '@/model/file';
 
 type LectureModalProps = {
   lecture: Lecture;
@@ -74,30 +75,31 @@ function CreateLectureModal({ lecture, closeModal }: LectureModalProps) {
       lecturerEvaluateStartDate: toInputDate(lecturerEvaluateStartDate),
       lecturerEvaluateEndDate: toInputDate(lecturerEvaluateEndDate),
     });
-
-    lectureFiles.map(async (lectureFile) => {
-      const newFile = await getFileFromUrl(
-        lectureFile.path,
-        lectureFile.filename
-      );
-      setLectureFiles((files) => [...files, newFile]);
-    });
-    referenceFiles.map(async (referenceFile) => {
-      const newFile = await getFileFromUrl(
-        referenceFile.path,
-        referenceFile.filename
-      );
-      setReferenceFiles((files) => [...files, newFile]);
-    });
+    setLectureFiles(lectureFiles);
+    setReferenceFiles(referenceFiles);
+    // lectureFiles.map(async (lectureFile) => {
+    //   const newFile = await getFileFromUrl(
+    //     lectureFile.path,
+    //     lectureFile.filename
+    //   );
+    //   setLectureFiles((files) => [...files, newFile]);
+    // });
+    // referenceFiles.map(async (referenceFile) => {
+    //   const newFile = await getFileFromUrl(
+    //     referenceFile.path,
+    //     referenceFile.filename
+    //   );
+    //   setReferenceFiles((files) => [...files, newFile]);
+    // });
   }, [reset, lecture]);
 
   const onSave = async (data: Record<string, any>) => {
     const formData = new FormData();
     lectureFiles.map((file) => {
-      formData.append('lectureFiles', file);
+      formData.append('lectureFiles', JSON.stringify(file));
     });
     referenceFiles.map((file) => {
-      formData.append('referenceFiles', file);
+      formData.append('referenceFiles', JSON.stringify(file));
     });
 
     formData.append('title', data.title);
@@ -291,7 +293,6 @@ function CreateLectureModal({ lecture, closeModal }: LectureModalProps) {
                   <UploadFiles
                     files={referenceFiles}
                     setFiles={setReferenceFiles}
-                    name="reference"
                   />
                 </td>
               </tr>

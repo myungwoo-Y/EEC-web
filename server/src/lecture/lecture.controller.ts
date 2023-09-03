@@ -18,28 +18,13 @@ export class LectureController {
   }
 
   @Put('/:lectureId')
-  @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'lectureFiles' },
-      { name: 'referenceFiles' },
-    ]),
-  )
   updateLecture(
-    @UploadedFiles()
-    files: {
-      lectureFiles?: Express.Multer.File[];
-      referenceFiles?: Express.Multer.File[];
-    },
     @Param('lectureId') lectureId: number,
     @Body() updateLectureDto: UpdateLectureDto,
   ) {
-    const { lectureFiles, referenceFiles } = files;
-
     return this.lectureService.updateLecture({
       lectureId,
       updateLectureDto,
-      lectureFiles,
-      referenceFiles,
     });
   }
 

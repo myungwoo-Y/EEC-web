@@ -46,23 +46,33 @@ export class LectureService {
   async updateLecture({
     lectureId, 
     updateLectureDto,
-    lectureFiles = [],
-    referenceFiles = []
   }: {
     lectureId: number,
     updateLectureDto: UpdateLectureDto,
-    lectureFiles?: Express.Multer.File[],
-    referenceFiles?: Express.Multer.File[],
   }) {
-    const { adminId, curriculumId } = updateLectureDto;
+    const { adminId, curriculumId, lectureFiles, referenceFiles } = updateLectureDto;
     
     await this.fileService.removeFilesById({lectureId: lectureId, lectureWithReferenceId: lectureId});
 
-    const lectureFileUploadPromise = lectureFiles.map((lectureFile) => this.fileService.uploadFile({file: lectureFile, lectureId}));
-    const referenceFileUploadPromise = referenceFiles.map((referenceFile) => this.fileService.uploadFile({file: referenceFile, lectureWithReferenceId: lectureId}));
+    const lectureFileUploadPromise = lectureFiles.map((lectureFile) =>
+      this.fileService.linkFileToParent({
+        fileId: lectureFile.fileId,
+        parentColumnName: 'lecture',
+        parentIdName: 'lectureId',
+        parentId: lectureId,
+      }),
+    );
+    const referenceFileUploadPromise = referenceFiles.map((referenceFile) =>
+      this.fileService.linkFileToParent({
+        fileId: referenceFile.fileId,
+        parentColumnName: 'lectureWithReference',
+        parentIdName: 'lectureId',
+        parentId: lectureId,
+      }),
+    );
+
     await Promise.all([...lectureFileUploadPromise, ...referenceFileUploadPromise]);
     
-
     return await this.lectureRepository.save({
       lectureId,
       ...updateLectureDto,

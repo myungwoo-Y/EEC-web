@@ -5,9 +5,12 @@ import {
   ArrowUpOnSquareIcon,
   TrashIcon,
 } from '@heroicons/react/24/solid';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import checkboxStyles from './Checkbox.module.scss';
 import classNames from 'classnames';
+import { File, FileMeta } from '@/model/file';
+import { useAddFilesMutation } from '@/services/file';
+import useUploadFiles from '@/hooks/useUploadFiles';
 
 type UploadFilesProps = {
   files: File[];
@@ -17,16 +20,16 @@ type UploadFilesProps = {
 };
 
 function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps) {
-  const [checkedStatus, setCheckedStatus] = useState<boolean[]>([]);
+  const [
+    checkedStatus,
+    setCheckedStatus,
+    onUpload,
+    { isSuccess, isError, isLoading },
+  ] = useUploadFiles({files, setFiles});
+
   const isEmpty = !files || !files.length;
 
   const inputId = `upload-${name}`;
-
-  useEffect(() => {
-    if (files.length > checkedStatus.length) {
-      setCheckedStatus([...checkedStatus, false]);
-    }
-  }, [files, checkedStatus]);
 
   const handleRemoveChecked = () => {
     setFiles(files.filter((_, idx) => !checkedStatus[idx]));
@@ -36,14 +39,14 @@ function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps
   const handleDownloadCheckedFiles = () => {
     files.map((file, idx) => {
       if (checkedStatus[idx]) {
-        downloadFile(file);
+        downloadFile(file.path);
       }
     });
   };
 
   const handleDownloadFiles = () => {
     files.map((file) => {
-      downloadFile(file);
+      downloadFile(file.path);
     });
   };
 
@@ -68,7 +71,7 @@ function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps
               }}
             />
             <div>
-              {idx + 1}. {file.name}
+              {idx + 1}. {file.filename}
             </div>
           </div>
         ))}
@@ -85,12 +88,7 @@ function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps
           id={inputId}
           type="file"
           className="hidden"
-          onChange={(e) => {
-            console.log(e);
-            if (e.target.files?.length) {
-              setFiles([...files, e.target.files[0]]);
-            }
-          }}
+          onChange={onUpload}
         />
         <button
           className="ml-2 w-24 flex items-center justify-center border-gray-400 border-[1px] rounded-md py-1"

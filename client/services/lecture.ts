@@ -1,4 +1,4 @@
-import { Lecture, NewLecture, UpdateLectures } from '@/model/lecture';
+import { Lecture, NewLecture, UpdateLecture, UpdateLectures } from '@/model/lecture';
 import { emptySplitApi } from './base';
 
 const lectureApi = emptySplitApi.injectEndpoints({
@@ -34,12 +34,12 @@ const lectureApi = emptySplitApi.injectEndpoints({
     }),
     updateLecture: builder.mutation<
       Lecture,
-      { formData: FormData, lectureId: string | number }
+      UpdateLecture
     >({
-      query: ({ formData, lectureId }) => ({
-        url: `/lecture/${lectureId}`,
+      query: (lecture) => ({
+        url: `/lecture/${lecture.lectureId}`,
         method: 'PUT',
-        body: formData
+        body: lecture
       }),
       invalidatesTags: ['Lecture']
     }),

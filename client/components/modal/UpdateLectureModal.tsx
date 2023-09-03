@@ -1,7 +1,6 @@
 'use client';
 
 import { toISOString, toInputDate } from '@/lib/date';
-import { getFileFromUrl } from '@/lib/downloadFile';
 import { openNewTap } from '@/lib/url';
 import { Lecture, UpdateLecture } from '@/model/lecture';
 import { useGetClassesQuery } from '@/services/class';
@@ -9,22 +8,21 @@ import { useGetCurriculumsQuery } from '@/services/curriculum';
 import { useUpdateLectureMutation } from '@/services/lecture';
 import { useGetUsersQuery } from '@/services/user';
 import { EyeIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import dayjs from 'dayjs';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Date from '../Date';
 import Input from '../Input';
 import Select from '../Select';
 import UploadFiles from '../UploadFiles';
 import { isString } from '@/lib/string';
-import { File, FileMeta } from '@/model/file';
+import { File } from '@/model/file';
 
-type LectureModalProps = {
+type UpdateLectureModalProps = {
   lecture: Lecture;
   closeModal: () => void;
 };
 
-function CreateLectureModal({ lecture, closeModal }: LectureModalProps) {
+function UpdateLectureModal({ lecture, closeModal }: UpdateLectureModalProps) {
   const {
     register,
     formState: { errors },
@@ -77,67 +75,54 @@ function CreateLectureModal({ lecture, closeModal }: LectureModalProps) {
     });
     setLectureFiles(lectureFiles);
     setReferenceFiles(referenceFiles);
-    // lectureFiles.map(async (lectureFile) => {
-    //   const newFile = await getFileFromUrl(
-    //     lectureFile.path,
-    //     lectureFile.filename
-    //   );
-    //   setLectureFiles((files) => [...files, newFile]);
-    // });
-    // referenceFiles.map(async (referenceFile) => {
-    //   const newFile = await getFileFromUrl(
-    //     referenceFile.path,
-    //     referenceFile.filename
-    //   );
-    //   setReferenceFiles((files) => [...files, newFile]);
-    // });
   }, [reset, lecture]);
 
   const onSave = async (data: Record<string, any>) => {
-    const formData = new FormData();
-    lectureFiles.map((file) => {
-      formData.append('lectureFiles', JSON.stringify(file));
-    });
-    referenceFiles.map((file) => {
-      formData.append('referenceFiles', JSON.stringify(file));
-    });
+    const {
+      title,
+      author,
+      admin,
+      intro,
+      lectureLink,
+      lecturer,
+      evaluateLink,
+      lecturerEvaluateLink,
+    } = data;
 
-    formData.append('title', data.title);
-    formData.append('author', data.author);
-    formData.append('lecturer', data.lecturer);
-    formData.append('curriculumId', lecture.curriculum?.curriculumId + '');
-    formData.append('adminId', data.admin);
-    formData.append('startDate', toISOString(data.startDate));
-    formData.append('endDate', toISOString(data.endDate));
-    formData.append('intro', data.intro);
-    formData.append('lectureLink', data.lectureLink);
-    isString(data.evaluateStartDate) &&
-      formData.append(
-        'evaluateStartDate',
-        toISOString(data.evaluateStartDate)
-      );
-    isString(data.evaluateEndDate) &&
-      formData.append(
-        'evaluateEndDate',
-        toISOString(data.evaluateEndDate)
-      );
-    formData.append('evaluateLink', data.evaluateLink);
-    isString(data.lecturerEvaluateStartDate) &&
-      formData.append(
-        'lecturerEvaluateStartDate',
-        toISOString(data.lecturerEvaluateStartDate)
-      );
-    isString(data.lecturerEvaluateEndDate) &&
-      formData.append(
-        'lecturerEvaluateEndDate',
-        toISOString(data.lecturerEvaluateEndDate)
-      );
-    formData.append('lecturerEvaluateLink', data.lecturerEvaluateLink);
-
-    await updateLecture({
+    const updatedLecture: UpdateLecture = {
       lectureId: lecture.lectureId,
-      formData,
-    });
+      curriculumId: lecture.curriculum?.curriculumId ?? -1,
+      title,
+      author, 
+      lecturer,
+      adminId: admin, 
+      startDate: toISOString(data.startDate),
+      endDate: toISOString(data.endDate),
+      intro,
+      lectureFiles,
+      referenceFiles,
+      lectureLink,
+      evaluateLink,
+      lecturerEvaluateLink,
+    };
+
+    if (isString(data.evaluateStartDate)) {
+      updatedLecture.evaluateStartDate = toISOString(data.evaluateStartDate);
+    }
+
+    if (isString(data.evaluateEndDate)) {
+      updatedLecture.evaluateEndDate = toISOString(data.evaluateEndDate);
+    }
+
+    if (isString(data.lecturerEvaluateStartDate)) {
+      updatedLecture.lecturerEvaluateStartDate = toISOString(data.lecturerEvaluateStartDate);
+    }
+
+    if (isString(data.lecturerEvaluateEndDate)) {
+      updatedLecture.lecturerEvaluateEndDate = toISOString(data.lecturerEvaluateEndDate);
+    }
+
+    await updateLecture(updatedLecture);
   };
 
   return (
@@ -436,4 +421,4 @@ function CreateLectureModal({ lecture, closeModal }: LectureModalProps) {
   );
 }
 
-export default CreateLectureModal;
+export default UpdateLectureModal;

@@ -1,6 +1,6 @@
 'use client';
 
-import CreateLectureModal from '@/components/modal/CreateLectureModal';
+import UpdateLectureModal from '@/components/modal/UpdateLectureModal';
 import LectureModal from '@/components/modal/LectureModal';
 import Select from '@/components/Select';
 import { selectCurrentUser } from '@/features/auth/authSlice';
@@ -140,7 +140,7 @@ function Lectures({ params: { classId } }: LecturesProps) {
         </>
       )}
       {(isShowModal && currentLecture) && isAdmin && (
-        <CreateLectureModal
+        <UpdateLectureModal
           lecture={currentLecture}
           closeModal={() => setShowModal(false)}
         />

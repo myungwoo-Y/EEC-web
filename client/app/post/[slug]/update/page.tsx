@@ -5,6 +5,7 @@ import Select from '@/components/Select';
 import TextEditor from '@/components/TextEditor';
 import UploadFiles from '@/components/UploadFiles';
 import { getFileFromUrl } from '@/lib/downloadFile';
+import { File } from '@/model/file';
 import { useGetPostQuery, useUpdatePostMutation } from '@/services/post';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -35,7 +36,7 @@ function Page({ params: { slug: postId } }: Props) {
   const onSubmit = (data: Record<string, any>) => {
     const formData = new FormData();
     files.map((file) => {
-      formData.append('files', file);
+      formData.append('files', JSON.stringify(file));
     });
     formData.append('title', data.title);
     formData.append('content', content);
@@ -64,10 +65,7 @@ function Page({ params: { slug: postId } }: Props) {
       });
       setContent(post.content);
 
-      post.files.map(async (file) => {
-        const newFile = await getFileFromUrl(file.path, file.filename);
-        setFiles(files => [...files, newFile]);
-      })
+      setFiles(post.files);
     }
   }, [post, reset]);
   return (

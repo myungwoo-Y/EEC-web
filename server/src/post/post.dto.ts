@@ -1,4 +1,5 @@
 import { IsBoolean, IsString, IsNotEmpty } from 'class-validator';
+import File from 'src/model/file.entity';
 
 export class CreatePostDto {
   @IsNotEmpty()
@@ -12,6 +13,8 @@ export class CreatePostDto {
   @IsNotEmpty()
   @IsString()
   categoryId: number;
+
+  files: File[]
 }
 
 
@@ -31,6 +34,8 @@ export class UpdatePostDto {
   @IsNotEmpty()
   @IsString()
   categoryId: number;
+
+  files: File[]
 }
 
 export class CreateCommentDto {

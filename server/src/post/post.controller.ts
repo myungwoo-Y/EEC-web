@@ -55,17 +55,7 @@ export class PostsController {
 
   @UseGuards(JwtAuthGuard)
   @Post('/post')
-  @UseInterceptors(FilesInterceptor('files'))
   async createPost(
-    @UploadedFiles(
-      new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 1000000000 }), // 1GB
-        ],
-        fileIsRequired: false,
-      }),
-    )
-    files: Array<Express.Multer.File>,
     @Req() req,
     @Body() createPostDto: CreatePostDto,
   ) {
@@ -74,44 +64,21 @@ export class PostsController {
       userId: req.user?.userId,
     });
 
-    files.map((file) => {
-      this.fileService.uploadFile({file, postId});
-    });
-
     return { postId };
   }
 
   @UseGuards(JwtAuthGuard)
   @Put('/post/:postId')
-  @UseInterceptors(FilesInterceptor('files'))
   async updatePost(
-    @UploadedFiles(
-      new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 1000000000 }), // 1GB
-        ],
-        fileIsRequired: false,
-      }),
-    )
-    files: Array<Express.Multer.File>,
     @Req() req,
-    @Param('postId') postId,
+    @Param('postId') postId: number,
     @Body() updatePostDto: UpdatePostDto,
   ) {
     await this.postService.updatePost({
       ...updatePostDto,
       userId: req.user?.userId,
     });
-
-    await this.fileService.removeFilesById({ postId: parseInt(postId) });
-
-    files.map((file) => {
-      this.fileService.uploadFile({
-        file,        
-        postId,
-      });
-    });
-
+    
     return { postId };
   }
 

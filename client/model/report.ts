@@ -47,3 +47,5 @@ export type Report = {
 
   user: User;
 } & BaseEntity;
+
+export type MutateReport = Partial<Report>;

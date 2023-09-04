@@ -5,7 +5,7 @@ import {
   ArrowUpOnSquareIcon,
   TrashIcon,
 } from '@heroicons/react/24/solid';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import checkboxStyles from './Checkbox.module.scss';
 import classNames from 'classnames';
 import { File, FileMeta } from '@/model/file';
@@ -27,9 +27,15 @@ function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps
     { isSuccess, isError, isLoading },
   ] = useUploadFiles({files, setFiles});
 
+  const linkRef = useRef<HTMLDivElement[]>([]);
+
   const isEmpty = !files || !files.length;
 
   const inputId = `upload-${name}`;
+
+  useEffect(() => {
+    linkRef.current = linkRef.current.slice(0, checkedStatus.length);
+  }, [checkedStatus.length])
 
   const handleRemoveChecked = () => {
     setFiles(files.filter((_, idx) => !checkedStatus[idx]));
@@ -70,9 +76,9 @@ function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps
                 );
               }}
             />
-            <div>
+            <a href={file.path}>
               {idx + 1}. {file.filename}
-            </div>
+            </a>
           </div>
         ))}
       </div>

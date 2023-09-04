@@ -1,4 +1,4 @@
-import { Report } from '@/model/report';
+import { MutateReport, Report } from '@/model/report';
 import { emptySplitApi } from './base';
 
 const lectureApi = emptySplitApi.injectEndpoints({
@@ -11,10 +11,10 @@ const lectureApi = emptySplitApi.injectEndpoints({
       }),
       invalidatesTags: ['Report'],
     }),
-    updateReport: builder.mutation<void, {formData: FormData, reportId: number | string}>({
-      query: ({ formData, reportId }) => ({
-        url: `/report/${reportId}`,
-        body: formData,
+    updateReport: builder.mutation<void, MutateReport>({
+      query: (report) => ({
+        url: `/report/${report.reportId}`,
+        body: report,
         method: 'PUT',
       }),
       invalidatesTags: ['Report'],

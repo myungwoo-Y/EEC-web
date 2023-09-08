@@ -1,15 +1,13 @@
-import { downloadFile } from '@/lib/downloadFile';
 import {
   ArrowDownOnSquareIcon,
   ArrowDownOnSquareStackIcon,
   ArrowUpOnSquareIcon,
   TrashIcon,
 } from '@heroicons/react/24/solid';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import checkboxStyles from './Checkbox.module.scss';
 import classNames from 'classnames';
-import { File, FileMeta } from '@/model/file';
-import { useAddFilesMutation } from '@/services/file';
+import { File } from '@/model/file';
 import useUploadFiles from '@/hooks/useUploadFiles';
 
 type UploadFilesProps = {
@@ -27,15 +25,11 @@ function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps
     { isSuccess, isError, isLoading },
   ] = useUploadFiles({files, setFiles});
 
-  const linkRef = useRef<HTMLDivElement[]>([]);
+  const linkRef = useRef<HTMLAnchorElement[]>([]);
 
   const isEmpty = !files || !files.length;
 
   const inputId = `upload-${name}`;
-
-  useEffect(() => {
-    linkRef.current = linkRef.current.slice(0, checkedStatus.length);
-  }, [checkedStatus.length])
 
   const handleRemoveChecked = () => {
     setFiles(files.filter((_, idx) => !checkedStatus[idx]));
@@ -43,17 +37,17 @@ function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps
   };
 
   const handleDownloadCheckedFiles = () => {
-    files.map((file, idx) => {
+    linkRef.current.map((el, idx) => {
       if (checkedStatus[idx]) {
-        downloadFile(file.path);
+        el.click();
       }
     });
   };
 
   const handleDownloadFiles = () => {
-    files.map((file) => {
-      downloadFile(file.path);
-    });
+    linkRef.current.map((el) => {
+      el.click();
+    })
   };
 
   return (
@@ -76,7 +70,11 @@ function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps
                 );
               }}
             />
-            <a href={file.path}>
+            <a href={file.path} ref={(el) => {
+              if (el) {
+                linkRef.current[idx] = el
+              }
+            }}>
               {idx + 1}. {file.filename}
             </a>
           </div>

@@ -1,7 +1,7 @@
-import { IsBoolean, IsEmail, IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { UserRole } from 'src/model/user.entity';
 export class CreateUserDto {
-  @IsEmail()
+  @IsString()
   email: string;
 
   @IsNotEmpty()
@@ -53,7 +53,7 @@ export class UpdateUserDto {
 }
 
 export class FindByEmailDTO {
-  @IsEmail()
+  @IsString()
   email: string;
 }
 

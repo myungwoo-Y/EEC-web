@@ -101,7 +101,7 @@ function UserUpdate() {
           아래의 정보들을 입력해주세요
         </p>
         <Input
-          type="email"
+          type="text"
           className="w-full lg:w-[600px] mt-4"
           placeholder="이메일"
           value={user?.email || ''}
@@ -136,7 +136,7 @@ function UserUpdate() {
           error={errorMsgMap.confirmPassword}
         />
         <Input
-          type="email"
+          type="text"
           className="w-full lg:w-[600px] mt-4"
           placeholder="구분"
           value={getUserRoleName(user?.role)}

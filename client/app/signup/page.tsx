@@ -20,7 +20,7 @@ import { useAddUserMutation, useLazyGetUserQuery } from '@/services/user';
 import React, { useState } from 'react';
 import { ErrorMsgMap, CreateUser } from './model';
 import Agreement from '@/components/Agreement';
-import { UserRole } from '@/model/user';
+import { UserRole, defaultBirthday } from '@/model/user';
 
 function Signup() {
   const [newUser, setNewUser] = useState(CreateUser);
@@ -80,14 +80,14 @@ function Signup() {
           아래의 정보들을 입력해주세요
         </p>
         <Input
-          type="email"
+          type="text"
           className="lg:w-[600px] mt-4"
           placeholder="이메일"
           autoComplete="off"
           value={newUser.email}
           label="이메일"
           onChange={(e) => {
-            setNewUser({ ...newUser, email: e.target.value });
+            setNewUser({ ...newUser, email: e.target.value?.trim() });
             clearErrorMsg('email');
           }}
           onBlur={async (e) => {
@@ -167,9 +167,13 @@ function Signup() {
             setBirthday(birthday);
             clearErrorMsg('birthday');
 
-            if (birthday && birthday.length >= 6) {
-              const birthdayDate = addSlashToStr(birthday, 2);
-              setNewUser({ ...newUser, birthday: new Date(birthdayDate) });
+            if (birthday?.length >= 6) {
+              const birthdayDate = new Date (addSlashToStr(birthday, 2));
+              if (birthdayDate) {
+                setNewUser({ ...newUser, birthday: birthdayDate });
+              } else {
+                setNewUser({ ...newUser, birthday: new Date(defaultBirthday)});
+              }
             }
           }}
         />

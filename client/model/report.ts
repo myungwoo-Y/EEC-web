@@ -16,7 +16,7 @@ export const fileENNames = [
   'reportFiles',
   'pressFiles',
   'paperFiles',
-];
+] as const;
 
 export enum CertificateState {
   NONE,
@@ -48,4 +48,5 @@ export type Report = {
   user: User;
 } & BaseEntity;
 
-export type MutateReport = Partial<Report>;
+export type UpdateReport = Partial<Report>;
+export type CreateReport = Partial<Report> & {userId: number};

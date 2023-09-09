@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import checkboxStyles from '../../../components/Checkbox.module.scss';
 import classNames from 'classnames';
 import Basis from '@/components/report/Basis';
-import { BasisCount, MutateReport, fileENNames, fileNames } from '@/model/report';
+import { BasisCount, UpdateReport, fileENNames, fileNames } from '@/model/report';
 import dayjs from 'dayjs';
 import FileTable from '@/components/report/FileTable';
 import { useGetReportQuery, useUpdateReportMutation } from '@/services/report';
@@ -88,7 +88,7 @@ function UpdateReport({ params: { slug: reportId }}: UpdateReportProps) {
       }
     });
 
-    const updatedReport: MutateReport = {
+    const updatedReport: UpdateReport = {
       reportId: parseInt(reportId),
       basis: basis.join('|'),
       year: data.year,

@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import checkboxStyles from '../../../components/Checkbox.module.scss';
 import classNames from 'classnames';
 import Basis from '@/components/report/Basis';
-import { BasisCount, fileENNames, fileNames } from '@/model/report';
+import { BasisCount, CreateReport, fileENNames, fileNames } from '@/model/report';
 import dayjs from 'dayjs';
 import FileTable from '@/components/report/FileTable';
 import { useAddReportMutation } from '@/services/report';
@@ -42,27 +42,27 @@ function CreateReportPage() {
       return;
     }
 
-    const formData  = new FormData();
-
     const basis = Array(BasisCount);
     Object.keys(data).map((key, idx) => {
       if (!isNaN(+key)) {
         basis[idx] = data[key];
       }
     });
-    formData.append('userId', user?.userId + '');
-    formData.append('basis', basis.join('|'));
-    formData.append('year', data.year);
-    formData.append('quarter', data.quarter);
-    formData.append('certificationDate', dayjs(data.certificationDate).toISOString());
 
-    files.map((newFiles, idx) => {
-      newFiles.map(file => {
-        formData.append(fileENNames[idx], JSON.stringify(file))
-      });
-    })
+    const newReport: CreateReport = {
+      userId: user?.userId || -1,
+      basis: basis.join('|'),
+      year: data.year,
+      quarter: data.quarter,
+      certificationDate: dayjs(data.certificationDate).toISOString(),
+      revisedFiles: files[0],
+      presentationFiles: files[1],
+      reportFiles: files[2],
+      pressFiles: files[3],
+      paperFiles: files[4],
+    }
 
-    addReport(formData);
+    addReport(newReport);
   }
 
 

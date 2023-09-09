@@ -40,61 +40,59 @@ export class ReportService {
 
   async updateReport({
     reportId,
-    revisedFiles = [],
-    presentationFiles = [],
-    reportFiles = [],
-    pressFiles = [],
-    paperFiles = [],
-    updateReportDto
+    updateReportDto: {
+      revisedFiles,
+      presentationFiles,
+      reportFiles,
+      pressFiles,
+      paperFiles,
+      ...dtoWithoutFiles
+    }
   }: {
-    revisedFiles?: Express.Multer.File[];
-    presentationFiles?: Express.Multer.File[];
-    reportFiles?: Express.Multer.File[];
-    pressFiles?: Express.Multer.File[];
-    paperFiles?: Express.Multer.File[];
     reportId: number;
     updateReportDto: UpdateReportDto
   }) {
-    await this.reportRepository.update(reportId, { ...updateReportDto });
 
-    // await this.fileService.unlinkFiles({
-    //   columnKey: 'reportRevised',
-    //   idKey: 'reportId',
-    //   id: reportId,
-    // });
+    await this.reportRepository.update(reportId, { ...dtoWithoutFiles });
 
-    // await this.fileService.unlinkFiles({
-    //   columnKey: 'reportPresentation',
-    //   idKey: 'reportId',
-    //   id: reportId,
-    // });
+    await this.fileService.unlinkFiles({
+      parentColumnName: 'reportRevised',
+      parentIdName: 'reportId',
+      parentId: reportId,
+    });
 
-    // await this.fileService.unlinkFiles({
-    //   columnKey: 'reportReport',
-    //   idKey: 'reportId',
-    //   id: reportId,
-    // });
+    await this.fileService.unlinkFiles({
+      parentColumnName: 'reportPresentation',
+      parentIdName: 'reportId',
+      parentId: reportId,
+    });
 
-    // await this.fileService.unlinkFiles({
-    //   columnKey: 'reportPress',
-    //   idKey: 'reportId',
-    //   id: reportId,
-    // });
+    await this.fileService.unlinkFiles({
+      parentColumnName: 'reportReport',
+      parentIdName: 'reportId',
+      parentId: reportId,
+    });
 
-    // await this.fileService.unlinkFiles({
-    //   columnKey: 'reportPaper',
-    //   idKey: 'reportId',
-    //   id: reportId,
-    // });
+    await this.fileService.unlinkFiles({
+      parentColumnName: 'reportPress',
+      parentIdName: 'reportId',
+      parentId: reportId,
+    });
 
-    // await this.addFiles({
-    //   reportId,
-    //   revisedFiles,
-    //   presentationFiles,
-    //   reportFiles,
-    //   pressFiles,
-    //   paperFiles,
-    // });
+    await this.fileService.unlinkFiles({
+      parentColumnName: 'reportPaper',
+      parentIdName: 'reportId',
+      parentId: reportId,
+    });
+
+    await this.addFiles({
+      reportId,
+      revisedFiles,
+      presentationFiles,
+      reportFiles,
+      pressFiles,
+      paperFiles,
+    });
   }
 
   async addReport({
@@ -114,6 +112,7 @@ export class ReportService {
       pressFiles,
       paperFiles,
     } = createReportDto;
+
     const newReport = await this.reportRepository.insert({
       year,
       quarter,

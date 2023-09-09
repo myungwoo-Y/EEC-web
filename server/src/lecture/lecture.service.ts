@@ -58,6 +58,12 @@ export class LectureService {
       parentId: lectureId,
     });
 
+    await this.fileService.unlinkFiles({
+      parentColumnName: 'lectureWithReference',
+      parentIdName: 'lectureId',
+      parentId: lectureId,
+    });
+
     const lectureFileUploadPromise = lectureFiles.map((lectureFile) =>
       this.fileService.linkFileToParent({
         fileId: lectureFile.fileId,

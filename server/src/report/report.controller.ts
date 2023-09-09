@@ -11,6 +11,7 @@ import {
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { CreateReportDto, UpdateReportDto } from './report.dto';
 import { ReportService } from './report.service';
+import File from 'src/model/file.entity';
 
 @Controller('report')
 export class ReportController {
@@ -37,19 +38,10 @@ export class ReportController {
     ]),
   )
   updateReport(
-    @UploadedFiles()
-    files: {
-      revisedFiles?: Express.Multer.File[];
-      presentationFiles?: Express.Multer.File[];
-      reportFiles?: Express.Multer.File[];
-      pressFiles?: Express.Multer.File[];
-      paperFiles?: Express.Multer.File[];
-    },
     @Param('reportId') reportId: number,
     @Body() updateReportDto: UpdateReportDto,
   ) {
     return this.reportService.updateReport({
-      ...files,
       updateReportDto,
       reportId,
     });

@@ -77,7 +77,6 @@ function UserUpdate() {
     }
 
     try {
-      alert('정보를 수정하였습니다.');
       await updateUser({...filteredUser, userId: user?.userId}).unwrap();
       const res = await triggerUserByEmail(user.email);
       
@@ -87,10 +86,11 @@ function UserUpdate() {
         }))
       }
 
-      router.push('/');
     } catch (e) {
       alert('정보 수정에 실패했습니다.');
     }
+    alert('정보를 수정하였습니다.');
+    router.push('/');
   }
 
   return (
@@ -226,6 +226,7 @@ function UserUpdate() {
           <option value="" disabled>
             기수를 선택해 주세요
           </option>
+          <option value="0">없음</option>
           <option value="1">1기</option>
           <option value="2">2기</option>
           <option value="3">3기</option>

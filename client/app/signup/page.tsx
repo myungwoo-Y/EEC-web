@@ -226,6 +226,7 @@ function Signup() {
           <option value="" disabled>
             기수를 선택해 주세요
           </option>
+          <option value="0">없음</option>
           <option value="1">1기</option>
           <option value="2">2기</option>
           <option value="3">3기</option>

@@ -135,10 +135,10 @@ function ResultTable() {
               교육기간
             </th>
             <th className="border-gray-300 border-[1px] border-t-black py-3">
-              교육제목
+              교육제목
             </th>
             <th className="border-gray-300 border-[1px] border-t-black py-3">
-              발급일
+              발급일
             </th>
             <th className="border-gray-300 border-[1px] border-t-black py-3">
               관리

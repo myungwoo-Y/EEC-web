@@ -44,7 +44,7 @@ function ClassManagement() {
     }
 
     if (!classes?.length) {
-      alert('과정을 추가해주세요');
+      alert('과정을 추가해주세요');
       return;
     }
 

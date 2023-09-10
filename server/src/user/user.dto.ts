@@ -26,7 +26,7 @@ export class CreateUserDto {
   jobLevel: string;
 
   @IsNotEmpty()
-  classOrder: number;  
+  classOrder: number;
 
   @IsBoolean()
   agreementTerms: boolean;

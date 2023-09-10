@@ -1,5 +1,4 @@
 export const classOrderList = [
-  '없음',
   '1기',
   '2기',
   '3기',

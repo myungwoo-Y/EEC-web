@@ -64,7 +64,7 @@ function Basis({ register, watch }: BasisProps) {
                     기수선택
                   </option>
                   {classOrderList.map((classOrder, idx) => (
-                    <option key={idx} value={idx}>
+                    <option key={idx} value={idx + 1}>
                       {classOrder}
                     </option>
                   ))}
@@ -105,7 +105,7 @@ function Basis({ register, watch }: BasisProps) {
                     기수선택
                   </option>
                   {classOrderList.map((classOrder, idx) => (
-                    <option key={idx} value={idx}>
+                    <option key={idx} value={idx + 1}>
                       {classOrder}
                     </option>
                   ))}

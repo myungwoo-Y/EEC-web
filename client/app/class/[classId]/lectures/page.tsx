@@ -60,7 +60,7 @@ function Lectures({ params: { classId } }: LecturesProps) {
               기수 선택
             </option>
             {classOrderList.map((classOrder, idx) => (
-              <option key={idx} value={idx}>
+              <option key={idx} value={idx + 1}>
                 {classOrder}
               </option>
             ))}

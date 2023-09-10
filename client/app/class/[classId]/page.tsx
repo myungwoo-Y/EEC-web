@@ -1,6 +1,7 @@
 'use client';
 
 import ViewEditor from '@/components/ViewEditor';
+import { toKoreaDate } from '@/lib/date';
 import { Class } from '@/model/class';
 import { useGetClassQuery } from '@/services/class';
 import React from 'react';
@@ -31,13 +32,28 @@ function ClassPage({ params: { classId } }: ClassProps) {
               {data.target}
             </div>
           </div>
+          <div>
+            <div className="bm-1">교육기간</div>
+            <div className="flex justify-between w-fit gap-2">
+              <span className="border-[1px] border-gray-300 rounded-md py-1 w-[150px] text-center">{toKoreaDate(data.classStart)}</span> 
+              <span>~</span>
+              <span className="border-[1px] border-gray-300 rounded-md py-1 w-[150px] text-center">{toKoreaDate(data.classEnd)}</span>
+            </div>
+          </div>
+          <div>
+            <div className="bm-1">신청기간</div>
+            <div className="flex justify-between w-fit gap-2">
+              <span className="border-[1px] border-gray-300 rounded-md py-1 w-[150px] text-center">{toKoreaDate(data.registerStart)}</span> 
+              <span>~</span>
+              <span className="border-[1px] border-gray-300 rounded-md py-1 w-[150px] text-center">{toKoreaDate(data.registerEnd)}</span>
+            </div>
+          </div>
           <div className="w-full">
             <p>구성 설명</p>
-            <div className="resize-y w-full border-[1px] py-1 px-2 rounded-md focus:border-primary h-44 mt-1">
+            <div className="resize-y w-full border-[1px] py-1 px-2 rounded-md focus:border-primary h-44 mt-1 whitespace-break-spaces">
               {data.description}
             </div>
           </div>
-
           <div className="w-full mt-4">
             <p>교과목상세</p>
             <ViewEditor content={data.detail} className="w-full mt-1" />

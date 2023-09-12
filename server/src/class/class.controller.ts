@@ -8,12 +8,17 @@ import {
   Post,
   Put,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import FileService from 'src/file/file.service';
 import { CreateClassDto } from './class.dto';
 import { ClassService } from './class.service';
+import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
+import { HasRoles } from 'src/auth/has-role.decorator';
+import { UserRole } from 'src/model/user.entity';
+import { RoleGuard } from 'src/auth/role.guard';
 
 @Controller('class')
 export class ClassController {
@@ -22,6 +27,8 @@ export class ClassController {
     private classService: ClassService,
   ) {}
 
+  @HasRoles(UserRole.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Post('/')
   @UseInterceptors(FileInterceptor('thumbnailImage'))
   async creatClass(
@@ -33,15 +40,10 @@ export class ClassController {
         fileIsRequired: false,
       }),
     )
-    thumbnailImage: Express.Multer.File,
+      thumbnailImage: Express.Multer.File,
     @Body() createClassDto: CreateClassDto,
   ) {
     const newClass = await this.classService.createClass(createClassDto);
-
-    const fileName = Buffer.from(
-      thumbnailImage.originalname,
-      'latin1',
-    ).toString();
     
     await this.fileService.uploadFile({
       file: thumbnailImage,
@@ -51,6 +53,8 @@ export class ClassController {
     return newClass;
   }
 
+  @HasRoles(UserRole.ADMIN, UserRole.LECTURER)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Put('/:classId')
   @UseInterceptors(FileInterceptor('thumbnailImage'))
   async updateClass(
@@ -62,7 +66,7 @@ export class ClassController {
         fileIsRequired: false,
       }),
     )
-    thumbnailImage: Express.Multer.File,
+      thumbnailImage: Express.Multer.File,
     @Param('classId') classId: number,
     @Body() createClassDto: CreateClassDto,
   ) {
@@ -81,11 +85,13 @@ export class ClassController {
     return updatedClass.raw?.[0];
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   getClasses() {
     return this.classService.getClasses();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/:classId')
   getClass(@Param('classId') classId: number) {
     return this.classService.getClass(classId);

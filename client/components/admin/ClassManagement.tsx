@@ -28,14 +28,26 @@ function ClassManagement() {
     },
     { skip: !classOrder || !classes }
   );
-  const [updateCurriculums] = useUpdateCurriculumsMutation();
-  const [deleteCurriculum] = useDeleteCurriculumMutation();
+  const [updateCurriculums, { isSuccess: isSuccessUpdate}] = useUpdateCurriculumsMutation();
+  const [deleteCurriculum, { isSuccess: isSuccessDelete}] = useDeleteCurriculumMutation();
 
   useEffect(() => {
     if (curriculums) {
       setTitles(curriculums.map((curriculum) => curriculum.title));
     }
   }, [curriculums]);
+
+  useEffect(() => {
+    if (isSuccessDelete) {
+      alert('삭제를 완료했습니다.');
+    }
+  }, [isSuccessDelete])
+
+  useEffect(() => {
+    if (isSuccessUpdate) {
+      alert('저장이 완료되었습니다.');
+    }
+  }, [isSuccessUpdate])
 
   const onAddCurriculum = () => {
     if (!classOrder) {
@@ -66,13 +78,11 @@ function ClassManagement() {
 
     if (newCurriculums.length) {
       await updateCurriculums(newCurriculums);
-      alert('저장이 완료되었습니다.');
     }
   };
 
   const onCurriculumRemove = async (curriculumId: number) => {
     await deleteCurriculum(curriculumId);
-    alert('삭제를 완료했습니다.');
   };
 
   const onCurriculumCancle = () => {

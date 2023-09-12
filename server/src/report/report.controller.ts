@@ -7,12 +7,14 @@ import {
   Get,
   Param,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { CreateReportDto, UpdateReportDto } from './report.dto';
 import { ReportService } from './report.service';
-import File from 'src/model/file.entity';
+import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('report')
 export class ReportController {
   constructor(private reportService: ReportService) {}

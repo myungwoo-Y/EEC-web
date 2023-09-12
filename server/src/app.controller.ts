@@ -4,7 +4,6 @@ import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './auth/strategies/jwt-auth.guard';
 import { LocalAuthGuard } from './auth/strategies/local-auth.guard';
 import { UserService } from './user/user.service';
-
 @Controller()
 export class AppController {
   constructor(

@@ -1,13 +1,17 @@
 import { CertificationType } from './../model/certification.entity';
 import { createReadStream } from 'fs';
 import { CertificationService } from './certification.service';
-import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { CreateCertificationDto, DeleteUserInCertificationDto } from './certification.dto';
 import { Response } from 'express';
-import { Readable } from 'stream';
-import { Blob } from "buffer";
+import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
+import { RoleGuard } from 'src/auth/role.guard';
+import { HasRoles } from 'src/auth/has-role.decorator';
+import { UserRole } from 'src/model/user.entity';
 
 
+@HasRoles(UserRole.ADMIN)
+@UseGuards(JwtAuthGuard, RoleGuard)
 @Controller('certification')
 export class CertificationController {
   constructor(private certificationService: CertificationService) {}

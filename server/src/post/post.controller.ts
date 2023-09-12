@@ -19,6 +19,9 @@ import { PostService } from './post.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreateCommentDto, CreatePostDto, UpdateCommentDto, UpdatePostDto } from './post.dto';
 import FileService from 'src/file/file.service';
+import { HasRoles } from 'src/auth/has-role.decorator';
+import { UserRole } from 'src/model/user.entity';
+import { RoleGuard } from 'src/auth/role.guard';
 
 @Controller()
 export class PostsController {
@@ -27,7 +30,8 @@ export class PostsController {
     private fileService: FileService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
+  @HasRoles(UserRole.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Post('/category')
   createCategory(@Body() body) {
     return this.postService.createCategory(body.name);
@@ -82,6 +86,7 @@ export class PostsController {
     return { postId };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/post/answer/:postId')
   async answerPost(@Param('postId') postId: number) {
     return this.postService.answerPost(postId);
@@ -92,21 +97,25 @@ export class PostsController {
     return this.postService.updatePostViewCount(postId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/post/:postId')
   deletePost(@Param('postId') postId: number) {
     return this.postService.deletePost(postId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/comment')
   createComment(@Body() createCommentDto: CreateCommentDto) {
     return this.postService.createComment(createCommentDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/comment/content')
   updateContentInComment(@Body() updateCommentDto: UpdateCommentDto) {
     return this.postService.updateContentInComment(updateCommentDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/comment/:commentId')
   deleteComment(@Param('commentId') commentId: string) {
     return this.postService.deleteComment(commentId);

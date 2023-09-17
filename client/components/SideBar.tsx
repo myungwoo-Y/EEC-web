@@ -13,12 +13,13 @@ import {
 } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import { useGetCategoriesQuery } from '@/services/post';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCategories } from '@/features/post/postSlice';
 import { useGetClassesQuery } from '@/services/class';
 import { setClasses } from '@/features/class/classSlice';
 import { usePathname } from 'next/navigation';
 import classNames from 'classnames';
+import { selectCurrentUser } from '@/features/auth/authSlice';
 
 type SideBarProps = {
   isShowLogo?: boolean;
@@ -38,6 +39,7 @@ function SideBar({
   >('');
   const dispatch = useDispatch();
   const pathname = usePathname();
+  const user = useSelector(selectCurrentUser);
 
   const isSelectBoard = selectedMenu === 'board';
   const isSelectClass = selectedMenu === 'class';
@@ -103,7 +105,8 @@ function SideBar({
           <ChevronDownIcon width="18" height="18" className="float-right" />
         )}
       </div>
-      {isSelectClass &&
+      {user &&
+        isSelectClass &&
         classes &&
         classes.map((data) => {
           return (
@@ -120,7 +123,7 @@ function SideBar({
             </Link>
           );
         })}
-      {isSelectClass && (
+      {user && isSelectClass && (
         <>
           <Link
             href={`/category/4`}
@@ -154,7 +157,8 @@ function SideBar({
           <ChevronDownIcon width="18" height="18" className="float-right" />
         )}
       </div>
-      {isSelectBoard &&
+      {user &&
+        isSelectBoard &&
         categories &&
         categories.map((category, idx) => {
           if (idx > 2) return null;
@@ -186,7 +190,7 @@ function SideBar({
           <ChevronDownIcon width="18" height="18" className="float-right" />
         )}
       </div>
-      {isSelectReport && (
+      {user && isSelectReport && (
         <>
           <Link
             href={`/report`}

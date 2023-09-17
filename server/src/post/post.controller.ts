@@ -37,11 +37,13 @@ export class PostsController {
     return this.postService.createCategory(body.name);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/categories')
   getCategories() {
     return this.postService.getCategories();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/categories/:categoryId')
   getCategorie(@Param('categoryId') categoryId) {
     return this.postService.getCategory(categoryId);
@@ -52,6 +54,7 @@ export class PostsController {
     return this.postService.getPosts(categoryId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/posts/:postId')
   getPost(@Param('postId') postId: string) {
     return this.postService.getPost(postId);

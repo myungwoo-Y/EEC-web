@@ -32,14 +32,18 @@ function SideBar({
   children,
   isShowLogo = true,
 }: SideBarProps) {
-  const { data: categories } = useGetCategoriesQuery();
-  const { data: classes } = useGetClassesQuery();
   const [selectedMenu, setSelectedMenu] = useState<
     '' | 'board' | 'class' | 'report'
   >('');
   const dispatch = useDispatch();
   const pathname = usePathname();
   const user = useSelector(selectCurrentUser);
+  const { data: categories } = useGetCategoriesQuery(undefined, {
+    skip: !user
+  });
+  const { data: classes } = useGetClassesQuery(undefined, {
+    skip: !user
+  });
 
   const isSelectBoard = selectedMenu === 'board';
   const isSelectClass = selectedMenu === 'class';
@@ -157,7 +161,7 @@ function SideBar({
           <ChevronDownIcon width="18" height="18" className="float-right" />
         )}
       </div>
-      {user &&
+      { 
         isSelectBoard &&
         categories &&
         categories.map((category, idx) => {

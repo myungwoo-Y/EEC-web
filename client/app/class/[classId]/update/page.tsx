@@ -14,7 +14,7 @@ import UploadFile from '@/components/UploadFile';
 import Date from '@/components/Date';
 import TextEditor from '@/components/TextEditor';
 import { getFileFromUrl } from '@/lib/downloadFile';
-import { toInputDate } from '@/lib/date';
+import { toISOString, toInputDate } from '@/lib/date';
 import { createFileList } from '@/lib/file';
 
 type UpdateClassProps = {
@@ -73,10 +73,10 @@ function UpdateClass({ params: { classId } }: UpdateClassProps) {
     formData.append('target', data.target);
     formData.append('description', data.description);
     formData.append('detail', detail);
-    formData.append('classStart', dayjs(data.classStart).toISOString());
-    formData.append('classEnd', dayjs(data.classEnd).toISOString());
-    formData.append('registerStart', dayjs(data.registerStart).toISOString());
-    formData.append('registerEnd', dayjs(data.registerEnd).toISOString());
+    formData.append('classStart', toISOString(data.classStart));
+    formData.append('classEnd', toISOString(data.classEnd));
+    formData.append('registerStart', toISOString(data.registerStart));
+    formData.append('registerEnd', toISOString(data.registerEnd));
     formData.append('thumbnailImage', data.thumbnailImage[0]);
     updateClass({
       formData,

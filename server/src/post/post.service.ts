@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import FileService from 'src/file/file.service';
 import { Comment } from 'src/model/comment.entity';
 import { Post } from 'src/model/post.entity';
 import { PostCategory } from 'src/model/postCategory.entity';
@@ -15,6 +16,7 @@ export class PostService {
     private postCategoryRepository: Repository<PostCategory>,
     @InjectRepository(Comment)
     private commentRepository: Repository<Comment>,
+    private fileService: FileService,
   ) {}
 
   createCategory(name: string) {
@@ -53,6 +55,7 @@ export class PostService {
       .leftJoin('p.user', 'u')
       .leftJoin('p.category', 'c')
       .where(`c.categoryId = ${categoryId}`)
+      .orderBy('p.createDateTime', 'DESC')
       .getMany();
   }
 
@@ -108,14 +111,42 @@ export class PostService {
         userId: createPost.userId
       }
     });
+
+    await Promise.all(createPost.files.map((file) => {
+      this.fileService.linkFileToParent({
+        fileId: file.fileId,
+        parentColumnName: 'post',
+        parentIdName: 'postId',
+        parentId: newPost.raw[0].postId,
+      });
+    }));
+
     return newPost.raw[0].postId;
   }
 
   async updatePost(updatePost: UpdatePostDto & { userId: number }) {
+    const { postId, files } = updatePost;
+
     await this.postRepository.update(updatePost.postId, {
       title: updatePost.title,
       content: updatePost.content,
     });
+    
+    await this.fileService.unlinkFiles({
+      parentColumnName: 'post',
+      parentIdName: 'postId',
+      parentId: postId,
+    });
+
+    await Promise.all(files.map(async (file) => {
+
+      await this.fileService.linkFileToParent({
+        fileId: file.fileId,
+        parentColumnName: 'post',
+        parentIdName: 'postId',
+        parentId: postId,
+      });
+    }));
   }
 
   async updatePostViewCount(postId: number) {

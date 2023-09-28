@@ -59,3 +59,5 @@ export type CertificationUser = User & {
 } & Certification;
 
 export const UserRoles = [UserRole.STUDENT, UserRole.LECTURER, UserRole.ADMIN];
+
+export const defaultBirthday = '00-01-01';

@@ -19,6 +19,9 @@ import { PostService } from './post.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreateCommentDto, CreatePostDto, UpdateCommentDto, UpdatePostDto } from './post.dto';
 import FileService from 'src/file/file.service';
+import { HasRoles } from 'src/auth/has-role.decorator';
+import { UserRole } from 'src/model/user.entity';
+import { RoleGuard } from 'src/auth/role.guard';
 
 @Controller()
 export class PostsController {
@@ -27,17 +30,20 @@ export class PostsController {
     private fileService: FileService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
+  @HasRoles(UserRole.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
   @Post('/category')
   createCategory(@Body() body) {
     return this.postService.createCategory(body.name);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/categories')
   getCategories() {
     return this.postService.getCategories();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/categories/:categoryId')
   getCategorie(@Param('categoryId') categoryId) {
     return this.postService.getCategory(categoryId);
@@ -48,6 +54,7 @@ export class PostsController {
     return this.postService.getPosts(categoryId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('/posts/:postId')
   getPost(@Param('postId') postId: string) {
     return this.postService.getPost(postId);
@@ -55,17 +62,7 @@ export class PostsController {
 
   @UseGuards(JwtAuthGuard)
   @Post('/post')
-  @UseInterceptors(FilesInterceptor('files'))
   async createPost(
-    @UploadedFiles(
-      new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 1000000000 }), // 1GB
-        ],
-        fileIsRequired: false,
-      }),
-    )
-    files: Array<Express.Multer.File>,
     @Req() req,
     @Body() createPostDto: CreatePostDto,
   ) {
@@ -74,47 +71,25 @@ export class PostsController {
       userId: req.user?.userId,
     });
 
-    files.map((file) => {
-      this.fileService.uploadFile({file, postId});
-    });
-
     return { postId };
   }
 
   @UseGuards(JwtAuthGuard)
   @Put('/post/:postId')
-  @UseInterceptors(FilesInterceptor('files'))
   async updatePost(
-    @UploadedFiles(
-      new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 1000000000 }), // 1GB
-        ],
-        fileIsRequired: false,
-      }),
-    )
-    files: Array<Express.Multer.File>,
     @Req() req,
-    @Param('postId') postId,
+    @Param('postId') postId: number,
     @Body() updatePostDto: UpdatePostDto,
   ) {
     await this.postService.updatePost({
       ...updatePostDto,
       userId: req.user?.userId,
     });
-
-    await this.fileService.removeFilesById({ postId: parseInt(postId) });
-
-    files.map((file) => {
-      this.fileService.uploadFile({
-        file,        
-        postId,
-      });
-    });
-
+    
     return { postId };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/post/answer/:postId')
   async answerPost(@Param('postId') postId: number) {
     return this.postService.answerPost(postId);
@@ -125,21 +100,25 @@ export class PostsController {
     return this.postService.updatePostViewCount(postId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/post/:postId')
   deletePost(@Param('postId') postId: number) {
     return this.postService.deletePost(postId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/comment')
   createComment(@Body() createCommentDto: CreateCommentDto) {
     return this.postService.createComment(createCommentDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('/comment/content')
   updateContentInComment(@Body() updateCommentDto: UpdateCommentDto) {
     return this.postService.updateContentInComment(updateCommentDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/comment/:commentId')
   deleteComment(@Param('commentId') commentId: string) {
     return this.postService.deleteComment(commentId);

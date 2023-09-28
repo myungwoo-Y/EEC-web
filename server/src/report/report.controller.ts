@@ -7,11 +7,14 @@ import {
   Get,
   Param,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { CreateReportDto, UpdateReportDto } from './report.dto';
 import { ReportService } from './report.service';
+import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('report')
 export class ReportController {
   constructor(private reportService: ReportService) {}
@@ -37,47 +40,20 @@ export class ReportController {
     ]),
   )
   updateReport(
-    @UploadedFiles()
-    files: {
-      revisedFiles?: Express.Multer.File[];
-      presentationFiles?: Express.Multer.File[];
-      reportFiles?: Express.Multer.File[];
-      pressFiles?: Express.Multer.File[];
-      paperFiles?: Express.Multer.File[];
-    },
     @Param('reportId') reportId: number,
     @Body() updateReportDto: UpdateReportDto,
   ) {
     return this.reportService.updateReport({
-      ...files,
       updateReportDto,
       reportId,
     });
   }
 
   @Post()
-  @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'revisedFiles' },
-      { name: 'presentationFiles' },
-      { name: 'reportFiles' },
-      { name: 'pressFiles' },
-      { name: 'paperFiles' },
-    ]),
-  )
   addReport(
-    @UploadedFiles()
-    files: {
-      revisedFiles?: Express.Multer.File[];
-      presentationFiles?: Express.Multer.File[];
-      reportFiles?: Express.Multer.File[];
-      pressFiles?: Express.Multer.File[];
-      paperFiles?: Express.Multer.File[];
-    },
     @Body() createReportDto: CreateReportDto,
   ) {
     return this.reportService.addReport({
-      ...files,
       createReportDto,
     });
   }

@@ -1,6 +1,6 @@
 'use client';
 
-import { User } from '@/model/user';
+import { User, UserRole } from '@/model/user';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
@@ -37,7 +37,7 @@ function MobileNav({ user }: MobileNavProps) {
     if (isHamburgerClick) {
       toggle();
     }
-  }, [pathname])
+  }, [pathname]);
 
   useEffect(() => {
     if (isHamburgerClick) {
@@ -106,7 +106,13 @@ function MobileNav({ user }: MobileNavProps) {
                   <UserCircleIcon className="w-4 h-4 mr-1" />
                   {`${user.name}(${getUserRoleName(user.role)})님, 환영합니다`}
                 </div>
-                <NavItem text="서비스관리" path="/admin" Icon={Cog6ToothIcon} />
+                {user?.role === UserRole.ADMIN && (
+                  <NavItem
+                    text="서비스관리"
+                    path="/admin"
+                    Icon={Cog6ToothIcon}
+                  />
+                )}
                 <NavItem
                   text="정보수정"
                   path="/update"

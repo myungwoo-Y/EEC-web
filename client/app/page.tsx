@@ -67,7 +67,7 @@ export default function Home() {
           </div>
           <ul className="mt-5">
             {notices &&
-              notices.map((notice) => (
+              notices.slice(0, 5).map((notice) => (
                 <Link href={`/post/${notice.postId}`} key={notice.postId}>
                   <li className="mt-1 group">
                     <span className="inline-block w-60 lg:w-96 h-6 overflow-hidden whitespace-nowrap text-ellipsis group-hover:underline">
@@ -132,7 +132,7 @@ export default function Home() {
               공지사항
             </p>
           </Link>
-          <Link href="/category/1" className="text-center group">
+          <Link href="/category/6" className="text-center group">
             <div className="w-40 h-40 bg-white rounded-full flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-primary group-hover:to-third group-hover:text-white">
               <ChatBubbleBottomCenterIcon width="72" height="72" />
             </div>

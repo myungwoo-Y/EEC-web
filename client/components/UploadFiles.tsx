@@ -1,13 +1,14 @@
-import { downloadFile } from '@/lib/downloadFile';
 import {
   ArrowDownOnSquareIcon,
   ArrowDownOnSquareStackIcon,
   ArrowUpOnSquareIcon,
   TrashIcon,
 } from '@heroicons/react/24/solid';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useRef } from 'react';
 import checkboxStyles from './Checkbox.module.scss';
 import classNames from 'classnames';
+import { File } from '@/model/file';
+import useUploadFiles from '@/hooks/useUploadFiles';
 
 type UploadFilesProps = {
   files: File[];
@@ -17,16 +18,18 @@ type UploadFilesProps = {
 };
 
 function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps) {
-  const [checkedStatus, setCheckedStatus] = useState<boolean[]>([]);
+  const [
+    checkedStatus,
+    setCheckedStatus,
+    onUpload,
+    { isSuccess, isError, isLoading },
+  ] = useUploadFiles({files, setFiles});
+
+  const linkRef = useRef<HTMLAnchorElement[]>([]);
+
   const isEmpty = !files || !files.length;
 
   const inputId = `upload-${name}`;
-
-  useEffect(() => {
-    if (files.length > checkedStatus.length) {
-      setCheckedStatus([...checkedStatus, false]);
-    }
-  }, [files, checkedStatus]);
 
   const handleRemoveChecked = () => {
     setFiles(files.filter((_, idx) => !checkedStatus[idx]));
@@ -34,17 +37,17 @@ function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps
   };
 
   const handleDownloadCheckedFiles = () => {
-    files.map((file, idx) => {
+    linkRef.current.map((el, idx) => {
       if (checkedStatus[idx]) {
-        downloadFile(file);
+        el.click();
       }
     });
   };
 
   const handleDownloadFiles = () => {
-    files.map((file) => {
-      downloadFile(file);
-    });
+    linkRef.current.map((el) => {
+      el.click();
+    })
   };
 
   return (
@@ -67,9 +70,13 @@ function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps
                 );
               }}
             />
-            <div>
-              {idx + 1}. {file.name}
-            </div>
+            <a href={file.path} ref={(el) => {
+              if (el) {
+                linkRef.current[idx] = el
+              }
+            }}>
+              {idx + 1}. {file.filename}
+            </a>
           </div>
         ))}
       </div>
@@ -85,12 +92,7 @@ function UploadFiles({ className, files, setFiles, name = '' }: UploadFilesProps
           id={inputId}
           type="file"
           className="hidden"
-          onChange={(e) => {
-            console.log(e);
-            if (e.target.files?.length) {
-              setFiles([...files, e.target.files[0]]);
-            }
-          }}
+          onChange={onUpload}
         />
         <button
           className="ml-2 w-24 flex items-center justify-center border-gray-400 border-[1px] rounded-md py-1"

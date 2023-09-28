@@ -1,4 +1,5 @@
 import { IsDate, IsDateString, IsNotEmpty, IsString } from "class-validator";
+import File from "src/model/file.entity";
 
 export class CreateLectureDto {
   @IsString()
@@ -59,4 +60,8 @@ export class UpdateLectureDto {
   lecturerEvaluateEndDate: Date;
 
   lecturerEvaluateLink: string;
+
+  lectureFiles: File[];
+
+  referenceFiles: File[];
 }

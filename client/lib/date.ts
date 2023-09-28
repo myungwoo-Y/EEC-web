@@ -20,17 +20,23 @@ export function addSlashToStr(date: string, split = 2) {
 }
 
 export function toInputDate(date: string) {
-  if (!date) {
+  if (!date || date === '-infinity') {
     return '';
   }
-  
   return dayjs.utc(date).format('YYYY-MM-DD');
 }
 
 export function toKoreaDate(date: string) {
-  if (!date) {
+  if (!date || date === '-infinity') {
     return '';
   }
   return dayjs.utc(date).format('YYYY년 M월 D일');
+}
+
+export function toISOString(date: string | number) {
+  if (!date || date === '-infinity') {
+    return '-infinity';
+  }
+  return dayjs.utc(date).toISOString();
 }
 

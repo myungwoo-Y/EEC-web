@@ -4,10 +4,12 @@ import Input from '@/components/Input';
 import Select from '@/components/Select';
 import TextEditor from '@/components/TextEditor';
 import UploadFiles from '@/components/UploadFiles';
+import { File } from '@/model/file';
+import { CreatePost } from '@/model/post';
 import { useAddPostMutation, useGetCategoryByIdQuery } from '@/services/post';
 import classNames from 'classnames';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type Props = {
@@ -42,15 +44,15 @@ function Page({ params: { slug } }: Props) {
       return;
     }
 
-    const formData = new FormData();
-    files.map((file) => {
-      formData.append('files', file);
-    });
-    formData.append('title', data.title);
-    formData.append('content', content);
-    formData.append('categoryId', category?.categoryId + '');
-    formData.append('isOpen', data.isOpen);
-    addPost(formData);
+    const newPost: CreatePost = {
+      title: data.title,
+      content,
+      categoryId: category?.categoryId ?? -1,
+      isOpen: data.isOpen,
+      files,
+    };
+
+    addPost(newPost);
   };
 
   return (

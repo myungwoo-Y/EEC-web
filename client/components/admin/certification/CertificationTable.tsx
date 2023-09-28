@@ -6,6 +6,7 @@ import { useCreateCertificationsMutation } from '@/services/admin';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import checkboxStyles from '../../Checkbox.module.scss';
+import { toISOString } from '@/lib/date';
 
 type CertificationTableProps = {
   users: CertificationUser[];
@@ -67,9 +68,9 @@ function CertificationTable({
     const now = Date.now();
     const checkedUsers = users.filter((user) => user.checked).map((user) => ({
       ...user,
-      startDate: dayjs(user.startDate || now).toISOString(),
-      endDate: dayjs(user.endDate || now).toISOString(),
-      certificationDate: dayjs(user.certificationDate || now).toISOString(),
+      startDate: toISOString(user.startDate || now),
+      endDate: toISOString(user.endDate || now),
+      certificationDate: toISOString(user.certificationDate || now),
       type: isNormalType ? CertificationType.Normal : CertificationType.Course
     }));
 

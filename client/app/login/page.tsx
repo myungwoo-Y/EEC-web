@@ -35,7 +35,7 @@ export default function Login() {
         <p className="text-xl lg:text-3xl font-semibold mt-[40%] lg:mt-0">방문을 환영합니다</p>
         <p className="text-lg mt-2 text-gray-400">로그인 정보를 입력해주세요</p>
         <Input
-          type="email"
+          type="text"
           className="w-full lg:w-96 mt-4"
           onChange={(e) => setEmail(e.target.value)}
           value={email}

@@ -1,6 +1,6 @@
 'use client';
 
-import CreateLectureModal from '@/components/modal/CreateLectureModal';
+import UpdateLectureModal from '@/components/modal/UpdateLectureModal';
 import LectureModal from '@/components/modal/LectureModal';
 import Select from '@/components/Select';
 import { selectCurrentUser } from '@/features/auth/authSlice';
@@ -92,13 +92,13 @@ function Lectures({ params: { classId } }: LecturesProps) {
             <table className="w-full mt-10">
               <tbody className="border-t-[1px] border-t-black">
                 {lectures &&
-                  lectures.map((lecture) => (
+                  lectures.map((lecture, idx) => (
                     <tr
-                      key={lecture.lectureId}
+                      key={idx+1}
                       className="border-[1px] border-t-0"
                     >
                       <td className="w-3 text-center py-12 px-5 text-lg text-gray-500">
-                        {lecture.lectureId}
+                        {idx+1}
                       </td>
                       <td className="w-1/2 lg:w-2/3">
                         <div className="h-14 text-lg flex items-center break-words">
@@ -140,7 +140,7 @@ function Lectures({ params: { classId } }: LecturesProps) {
         </>
       )}
       {(isShowModal && currentLecture) && isAdmin && (
-        <CreateLectureModal
+        <UpdateLectureModal
           lecture={currentLecture}
           closeModal={() => setShowModal(false)}
         />

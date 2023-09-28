@@ -1,4 +1,5 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
+import File from 'src/model/file.entity';
 
 export class CreateReportDto {
   @IsNotEmpty()
@@ -15,6 +16,12 @@ export class CreateReportDto {
 
   @IsNotEmpty()
   certificationDate: string;
+
+  revisedFiles: File[];
+  presentationFiles: File[];
+  reportFiles: File[];
+  pressFiles: File[];
+  paperFiles: File[];
 }
 
 export class UpdateReportDto {
@@ -29,4 +36,10 @@ export class UpdateReportDto {
 
   @IsNotEmpty()
   certificationDate: string;
+
+  revisedFiles: File[];
+  presentationFiles: File[];
+  reportFiles: File[];
+  pressFiles: File[];
+  paperFiles: File[];
 }

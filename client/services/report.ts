@@ -1,20 +1,20 @@
-import { Report } from '@/model/report';
+import { UpdateReport, Report, CreateReport } from '@/model/report';
 import { emptySplitApi } from './base';
 
 const lectureApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
-    addReport: builder.mutation<void, FormData>({
-      query: (formData) => ({
+    addReport: builder.mutation<void, CreateReport>({
+      query: (newReport) => ({
         url: '/report',
-        body: formData,
+        body: newReport,
         method: 'POST',
       }),
       invalidatesTags: ['Report'],
     }),
-    updateReport: builder.mutation<void, {formData: FormData, reportId: number | string}>({
-      query: ({ formData, reportId }) => ({
-        url: `/report/${reportId}`,
-        body: formData,
+    updateReport: builder.mutation<void, UpdateReport>({
+      query: (report) => ({
+        url: `/report/${report.reportId}`,
+        body: report,
         method: 'PUT',
       }),
       invalidatesTags: ['Report'],

@@ -20,3 +20,9 @@ export type File = {
 
   lectureWithReference: Lecture;
 } & BaseEntity;
+
+export type FileMeta = {
+  columnKey: string;
+  idKey: string;
+  id: string | number;
+}

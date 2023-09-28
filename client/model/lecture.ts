@@ -53,34 +53,4 @@ export type NewLecture = {
 };
 
 export type UpdateLectures = { lectureId: number; title: string }[];
-export type UpdateLecture = NestedSwapDatesWithStrings<{
-  title: string;
-
-  curriculumId: number;
-
-  adminId: number;
-
-  author: string;
-
-  lecturer: string;
-
-  startDate: string;
-
-  endDate: string;
-
-  intro: string;
-
-  lectureLink: string;
-
-  evaluateStartDate: string;
-
-  evaluateEndDate: string;
-
-  evaluateLink: string;
-
-  lecturerEvaluateStartDate: string;
-
-  lecturerEvaluateEndDate: string;
-
-  lecturerEvaluateLink: string;
-}>;
+export type UpdateLecture = Partial<Lecture> & {adminId: string, curriculumId: number}

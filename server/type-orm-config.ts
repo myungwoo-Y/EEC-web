@@ -17,7 +17,7 @@ const isProd = process.env.NODE_ENV === 'production';
 export default new DataSource({
   type: 'postgres',
   host: configService.getValue('POSTGRES_HOST'),
-  schema: isProd ? 'eec' : 'public',
+  schema: 'public',
   
   port: parseInt(configService.getValue('POSTGRES_PORT')),
   username: configService.getValue('POSTGRES_USER'),

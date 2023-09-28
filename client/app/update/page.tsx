@@ -77,7 +77,6 @@ function UserUpdate() {
     }
 
     try {
-      alert('정보를 수정하였습니다.');
       await updateUser({...filteredUser, userId: user?.userId}).unwrap();
       const res = await triggerUserByEmail(user.email);
       
@@ -87,10 +86,11 @@ function UserUpdate() {
         }))
       }
 
-      router.push('/');
     } catch (e) {
       alert('정보 수정에 실패했습니다.');
     }
+    alert('정보를 수정하였습니다.');
+    router.push('/');
   }
 
   return (
@@ -101,7 +101,7 @@ function UserUpdate() {
           아래의 정보들을 입력해주세요
         </p>
         <Input
-          type="email"
+          type="text"
           className="w-full lg:w-[600px] mt-4"
           placeholder="이메일"
           value={user?.email || ''}
@@ -136,7 +136,7 @@ function UserUpdate() {
           error={errorMsgMap.confirmPassword}
         />
         <Input
-          type="email"
+          type="text"
           className="w-full lg:w-[600px] mt-4"
           placeholder="구분"
           value={getUserRoleName(user?.role)}
@@ -226,6 +226,7 @@ function UserUpdate() {
           <option value="" disabled>
             기수를 선택해 주세요
           </option>
+          <option value="0">없음</option>
           <option value="1">1기</option>
           <option value="2">2기</option>
           <option value="3">3기</option>

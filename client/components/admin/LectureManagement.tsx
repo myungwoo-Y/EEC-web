@@ -19,8 +19,8 @@ function LectureManagement({ curriculumId }: LectureManagement) {
   })
 
   const [addLecture, { isLoading }] = useAddLectureMutation();
-  const [deleteLecture] = useDeleteLectureMutation();
-  const [updateLectures] = useUpdateLecturesMutation();
+  const [deleteLecture, {isSuccess: isSuccessDelete}] = useDeleteLectureMutation();
+  const [updateLectures, {isSuccess: isSuccessUpdate}] = useUpdateLecturesMutation();
 
   const [titles, setTitles] = useState<string[]>([]);
 
@@ -31,6 +31,18 @@ function LectureManagement({ curriculumId }: LectureManagement) {
       setTitles(lectures.map((lecture) => lecture.title));
     }
   }, [lectures]);
+
+  useEffect(() => {
+    if (isSuccessDelete) {
+      alert('삭제를 완료했습니다.');
+    }
+  }, [isSuccessDelete])
+
+  useEffect(() => {
+    if (isSuccessUpdate) {
+      alert('저장이 완료되었습니다.');
+    }
+  }, [isSuccessUpdate])
 
   const onAddLecture = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
@@ -63,13 +75,11 @@ function LectureManagement({ curriculumId }: LectureManagement) {
 
     if (newLectures.length) {
       await updateLectures(newLectures);
-      alert('저장이 완료되었습니다.');
     }
   };
 
   const onLectureRemove = async (curriculumId: number) => {
     await deleteLecture(curriculumId);
-    alert('삭제를 완료했습니다.');
   };
 
   const onLectureCancle = () => {
@@ -107,7 +117,7 @@ function LectureManagement({ curriculumId }: LectureManagement) {
             ? lectures.map((lecture, idx) => (
                 <tr key={lecture.lectureId} className="text-center">
                   <td className="border-gray-300 border-[1px] border-t-black py-3">
-                    {lecture.lectureId}
+                    {idx+1}
                   </td>
                   <td className="border-gray-300 border-[1px] border-t-black py-3">
                     {lecture.curriculum?.title}

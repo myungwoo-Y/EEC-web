@@ -44,7 +44,8 @@ const slice = createSlice({
       state.user = null;
       state.token = null;
       localStorage.removeItem('token');
-      alert('로그아웃 되었습니다.')
+      alert('로그아웃 되었습니다.');
+      window.location.href = '/';
     }
   },
 })

@@ -3,9 +3,10 @@
 import Input from '@/components/Input';
 import { setCredentials } from '@/features/auth/authSlice';
 import { useLoginMutation } from '@/services/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation'
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -13,6 +14,16 @@ export default function Login() {
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
   const { push } = useRouter();
+  const searchParams = useSearchParams();
+  const isRedirect = searchParams.get('redirect');
+
+  useEffect(() => {
+    if (isRedirect?.toLowerCase() === 'true') {
+      setTimeout(() => {
+        alert('로그인 후 이용해주세요.');
+      }, 100);
+    }
+  }, [isRedirect]);
 
   const handleLogin = async () => {
     try {

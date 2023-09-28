@@ -32,7 +32,6 @@ export class AppController {
   @Get('auth')
   async getUesrByToken(
     @Request() req,
-    @Res({ passthrough: true }) response: Response,
   ) {
     return this.userService.findOne({
       email: req.user?.email,

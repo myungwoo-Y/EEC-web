@@ -34,7 +34,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
   return (
     <html lang="ko">
       <body suppressHydrationWarning={true} className={pretendard.className}>

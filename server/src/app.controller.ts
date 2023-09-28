@@ -6,6 +6,7 @@ import { LocalAuthGuard } from './auth/strategies/local-auth.guard';
 import { UserService } from './user/user.service';
 import { Response } from 'express';
 import CookieUtil from './lib/cookie';
+
 @Controller()
 export class AppController {
   constructor(
@@ -23,7 +24,7 @@ export class AppController {
   @Post('auth/login')
   async login(@Request() req, @Res({ passthrough: true }) response: Response) {
     const loginResponse = await this.authService.login(req.user);
-    CookieUtil.setCookie('token', 'hello', response, { httpOnly: true });
+    CookieUtil.setCookie('token', loginResponse.token, response, { httpOnly: true });
     return loginResponse;
   }
 

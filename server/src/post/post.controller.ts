@@ -3,20 +3,15 @@ import {
   Controller,
   Delete,
   Get,
-  MaxFileSizeValidator,
   Param,
-  ParseFilePipe,
   Post,
   Put,
   Query,
   Req,
-  UploadedFiles,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 import { PostService } from './post.service';
-import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreateCommentDto, CreatePostDto, UpdateCommentDto, UpdatePostDto } from './post.dto';
 import FileService from 'src/file/file.service';
 import { HasRoles } from 'src/auth/has-role.decorator';

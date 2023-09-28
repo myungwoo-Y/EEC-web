@@ -10,7 +10,6 @@ class CookieUtil {
       maxAge: CookieUtil.expiration,
       sameSite: true,
       path: '/',
-      secure: false,
       ...cookieOptions
     });
   }

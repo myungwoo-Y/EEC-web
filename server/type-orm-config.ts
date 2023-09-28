@@ -11,7 +11,7 @@ import Lecture from 'src/model/lecture.entity';
 import { Application } from 'src/model/application.entity';
 import { Comment } from 'src/model/comment.entity';
 import { Report } from 'src/model/report.entity';
-import configMap from 'src/lib/config';
+import configMap from 'src/config/config-map';
 
 export default new DataSource({
   type: 'postgres',

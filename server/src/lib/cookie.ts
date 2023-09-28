@@ -1,5 +1,5 @@
 import { CookieOptions, Request, Response } from "express";
-import configMap from "./config";
+import configMap from "../config/config-map";
 
 class CookieUtil {
   private static expiration = 1000 * 60 * 60 * 24 * 365;

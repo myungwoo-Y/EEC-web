@@ -1,7 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { config } from 'dotenv';
 import { join } from 'path';
-import configMap from 'src/lib/config';
+import configMap from 'src/config/config-map';
 
 config({ path: join(process.cwd(), configMap.envPath)});
 class ConfigService {

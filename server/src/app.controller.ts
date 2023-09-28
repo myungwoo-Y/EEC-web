@@ -22,8 +22,9 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req, @Res({ passthrough: true }) response: Response) {
-    CookieUtil.setCookie('token', '', response, { httpOnly: true });
-    return this.authService.login(req.user);
+    const loginResponse = await this.authService.login(req.user);
+    CookieUtil.setCookie('token', 'hello', response, { httpOnly: true });
+    return loginResponse;
   }
 
   @UseGuards(JwtAuthGuard)

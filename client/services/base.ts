@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { addTokenToHeader, getBaseHost } from './common';
+import { addTokenToHeader } from './common';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -9,7 +9,7 @@ export const emptySplitApi = createApi({
   tagTypes: ['Curriculum', 'Lecture', 'Post', 'User', 'Certification', 'Class', 'Application', 'Category', 'Report'],
   baseQuery: fetchBaseQuery({
     // baseUrl: `${getBaseHost()}`,
-    baseUrl: isProd ? 'https://api.kfvetp.com' : `http://localhost:8080`,
+    baseUrl: isProd ? 'https://api.kfvetp.com' : `http://kfvetp.local.com:8080`,
     prepareHeaders: (headers, { getState }) => {
       return addTokenToHeader(headers, getState);
     },

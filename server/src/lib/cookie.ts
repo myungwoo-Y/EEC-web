@@ -9,6 +9,8 @@ class CookieUtil {
       domain: configMap.cookieDomain,
       maxAge: CookieUtil.expiration,
       sameSite: true,
+      path: '/',
+      secure: false,
       ...cookieOptions
     });
   }

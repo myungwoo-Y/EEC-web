@@ -1,10 +1,9 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { config } from 'dotenv';
 import { join } from 'path';
+import configMap from 'src/lib/config';
 
-const envPath = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env';
-
-config({ path: join(process.cwd(), envPath)});
+config({ path: join(process.cwd(), configMap.envPath)});
 class ConfigService {
   constructor(private env: { [k: string]: string | undefined }) {}
 

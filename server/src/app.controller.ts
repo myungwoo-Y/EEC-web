@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Request, Res, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './auth/strategies/jwt-auth.guard';
 import { LocalAuthGuard } from './auth/strategies/local-auth.guard';
 import { UserService } from './user/user.service';
+import { Response } from 'express';
+import CookieUtil from './lib/cookie';
 @Controller()
 export class AppController {
   constructor(
@@ -19,15 +21,19 @@ export class AppController {
 
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
-  async login(@Request() req) {
+  async login(@Request() req, @Res({ passthrough: true }) response: Response) {
+    CookieUtil.setCookie('token', '', response, { httpOnly: true });
     return this.authService.login(req.user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('auth')
-  async getUesrByToken(@Request() req) {
+  async getUesrByToken(
+    @Request() req,
+    @Res({ passthrough: true }) response: Response,
+  ) {
     return this.userService.findOne({
-      email: req.user?.email
+      email: req.user?.email,
     });
   }
 }

@@ -2,17 +2,20 @@ import {
   Body,
   Post,
   Controller,
-  UploadedFiles,
   UseInterceptors,
   Get,
   Param,
   Put,
   UseGuards,
+  Req,
+  BadRequestException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { CreateReportDto, UpdateReportDto } from './report.dto';
 import { ReportService } from './report.service';
 import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
+import { Request } from 'express';
 
 @UseGuards(JwtAuthGuard)
 @Controller('report')
@@ -25,8 +28,14 @@ export class ReportController {
   }
 
   @Get('/:reportId')
-  findOne(@Param('reportId') reportId: number) {
-    return this.reportService.findOne(reportId);
+  async findOne(@Req() req: Request, @Param('reportId') reportId: number) {
+    const report = await this.reportService.findOne(reportId);
+
+    if (this.reportService.hasPermission(req.user, report)) {
+      throw new BadRequestException();
+    }
+
+    return report;
   }
 
   @Put('/:reportId')
@@ -39,10 +48,17 @@ export class ReportController {
       { name: 'paperFiles' },
     ]),
   )
-  updateReport(
+  async updateReport(
+    @Req() req: Request,
     @Param('reportId') reportId: number,
     @Body() updateReportDto: UpdateReportDto,
   ) {
+    const report = await this.reportService.findOne(reportId);
+
+    if (this.reportService.hasPermission(req.user, report)) {
+      throw new UnauthorizedException();
+    }
+
     return this.reportService.updateReport({
       updateReportDto,
       reportId,
@@ -50,9 +66,7 @@ export class ReportController {
   }
 
   @Post()
-  addReport(
-    @Body() createReportDto: CreateReportDto,
-  ) {
+  addReport(@Body() createReportDto: CreateReportDto) {
     return this.reportService.addReport({
       createReportDto,
     });

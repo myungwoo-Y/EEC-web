@@ -1,14 +1,26 @@
 'use client';
 
+import { selectCurrentUser } from '@/features/auth/authSlice';
 import { toKoreaDate } from '@/lib/date';
+import { Report } from '@/model/report';
+import { UserRole } from '@/model/user';
 import { useGetReportsQuery } from '@/services/report';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 function ReportsPage() {
+  const user = useSelector(selectCurrentUser);
   const router = useRouter();
   const { data: reports } = useGetReportsQuery();
+
+  const goToDetail = (report: Report) => {
+    if (user?.userId === report.user.userId || user?.role === UserRole.ADMIN) {
+      router.push(`/report/${report.reportId}`)
+    } else {
+      alert('권한이 올바르지 않습니다.');
+    }
+  }
 
   return (
     <div className="pt-4 lg:pt-10 px-2 lg:px-12">
@@ -29,7 +41,7 @@ function ReportsPage() {
             <tr
               key={report.reportId}
               className="text-center border-t-[1px] border-b-[1px] border-gray-200 hover:bg-gray-50 cursor-pointer"
-              onClick={() => router.push(`/report/${report.reportId}`)}
+              onClick={() => goToDetail(report)}
             >
               <td className="py-4">{report.reportId}</td>
               <td>{report.year}</td>

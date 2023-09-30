@@ -5,6 +5,7 @@ import File from 'src/model/file.entity';
 import { Report } from 'src/model/report.entity';
 import { Repository } from 'typeorm';
 import { CreateReportDto, UpdateReportDto } from './report.dto';
+import { AuthUser, UserRole } from 'src/model/user.entity';
 
 @Injectable()
 export class ReportService {
@@ -13,6 +14,10 @@ export class ReportService {
     private reportRepository: Repository<Report>,
     private fileService: FileService,
   ) {}
+
+  hasPermission(user: AuthUser, report: Report) {
+    return report.user?.userId !== user?.userId && user.role !== UserRole.ADMIN;
+  }
 
   findAll() {
     return this.reportRepository.find({

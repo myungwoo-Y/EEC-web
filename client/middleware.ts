@@ -23,8 +23,6 @@ export async function middleware(request: NextRequest) {
 
   const jwtToken = request.cookies.get('token')?.value;
 
-  console.log(jwtToken)
-
   if (!jwtToken) {
     return NextResponse.redirect(configMap.loginUrl);
   }

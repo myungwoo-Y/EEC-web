@@ -42,7 +42,6 @@ function UpdateReport({ params: { slug: reportId }}: UpdateReportProps) {
           certificationDate: toInputDate(report.certificationDate)
         };
         const basisList = report.basis.split('|');
-        console.log(basisList);
         for (let i = 0; i < BasisCount; i++) {
           resetObj[i+1] = basisList[i];
         }

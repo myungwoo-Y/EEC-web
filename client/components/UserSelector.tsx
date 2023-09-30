@@ -49,8 +49,6 @@ function UserSelector<T extends CheckedUser>({
           }
 
           if (role && role !== user.role) {
-            console.log(role);
-            console.log(user.role);
             return false;
           }
 
@@ -78,8 +76,6 @@ function UserSelector<T extends CheckedUser>({
         }
 
         if (role && role !== user.role) {
-          console.log(role);
-          console.log(user.role);
           return false;
         }
 

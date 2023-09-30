@@ -11,16 +11,16 @@ import {
   UserMinusIcon,
 } from '@heroicons/react/24/outline';
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import NavItem from '../NavItem';
 import { getUserRoleName } from '@/lib/user';
+import useLogout from '@/hooks/useLogout';
 
 type PCNavProps = {
   user: User | null;
 };
 
 function PCNav({ user }: PCNavProps) {
-  const dispatch = useDispatch();
+  const handleLogout = useLogout();
 
   return (
     <div className="flex w-full h-14 py-4 flex-row-reverse px-8 gap-4">
@@ -28,7 +28,7 @@ function PCNav({ user }: PCNavProps) {
         <>
           <button
             className="flex items-center hover:text-primary"
-            onClick={() => dispatch(removeCredentials())}
+            onClick={handleLogout}
           >
             <UserMinusIcon className="w-4 h-4 mr-1" /> 로그아웃
           </button>

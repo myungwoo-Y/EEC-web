@@ -16,11 +16,10 @@ import {
   UserIcon,
   UserMinusIcon,
 } from '@heroicons/react/24/outline';
-import { removeCredentials } from '@/features/auth/authSlice';
 import NavItem from '../NavItem';
 import { getUserRoleName } from '@/lib/user';
-import { useDispatch } from 'react-redux';
 import { usePathname } from 'next/navigation';
+import useLogout from '@/hooks/useLogout';
 
 type MobileNavProps = {
   user: User | null;
@@ -28,9 +27,8 @@ type MobileNavProps = {
 
 function MobileNav({ user }: MobileNavProps) {
   const [isHamburgerClick, setIsHamburgerClick] = useState(false);
-  const dispatch = useDispatch();
   const pathname = usePathname();
-
+  const handleLogout = useLogout();
   const toggle = () => setIsHamburgerClick(!isHamburgerClick);
 
   useEffect(() => {
@@ -120,7 +118,7 @@ function MobileNav({ user }: MobileNavProps) {
                 />
                 <button
                   className="flex items-center hover:text-primary"
-                  onClick={() => dispatch(removeCredentials())}
+                  onClick={handleLogout}
                 >
                   <UserMinusIcon className="w-4 h-4 mr-1" /> 로그아웃
                 </button>

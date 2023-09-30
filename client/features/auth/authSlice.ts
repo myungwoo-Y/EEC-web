@@ -2,15 +2,14 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../../redux/store';
 import { User } from '@/model/user';
+import { deleteCookie } from 'cookies-next';
 
 type AuthState = {
   user: User | null
-  token: string | null
 }
 
 const initialState: AuthState = {
   user: null,
-  token: null
 };
 
 
@@ -20,15 +19,10 @@ const slice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      { payload: { user, token } }: PayloadAction<AuthState>
+      { payload: { user } }: PayloadAction<AuthState>
     ) => {
-      if (token) {
-        localStorage.setItem('token', token);
-      }
-
       return {
         user,
-        token
       }
     },
     setUser: (
@@ -42,8 +36,6 @@ const slice = createSlice({
     },
     removeCredentials: (state) => {
       state.user = null;
-      state.token = null;
-      localStorage.removeItem('token');
       alert('로그아웃 되었습니다.');
       window.location.href = '/';
     }

@@ -1,14 +1,9 @@
 'use client';
 
-import { removeCredentials, selectCurrentUser, setCredentials, setUser } from '@/features/auth/authSlice';
-import { getUserRoleName } from '@/lib/user';
+import { selectCurrentUser, setCredentials, setUser } from '@/features/auth/authSlice';
 import { useLazyGetUserByTokenQuery } from '@/services/auth';
-import { ArrowRightOnRectangleIcon , PencilSquareIcon, UserCircleIcon, UserMinusIcon } from '@heroicons/react/24/outline';
-import { UserIcon } from '@heroicons/react/24/outline';
-import { Cog6ToothIcon } from '@heroicons/react/24/outline';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import NavItem from '../NavItem';
 import { useGetUserQuery } from '@/services/user';
 import PCNav from './PCNav';
 import MobileNav from './MobileNav';
@@ -31,15 +26,11 @@ function Nav() {
 
   useEffect(() => {
     if (!user) {
-      const tokenFromLocal = localStorage.getItem('token');
-      if (tokenFromLocal) {
-        trigger(tokenFromLocal).then(result => {
-          dispatch(setCredentials({
-            token: tokenFromLocal,
-            user: result.data || null
-          }))
-        });
-      }
+      trigger().then(result => {
+        dispatch(setCredentials({
+          user: result.data || null
+        }))
+      });
     }
   }, [trigger, user, dispatch]);
 

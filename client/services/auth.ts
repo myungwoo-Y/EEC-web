@@ -1,6 +1,5 @@
 import { User } from '@/model/user';
 import { emptySplitApi } from './base';
-
 export interface UserResponse {
   user: User;
   token: string;
@@ -18,14 +17,18 @@ export const authApi = emptySplitApi.injectEndpoints({
         url: '/auth/login',
         method: 'POST',
         body: credentials,
-        credentials: 'include'
       }),
     }),
-    getUserByToken: builder.query<User, string>({
-      query: (token) => ({
+    logout: builder.query<void, void>({
+      query: () => ({
+        url: '/auth/logout',
+        method: 'GET',
+      }),
+    }),
+    getUserByToken: builder.query<User, void>({
+      query: () => ({
         url: '/auth',
         method: 'GET',
-        headers: { authorization: `Bearer ${token}` },
       }),
       providesTags: ['User']
     }),
@@ -33,4 +36,4 @@ export const authApi = emptySplitApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useLoginMutation,  useLazyGetUserByTokenQuery } = authApi;
+export const { useLoginMutation,  useLazyGetUserByTokenQuery, useLazyLogoutQuery } = authApi;

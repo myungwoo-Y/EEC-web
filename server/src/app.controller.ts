@@ -28,6 +28,12 @@ export class AppController {
     return loginResponse;
   }
 
+  @Get('auth/logout')
+  async logout(@Res() response: Response) {
+    CookieUtil.clearCookie('token', response);
+    return response.sendStatus(200);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get('auth')
   async getUesrByToken(

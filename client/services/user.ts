@@ -1,5 +1,6 @@
 import { CreateUser, UpdateRegisterStatus, UpdateUser, User } from '@/model/user';
 import { emptySplitApi } from './base';
+import { CertificationHistory } from '@/model/certification';
 
 export const userApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -56,7 +57,22 @@ export const userApi = emptySplitApi.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
+    getUserCertifications: builder.query<CertificationHistory[], number>({
+      query: (userId) => ({
+        url: `/certification/${userId}`,
+        method: 'GET',
+      }),
+      providesTags: ['Certification'],
+    }),
+
+    getUserCertificationPdf: builder.query<CertificationHistory[], {userId: number, certificationId: number}>({
+      query: ({userId, certificationId}) => ({
+        url: `/certification/${certificationId}/user/${userId}`,
+        method: 'GET',
+      }),
+      providesTags: ['Certification'],
+    }),
   }),
 });
 
-export const { useAddUserMutation, useLazyGetUserQuery, useGetUserQuery, useGetUsersQuery, useGetUsersByQueryQuery, useUpdateUserMutation, useUpdateUsersMutation, useAddClassToUserMutation } = userApi;
+export const { useAddUserMutation, useLazyGetUserQuery, useGetUserQuery, useGetUsersQuery, useGetUsersByQueryQuery, useUpdateUserMutation, useUpdateUsersMutation, useAddClassToUserMutation, useGetUserCertificationsQuery, useLazyGetUserCertificationPdfQuery } = userApi;

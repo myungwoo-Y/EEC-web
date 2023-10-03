@@ -26,7 +26,7 @@ const messageApi = emptySplitApi.injectEndpoints({
     }),
     getCertificationAll: builder.query<CertificationHistory[], void>({
       query: () => ({
-        url: '/certification',
+        url: '/certification/all',
         method: 'GET'
       }),
       providesTags: ['Certification']

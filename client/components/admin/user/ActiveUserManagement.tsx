@@ -9,6 +9,7 @@ import {
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import checkboxStyles from '../../Checkbox.module.scss';
+import classNames from 'classnames';
 
 function ActiveUserManagement() {
   const { data } = useGetUsersByQueryQuery({ isActive: true });
@@ -38,6 +39,11 @@ function ActiveUserManagement() {
       })
     );
   };
+
+  const togglenAllSelect = (isChecked: boolean) => {
+    console.log(isChecked)
+    setUsers(users.map((user) => ({...user, checked: isChecked})))
+  }
 
   const handleRoleChange = (userId: number, role: UserRole) => {
     setUsers(
@@ -93,8 +99,11 @@ function ActiveUserManagement() {
         <table className="min-w-[1300px] w-full mt-4 text-center">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border-gray-300 border-[1px] border-t-black py-3">
-                선택
+              <th className="border-gray-300 border-[1px] border-t-black py-3 w-20">
+                <div className='flex items-center justify-center gap-1'>
+                  <input type="checkbox" className={checkboxStyles.rectangle} onChange={(e) => togglenAllSelect(e.target.checked)} />
+                  선택
+                </div>
               </th>
               <th className="border-gray-300 border-[1px] border-t-black py-3">
                 가입신청일

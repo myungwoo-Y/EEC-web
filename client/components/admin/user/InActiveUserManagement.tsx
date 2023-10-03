@@ -66,6 +66,11 @@ function InActiveUserManagement() {
     setUsers(users.map((user) => ({ ...user, checked: false })));
   }
 
+  const togglenAllSelect = (isChecked: boolean) => {
+    console.log(isChecked)
+    setUsers(users.map((user) => ({...user, checked: isChecked})))
+  }
+
   return (
     <div>
       <p className="text-lg font-semibold">가입신청</p>
@@ -74,7 +79,10 @@ function InActiveUserManagement() {
           <thead>
             <tr className="bg-gray-100">
               <th className="border-gray-300 border-[1px] border-t-black py-3">
-                선택
+                <div className='flex items-center justify-center gap-1'>
+                  <input type="checkbox" className={checkboxStyles.rectangle} onChange={(e) => togglenAllSelect(e.target.checked)} />
+                  선택
+                </div>
               </th>
               <th className="border-gray-300 border-[1px] border-t-black py-3">
                 가입신청일

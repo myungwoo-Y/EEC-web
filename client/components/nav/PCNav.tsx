@@ -1,9 +1,9 @@
 'use client';
 
-import { removeCredentials } from '@/features/auth/authSlice';
 import { User, UserRole } from '@/model/user';
 import {
   ArrowRightOnRectangleIcon,
+  ClipboardIcon,
   Cog6ToothIcon,
   PencilSquareIcon,
   UserCircleIcon,
@@ -33,8 +33,10 @@ function PCNav({ user }: PCNavProps) {
             <UserMinusIcon className="w-4 h-4 mr-1" /> 로그아웃
           </button>
           <NavItem text="정보수정" path="/update" Icon={PencilSquareIcon} />
-          {user?.role === UserRole.ADMIN && (
+          {user?.role === UserRole.ADMIN ? (
             <NavItem text="서비스관리" path="/admin" Icon={Cog6ToothIcon} />
+          ) : (
+            <NavItem text="증명서발급" path={`/certification/${user.userId}`} Icon={ClipboardIcon} />
           )}
 
           <div className="flex items-center">

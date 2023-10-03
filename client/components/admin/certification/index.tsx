@@ -28,9 +28,10 @@ function Certification() {
 
   const onFillAll = () => {
     const certificationInfo = getValues();
-    setUsers(users.map((user) => ({
+    setUsers(users.map((user, idx) => ({
       ...user,
-      ...certificationInfo
+      ...certificationInfo,
+      issueNumber: (idx+1).toString().padStart(3, '0')
     })))
   }
 

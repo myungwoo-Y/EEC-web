@@ -1,7 +1,13 @@
 import SMSModal from '@/components/modal/SMSModal';
 import UserSelector from '@/components/UserSelector';
 import { getUserRoleName } from '@/lib/user';
-import { CheckedUser, UpdateRegisterStatus, User, UserRole, UserRoles } from '@/model/user';
+import {
+  CheckedUser,
+  UpdateRegisterStatus,
+  User,
+  UserRole,
+  UserRoles,
+} from '@/model/user';
 import {
   useGetUsersByQueryQuery,
   useUpdateUsersMutation,
@@ -41,9 +47,9 @@ function ActiveUserManagement() {
   };
 
   const togglenAllSelect = (isChecked: boolean) => {
-    console.log(isChecked)
-    setUsers(users.map((user) => ({...user, checked: isChecked})))
-  }
+    console.log(isChecked);
+    setUsers(users.map((user) => ({ ...user, checked: isChecked })));
+  };
 
   const handleRoleChange = (userId: number, role: UserRole) => {
     setUsers(
@@ -85,109 +91,111 @@ function ActiveUserManagement() {
     setUsers(users.map((user) => ({ ...user, checked: false })));
   };
 
-
   return (
     <div>
       <div className="flex justify-between">
         <p className="text-lg font-semibold">회원정보</p>
-        <UserSelector 
-          users={users}
-          setFilteredUsers={setFilteredUsers}
-        />
+        <UserSelector users={users} setFilteredUsers={setFilteredUsers} />
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-[1300px] w-full mt-4 text-center">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border-gray-300 border-[1px] border-t-black py-3 w-20">
-                <div className='flex items-center justify-center gap-1'>
-                  <input type="checkbox" className={checkboxStyles.rectangle} onChange={(e) => togglenAllSelect(e.target.checked)} />
-                  선택
-                </div>
-              </th>
-              <th className="border-gray-300 border-[1px] border-t-black py-3">
-                가입신청일
-              </th>
-              <th className="border-gray-300 border-[1px] border-t-black py-3">
-                아이디
-              </th>
-              <th className="border-gray-300 border-[1px] border-t-black py-3">
-                이름
-              </th>
-              <th className="border-gray-300 border-[1px] border-t-black py-3">
-                핸드폰
-              </th>
-              <th className="border-gray-300 border-[1px] border-t-black py-3">
-                소속
-              </th>
-              <th className="border-gray-300 border-[1px] border-t-black py-3">
-                직급
-              </th>
-              <th className="border-gray-300 border-[1px] border-t-black py-3">
-                기수
-              </th>
-              <th className="border-gray-300 border-[1px] border-t-black py-3">
-                권한구분
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredUsers?.map((user) => (
-              <tr key={user.userId}>
-                <td className="border-gray-300 border-[1px] border-t-black py-3">
-                  <div className="flex justify-center">
+        <div className="max-h-[600px] overflow-y-auto my-4">
+          <table className="min-w-[1300px] w-full text-center">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border-gray-300 border-[1px] border-t-black py-3 w-20">
+                  <div className="flex items-center justify-center gap-1">
                     <input
                       type="checkbox"
-                      className={`${checkboxStyles.rectangle}`}
-                      onChange={() => handleSelect(user.userId)}
-                      checked={user.checked}
+                      className={checkboxStyles.rectangle}
+                      onChange={(e) => togglenAllSelect(e.target.checked)}
                     />
+                    선택
                   </div>
-                </td>
-                <td className="border-gray-300 border-[1px] border-t-black py-3">
-                  {dayjs(user.createDateTime).format('YYYY-MM-DD HH:MM')}
-                </td>
-                <td className="border-gray-300 border-[1px] border-t-black py-3">
-                  {user.email}
-                </td>
-                <td className="border-gray-300 border-[1px] border-t-black py-3">
-                  {user.name}
-                </td>
-                <td className="border-gray-300 border-[1px] border-t-black py-3">
-                  {user.phoneNumber}
-                </td>
-                <td className="border-gray-300 border-[1px] border-t-black py-3">
-                  {user.department}
-                </td>
-                <td className="border-gray-300 border-[1px] border-t-black py-3">
-                  {user.jobLevel}
-                </td>
-                <td className="border-gray-300 border-[1px] border-t-black py-3">
-                  {user.classOrder}
-                </td>
-                <td className="border-gray-300 border-[1px] border-t-black">
-                  <div className="flex items-center justify-center gap-5">
-                    {UserRoles.map((role, idx) => (
-                      <div
-                        className="flex items-center gap-1 cursor-pointer"
-                        key={idx}
-                        onClick={() => handleRoleChange(user.userId, role)}
-                      >
-                        <input
-                          type="checkbox"
-                          className={`${checkboxStyles.circle}`}
-                          checked={user.role === role}
-                          onChange={() => null}
-                        />
-                        <span>{getUserRoleName(role)}</span>
-                      </div>
-                    ))}
-                  </div>
-                </td>
+                </th>
+                <th className="border-gray-300 border-[1px] border-t-black py-3">
+                  가입신청일
+                </th>
+                <th className="border-gray-300 border-[1px] border-t-black py-3">
+                  아이디
+                </th>
+                <th className="border-gray-300 border-[1px] border-t-black py-3">
+                  이름
+                </th>
+                <th className="border-gray-300 border-[1px] border-t-black py-3">
+                  핸드폰
+                </th>
+                <th className="border-gray-300 border-[1px] border-t-black py-3">
+                  소속
+                </th>
+                <th className="border-gray-300 border-[1px] border-t-black py-3">
+                  직급
+                </th>
+                <th className="border-gray-300 border-[1px] border-t-black py-3">
+                  기수
+                </th>
+                <th className="border-gray-300 border-[1px] border-t-black py-3">
+                  권한구분
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredUsers?.map((user) => (
+                <tr key={user.userId}>
+                  <td className="border-gray-300 border-[1px] border-t-black py-3">
+                    <div className="flex justify-center">
+                      <input
+                        type="checkbox"
+                        className={`${checkboxStyles.rectangle}`}
+                        onChange={() => handleSelect(user.userId)}
+                        checked={user.checked}
+                      />
+                    </div>
+                  </td>
+                  <td className="border-gray-300 border-[1px] border-t-black py-3">
+                    {dayjs(user.createDateTime).format('YYYY-MM-DD HH:MM')}
+                  </td>
+                  <td className="border-gray-300 border-[1px] border-t-black py-3">
+                    {user.email}
+                  </td>
+                  <td className="border-gray-300 border-[1px] border-t-black py-3">
+                    {user.name}
+                  </td>
+                  <td className="border-gray-300 border-[1px] border-t-black py-3">
+                    {user.phoneNumber}
+                  </td>
+                  <td className="border-gray-300 border-[1px] border-t-black py-3">
+                    {user.department}
+                  </td>
+                  <td className="border-gray-300 border-[1px] border-t-black py-3">
+                    {user.jobLevel}
+                  </td>
+                  <td className="border-gray-300 border-[1px] border-t-black py-3">
+                    {user.classOrder}
+                  </td>
+                  <td className="border-gray-300 border-[1px] border-t-black">
+                    <div className="flex items-center justify-center gap-5">
+                      {UserRoles.map((role, idx) => (
+                        <div
+                          className="flex items-center gap-1 cursor-pointer"
+                          key={idx}
+                          onClick={() => handleRoleChange(user.userId, role)}
+                        >
+                          <input
+                            type="checkbox"
+                            className={`${checkboxStyles.circle}`}
+                            checked={user.role === role}
+                            onChange={() => null}
+                          />
+                          <span>{getUserRoleName(role)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         <div className="float-right">
           <div className="flex gap-2 mt-4">
             <button className="px-3 py-1 text-center border-[1px] border-blue-700 text-blue-500 rounded-md">
@@ -222,7 +230,10 @@ function ActiveUserManagement() {
         </div>
       </div>
       {showSMSModal && (
-        <SMSModal closeModal={() => setShowSMSModal(false)} users={clickedUsers} />
+        <SMSModal
+          closeModal={() => setShowSMSModal(false)}
+          users={clickedUsers}
+        />
       )}
     </div>
   );

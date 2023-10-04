@@ -96,7 +96,7 @@ function SideBar({
         수강신청
       </Link>
       <div
-        className="flex text-[16px] text-white items-center justify-between  my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl"
+        className="flex text-[16px] text-white items-center justify-between  my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl cursor-pointer"
         onClick={() => setSelectedMenu(isSelectClass ? '' : 'class')}
       >
         <div className="flex items-center">
@@ -148,7 +148,7 @@ function SideBar({
         </>
       )}
       <div
-        className="flex text-[16px] text-white items-center justify-between  my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl"
+        className="flex text-[16px] text-white items-center justify-between  my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl cursor-pointer"
         onClick={() => setSelectedMenu(isSelectBoard ? '' : 'board')}
       >
         <div className="flex items-center">
@@ -181,7 +181,7 @@ function SideBar({
           );
         })}
       <div
-        className="flex text-[16px] text-white items-center justify-between  my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl"
+        className="flex text-[16px] text-white items-center justify-between  my-2 mx-3 px-3 py-3 hover:bg-primary rounded-xl cursor-pointer"
         onClick={() => setSelectedMenu(isSelectReport ? '' : 'report')}
       >
         <div className="flex items-center">

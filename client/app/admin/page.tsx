@@ -56,7 +56,7 @@ function Admin() {
             {menus.map((menu, idx) => (
               <React.Fragment key={idx}>
                 <div
-                  className={`px-5 py-3 text-center flex-1 ${
+                  className={`px-5 py-3 text-center flex-1 cursor-pointer ${
                     menuIdx === idx
                       ? 'bg-primary text-white'
                       : 'bg-gray-100 hover:bg-gray-200'

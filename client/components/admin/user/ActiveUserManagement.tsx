@@ -169,7 +169,7 @@ function ActiveUserManagement() {
                   <div className="flex items-center justify-center gap-5">
                     {UserRoles.map((role, idx) => (
                       <div
-                        className="flex items-center gap-1"
+                        className="flex items-center gap-1 cursor-pointer"
                         key={idx}
                         onClick={() => handleRoleChange(user.userId, role)}
                       >

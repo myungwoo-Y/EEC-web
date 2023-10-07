@@ -51,4 +51,11 @@ export class UserController {
   async findAll(@Query('isActive') isActive: boolean) {
     return await this.userService.findAll({ isActive });
   }
+
+  @HasRoles(UserRole.ADMIN)
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Get('/result')
+  async findUsersHasReport() {
+    return await this.userService.findAllResults();
+  }
 }

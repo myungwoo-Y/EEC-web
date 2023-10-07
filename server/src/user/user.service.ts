@@ -23,6 +23,24 @@ export class UserService {
     return this.usersRepository.findBy(option);
   }
 
+  async findAllResults(): Promise<User[]> {
+    const users = await this.usersRepository.find({
+      relations: {
+        reports: true,
+        applications: true
+      },
+      order: {
+        reports: {
+          createDateTime: 'DESC'
+        },
+        applications: {
+          createDateTime: 'ASC'
+        }
+      }
+    });
+    return users;
+  }
+
   findOne(option: { userId?: number; email?: string }): Promise<User | null> {
     return this.usersRepository.findOne({
       where: option,

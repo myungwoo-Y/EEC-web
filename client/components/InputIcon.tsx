@@ -7,7 +7,7 @@ interface InputWithIconProps {
   label?: string;
   error?: string;
   autoComplete?: string;
-  register: UseFormRegister<Record<string, any>>;
+  register?: UseFormRegister<Record<string, any>> | (() => any);
   option?: RegisterOptions<Record<string, any>, string>;
   name: string;
   disabled?: boolean;
@@ -16,7 +16,7 @@ interface InputWithIconProps {
   className?: string;
 }
 
-function InputWithIcon({error, register, name, option, disabled, Icon, placeholder = '', className = 'w-full', type}: InputWithIconProps) {
+function InputWithIcon({error, register = () => null, name, option, disabled, Icon, placeholder = '', className = 'w-full', type}: InputWithIconProps) {
   return (
     <div className="relative">
       <Icon className="w-4 h-4 absolute top-1/2 left-1 -translate-y-1/2" />

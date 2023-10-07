@@ -3,6 +3,7 @@
 import Certification from '@/components/admin/certification';
 import ResultTable from '@/components/admin/certification/CertificationHistoryTable';
 import ClassManagement from '@/components/admin/ClassManagement';
+import UserResultManagement from '@/components/admin/report/ReportManagement';
 import UserManagement from '@/components/admin/user';
 import { selectCurrentUser } from '@/features/auth/authSlice';
 import { UserRole } from '@/model/user';
@@ -14,7 +15,7 @@ const menus = [
   '회원 관리',
   '증명서 발급',
   '증명서 발급내역',
-  // '교육생관리',
+  '교육생관리',
   '교과목관리',
 ];
 
@@ -39,9 +40,9 @@ function Admin() {
       case 2:
         return <ResultTable />;
       case 3:
+        return <UserResultManagement />;
+      case 4:
         return <ClassManagement />;
-      // case 4:
-      //   return <ClassManagement />;
     }
 
     return null;

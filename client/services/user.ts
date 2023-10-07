@@ -64,7 +64,6 @@ export const userApi = emptySplitApi.injectEndpoints({
       }),
       providesTags: ['Certification'],
     }),
-
     getUserCertificationPdf: builder.query<CertificationHistory[], {userId: number, certificationId: number}>({
       query: ({userId, certificationId}) => ({
         url: `/certification/${certificationId}/user/${userId}`,
@@ -72,7 +71,14 @@ export const userApi = emptySplitApi.injectEndpoints({
       }),
       providesTags: ['Certification'],
     }),
+    getUserResults: builder.query<User[], void>({
+      query: () => ({
+        url: '/user/result',
+        method: 'GET',
+      }),
+      providesTags: ['User'],
+    }),
   }),
 });
 
-export const { useAddUserMutation, useLazyGetUserQuery, useGetUserQuery, useGetUsersQuery, useGetUsersByQueryQuery, useUpdateUserMutation, useUpdateUsersMutation, useAddClassToUserMutation, useGetUserCertificationsQuery, useLazyGetUserCertificationPdfQuery } = userApi;
+export const { useAddUserMutation, useLazyGetUserQuery, useGetUserQuery, useGetUsersQuery, useGetUsersByQueryQuery, useUpdateUserMutation, useUpdateUsersMutation, useAddClassToUserMutation, useGetUserCertificationsQuery, useLazyGetUserCertificationPdfQuery, useGetUserResultsQuery } = userApi;

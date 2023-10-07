@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -11,6 +12,7 @@ import { BaseEntity } from './base.entity';
 import Lecture from './lecture.entity';
 import { Application } from './application.entity';
 import { Comment } from './comment.entity';
+import { Report } from './report.entity';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -58,6 +60,9 @@ export class User extends BaseEntity {
   @Column({ type: 'boolean', default: true })
   agreementTerms: boolean;
 
+  @Column({ type: 'varchar', length: 500 })
+  memo: string;
+
   @OneToMany((type) => Lecture, (lecture) => lecture.admin)
   lectures: Lecture[];
 
@@ -71,6 +76,9 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => Comment, (comment) => comment.user)
   comments: Comment[];
+
+  @OneToMany((type) => Report, (report) => report.user)
+  reports: Report[];
 }
 
 export type AuthUser = Omit<User, 'password'>;

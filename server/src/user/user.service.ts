@@ -1,11 +1,11 @@
-import { Injectable, Query} from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { removeEmpty } from "src/lib/object";
-import { Application } from "src/model/application.entity";
-import Class from "src/model/class.entity";
-import { User } from "src/model/user.entity";
-import { InsertResult, Repository } from "typeorm";
-import { CreateUserDto, UpdateClassToUserDto, UpdateUserDto } from "./user.dto";
+import { Injectable, Query } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { removeEmpty } from 'src/lib/object';
+import { Application } from 'src/model/application.entity';
+import Class from 'src/model/class.entity';
+import { User, UserRole } from 'src/model/user.entity';
+import { InsertResult, Repository } from 'typeorm';
+import { CreateUserDto, UpdateClassToUserDto, UpdateUserDto } from './user.dto';
 
 @Injectable()
 export class UserService {
@@ -25,18 +25,21 @@ export class UserService {
 
   async findAllResults(): Promise<User[]> {
     const users = await this.usersRepository.find({
+      where: {
+        role: UserRole.STUDENT,
+      },
       relations: {
         reports: true,
-        applications: true
+        applications: true,
       },
       order: {
         reports: {
-          createDateTime: 'DESC'
+          createDateTime: 'DESC',
         },
         applications: {
-          createDateTime: 'ASC'
-        }
-      }
+          createDateTime: 'ASC',
+        },
+      },
     });
     return users;
   }
@@ -46,7 +49,7 @@ export class UserService {
       where: option,
       relations: {
         applications: {
-          class: true
+          class: true,
         },
       },
     });
@@ -88,7 +91,7 @@ export class UserService {
 
     const application = await this.applicationRepository.findOneBy({
       user: { userId },
-      class: { classId }
+      class: { classId },
     });
 
     if (application) {
@@ -98,7 +101,7 @@ export class UserService {
     await this.applicationRepository.insert({
       user,
       class: classEntity,
-      isActive: false
+      isActive: false,
     });
     return true;
   }

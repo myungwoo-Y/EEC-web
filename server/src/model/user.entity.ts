@@ -60,7 +60,7 @@ export class User extends BaseEntity {
   @Column({ type: 'boolean', default: true })
   agreementTerms: boolean;
 
-  @Column({ type: 'varchar', length: 500 })
+  @Column({ type: 'varchar', length: 500, default: '' })
   memo: string;
 
   @OneToMany((type) => Lecture, (lecture) => lecture.admin)

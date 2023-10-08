@@ -1,7 +1,7 @@
 'use client';
 
 import { selectCurrentUser } from '@/features/auth/authSlice';
-import { toKoreaDate } from '@/lib/date';
+import { toKrDate } from '@/lib/date';
 import { Report } from '@/model/report';
 import { UserRole } from '@/model/user';
 import { useGetReportsQuery } from '@/services/report';
@@ -48,7 +48,7 @@ function ReportsPage() {
               <td>{report.quarter}</td>
               <td>{report.user.department}</td>
               <td>{report.user.name}</td>
-              <td>{toKoreaDate(report.certificationDate)}</td>
+              <td>{toKrDate(report.certificationDate)}</td>
             </tr>
           ))}
         </tbody>

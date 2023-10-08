@@ -2,6 +2,7 @@ import { Application } from './application';
 import { Certification } from './certification';
 import { BaseEntity } from './common';
 import { Lecture } from './lecture';
+import { Report } from './report';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -22,7 +23,7 @@ export type User = {
 
   phoneNumber: string;
 
-  birthday: Date;
+  birthday: string;
 
   department: string;
 
@@ -39,6 +40,10 @@ export type User = {
   applications: Application[];
 
   comments: Comment[];
+
+  reports: Report[];
+
+  memo: string;
 } & BaseEntity
 
 

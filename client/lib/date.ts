@@ -26,11 +26,18 @@ export function toInputDate(date: string) {
   return dayjs.utc(date).format('YYYY-MM-DD');
 }
 
-export function toKoreaDate(date: string) {
+export function toKrDate(date: string) {
   if (!date || date === '-infinity') {
     return '';
   }
   return dayjs.utc(date).format('YYYY년 M월 D일');
+}
+
+export function toSixBirthday(date: string) {
+  if (!date || date === '-infinity') {
+    return '';
+  }
+  return dayjs.utc(date).format('YYMMDD');
 }
 
 export function toISOString(date: string | number) {

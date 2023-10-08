@@ -6,7 +6,7 @@ export const userApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getUser: builder.query<User, string>({
       query: (email: string) => ({
-        url: `/user/${email}`,
+        url: `/user/email/${email}`,
         method: 'GET',
       }),
       providesTags: ['User'],

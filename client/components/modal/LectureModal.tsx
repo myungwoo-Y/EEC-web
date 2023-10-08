@@ -1,6 +1,6 @@
 'use client';
 
-import { toKoreaDate } from '@/lib/date';
+import { toKrDate } from '@/lib/date';
 import { Lecture } from '@/model/lecture';
 import { useGetUsersQuery } from '@/services/user';
 import { XMarkIcon } from '@heroicons/react/24/outline';
@@ -71,9 +71,9 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
                 <td className="bg-gray-100 w-36 py-4 text-center">일정</td>
                 <td className="px-3">
                   <div className="flex items-center gap-2">
-                    <p>{toKoreaDate(lecture.startDate)}</p>
+                    <p>{toKrDate(lecture.startDate)}</p>
                     {"~"}
-                    <p>{toKoreaDate(lecture.endDate)}</p>
+                    <p>{toKrDate(lecture.endDate)}</p>
                   </div>
                 </td>
               </tr>
@@ -127,9 +127,9 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
                 </td>
                 <td className="px-3">
                   <div className="flex items-center gap-2">
-                    <p>{toKoreaDate(lecture.evaluateStartDate)}</p>
+                    <p>{toKrDate(lecture.evaluateStartDate)}</p>
                     {"~"}
-                    <p>{toKoreaDate(lecture.evaluateEndDate)}</p>
+                    <p>{toKrDate(lecture.evaluateEndDate)}</p>
                   </div>
                 </td>
               </tr>
@@ -164,9 +164,9 @@ function LectureModal({ lecture, closeModal }: LectureModalProps) {
                 </td>
                 <td className="px-3">
                   <div className="flex items-center gap-2">
-                    <p>{toKoreaDate(lecture.lecturerEvaluateStartDate)}</p>
+                    <p>{toKrDate(lecture.lecturerEvaluateStartDate)}</p>
                     {"~"}
-                    <p>{toKoreaDate(lecture.lecturerEvaluateEndDate)}</p>
+                    <p>{toKrDate(lecture.lecturerEvaluateEndDate)}</p>
                   </div>
                 </td>
               </tr>

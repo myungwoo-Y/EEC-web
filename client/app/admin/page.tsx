@@ -3,7 +3,7 @@
 import Certification from '@/components/admin/certification';
 import ResultTable from '@/components/admin/certification/CertificationHistoryTable';
 import ClassManagement from '@/components/admin/ClassManagement';
-import UserResultManagement from '@/components/admin/report/ReportManagement';
+import UserResultManagement from '@/components/admin/report/UserResultManagement';
 import UserManagement from '@/components/admin/user';
 import { selectCurrentUser } from '@/features/auth/authSlice';
 import { UserRole } from '@/model/user';

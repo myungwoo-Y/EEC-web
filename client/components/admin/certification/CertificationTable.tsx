@@ -89,7 +89,7 @@ function CertificationTable({
       <table className="min-w-[1300px] w-full mt-4 text-center">
         <thead>
           <tr className="bg-gray-100">
-            <th className="border-gray-300 border-[1px] border-t-black py-3">
+            <th className="border-gray-300 border-[1px] border-t-black py-3 w-10">
               <input
                 type="checkbox"
                 className={`${checkboxStyles.rectangle} mx-auto`}
@@ -97,7 +97,7 @@ function CertificationTable({
                 onChange={onCheckAll}
               />
             </th>
-            <th className="border-gray-300 border-[1px] border-t-black py-3">
+            <th className="border-gray-300 border-[1px] border-t-black py-3 w-12">
               순서
             </th>
             <th className="border-gray-300 border-[1px] border-t-black py-3">

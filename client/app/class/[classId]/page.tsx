@@ -1,7 +1,7 @@
 'use client';
 
 import ViewEditor from '@/components/ViewEditor';
-import { toKoreaDate } from '@/lib/date';
+import { toKrDate } from '@/lib/date';
 import { Class } from '@/model/class';
 import { useGetClassQuery } from '@/services/class';
 import React from 'react';
@@ -35,17 +35,17 @@ function ClassPage({ params: { classId } }: ClassProps) {
           <div>
             <div className="bm-1">교육기간</div>
             <div className="flex justify-between w-fit gap-2">
-              <span className="border-[1px] border-gray-300 rounded-md py-1 w-[150px] text-center">{toKoreaDate(data.classStart)}</span> 
+              <span className="border-[1px] border-gray-300 rounded-md py-1 w-[150px] text-center">{toKrDate(data.classStart)}</span> 
               <span>~</span>
-              <span className="border-[1px] border-gray-300 rounded-md py-1 w-[150px] text-center">{toKoreaDate(data.classEnd)}</span>
+              <span className="border-[1px] border-gray-300 rounded-md py-1 w-[150px] text-center">{toKrDate(data.classEnd)}</span>
             </div>
           </div>
           <div>
             <div className="bm-1">신청기간</div>
             <div className="flex justify-between w-fit gap-2">
-              <span className="border-[1px] border-gray-300 rounded-md py-1 w-[150px] text-center">{toKoreaDate(data.registerStart)}</span> 
+              <span className="border-[1px] border-gray-300 rounded-md py-1 w-[150px] text-center">{toKrDate(data.registerStart)}</span> 
               <span>~</span>
-              <span className="border-[1px] border-gray-300 rounded-md py-1 w-[150px] text-center">{toKoreaDate(data.registerEnd)}</span>
+              <span className="border-[1px] border-gray-300 rounded-md py-1 w-[150px] text-center">{toKrDate(data.registerEnd)}</span>
             </div>
           </div>
           <div className="w-full">

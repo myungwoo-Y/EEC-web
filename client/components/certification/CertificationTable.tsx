@@ -1,6 +1,6 @@
 'use client';
 
-import { toKoreaDate } from '@/lib/date';
+import { toKrDate } from '@/lib/date';
 import { CertificationHistory, CertificationType } from '@/model/certification';
 import React from 'react';
 import Button from '../Button';
@@ -80,15 +80,15 @@ function CertificationTable({ certifications, user }: CertificationTableProps) {
               {certification.issueNumber}
             </td>
             <td className="border-gray-300 border-[1px] py-3 w-[340px]">
-              {toKoreaDate(certification.startDate)}
+              {toKrDate(certification.startDate)}
               <span className="text-gray-400"> ~ </span>
-              {toKoreaDate(certification.endDate)}
+              {toKrDate(certification.endDate)}
             </td>
             <td className="border-gray-300 border-[1px] py-3">
               {certification.title}
             </td>
             <td className="border-gray-300 border-[1px] py-3">
-              {toKoreaDate(certification.certificationDate)}
+              {toKrDate(certification.certificationDate)}
             </td>
             <td className="border-gray-300 border-[1px] py-3">
               <Button onClick={() => onDownload(certification)}>발급하기</Button>

@@ -10,8 +10,8 @@ import { RoleGuard } from "src/auth/role.guard";
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('/:email')
-  public async findByEmail(@Param('email') email: string): Promise<Partial<User>> {
+  @Get('/email/:email')
+  async findByEmail(@Param('email') email: string): Promise<Partial<User>> {
     const result = await this.userService.findOne({email});
     if (!result) {
       return null;
@@ -47,15 +47,15 @@ export class UserController {
 
   @HasRoles(UserRole.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
-  @Get()
-  async findAll(@Query('isActive') isActive: boolean) {
-    return await this.userService.findAll({ isActive });
+  @Get('/result')
+  async findUserResults() {
+    return this.userService.findAllResults();
   }
 
   @HasRoles(UserRole.ADMIN)
   @UseGuards(JwtAuthGuard, RoleGuard)
-  @Get('/result')
-  async findUsersHasReport() {
-    return await this.userService.findAllResults();
+  @Get()
+  async findAll(@Query('isActive') isActive: boolean) {
+    return await this.userService.findAll({ isActive });
   }
 }

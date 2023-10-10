@@ -13,7 +13,7 @@ type TableSpan = {
   rowSpan?: number;
 };
 
-export function TableContainer({
+function TableContainer({
   className,
   children,
 }: PropsWithChildren<{ className?: string }>) {
@@ -22,17 +22,17 @@ export function TableContainer({
   );
 }
 
-export function THead({ className, children }: PropsWithChildren<TableProps>) {
+function THead({ className, children }: PropsWithChildren<TableProps>) {
   return (
     <thead className={classNames('bg-gray-100', className)}>{children}</thead>
   );
 }
 
-export function TBody({ className, children }: PropsWithChildren<TableProps>) {
+function TBody({ className, children }: PropsWithChildren<TableProps>) {
   return <tbody className={className}>{children}</tbody>;
 }
 
-export function Th({
+function Th({
   className,
   children,
   rowSpan,
@@ -52,7 +52,7 @@ export function Th({
   );
 }
 
-export function Td({
+function Td({
   className,
   children,
   rowSpan,
@@ -72,11 +72,11 @@ export function Td({
   );
 }
 
-export function Tr({ className, children }: PropsWithChildren<TableProps>) {
+function Tr({ className, children }: PropsWithChildren<TableProps>) {
   return <tr className={className}>{children}</tr>;
 }
 
-export function Table({ className, children }: PropsWithChildren<TableProps>) {
+function Table({ className, children }: PropsWithChildren<TableProps>) {
   return <table className={classNames('w-full', className)}>{children}</table>;
 }
 

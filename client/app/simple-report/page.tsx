@@ -3,7 +3,7 @@
 import Button from '@/components/Button';
 import Date from '@/components/Date';
 import Input from '@/components/Input';
-import { TBody, THead, Table, Td, Th, Tr } from '@/components/Table';
+import { TBody, THead, Table, Td, Th, Tr } from '@/components/Table/index';
 import { selectCurrentUser } from '@/features/auth/authSlice';
 import { toInputDate } from '@/lib/date';
 import { useUpdateSimpleReportMutation } from '@/services/user';

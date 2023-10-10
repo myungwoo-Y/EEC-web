@@ -1,4 +1,4 @@
-import { TBody, THead, Table, TableContainer, Td, Th, Tr } from '@/components/Table';
+import { TBody, THead, Table, TableContainer, Td, Th, Tr } from '@/components/Table/index';
 import TextArea from '@/components/TextArea';
 import { toSixBirthday } from '@/lib/date';
 import { User } from '@/model/user';

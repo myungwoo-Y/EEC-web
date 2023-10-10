@@ -76,5 +76,3 @@ export function Tr({ className, children }: PropsWithChildren<TableProps>) {
 export function Table({ className, children }: PropsWithChildren<TableProps>) {
   return <table className={classNames('w-full', className)}>{children}</table>;
 }
-
-export default Table;

@@ -19,10 +19,6 @@ export function TableContainer({
   );
 }
 
-export function Table({ className, children }: PropsWithChildren<TableProps>) {
-  return <table className={classNames('w-full', className)}>{children}</table>;
-}
-
 export function THead({ className, children }: PropsWithChildren<TableProps>) {
   return (
     <thead className={classNames('bg-gray-100', className)}>{children}</thead>
@@ -76,3 +72,9 @@ export function Td({
 export function Tr({ className, children }: PropsWithChildren<TableProps>) {
   return <tr className={className}>{children}</tr>;
 }
+
+export function Table({ className, children }: PropsWithChildren<TableProps>) {
+  return <table className={classNames('w-full', className)}>{children}</table>;
+}
+
+export default Table;

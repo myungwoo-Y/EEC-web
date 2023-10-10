@@ -7,8 +7,8 @@ import UserResultTable from './UserResultTable';
 
 function UserResultManagement() {
   const { data: users } = useGetUserResultsQuery();
-  const filterName = (name: string) => {};
-  const filterClassOrder = (classOrder: string) => {};
+  const filterName = (name: string) => null;
+  const filterClassOrder = (classOrder: string) => null;
 
   return (
     <div>

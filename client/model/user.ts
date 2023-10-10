@@ -52,9 +52,9 @@ export type User = {
 } & BaseEntity
 
 
-export type CreateUser = Partial<Omit<User, 'role' | 'classOrder'> & { role: string, classOrder: string | number}>;
+export type CreateUser = Partial<Omit<User, 'role' | 'classOrder' | 'birthday'> & { role: string, classOrder: string | number, birthday: Date}>;
 
-export type UpdateUser = Partial<Omit<User, 'role' | 'classOrder'> & { role: string, classOrder: string | number}>;
+export type UpdateUser = Partial<Omit<User, 'role' | 'classOrder'| 'birthday'> & { role: string, classOrder: string | number, birthday: Date | string}>;
 
 export type UpdateRegisterStatus = {
   userId: number;

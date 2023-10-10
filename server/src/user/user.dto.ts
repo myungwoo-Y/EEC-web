@@ -64,3 +64,11 @@ export class UpdateClassToUserDto {
   @IsNotEmpty()
   classId: number;
 }
+
+export class UpdateSimpleReportDto {
+  simpleReportId: number;
+
+  title: string;
+
+  submitDate: Date;
+}

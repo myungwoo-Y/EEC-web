@@ -204,6 +204,14 @@ function SideBar({
           >
             분기실적보고
           </Link>
+          <Link
+            href={`/simple-report`}
+            className={`flex text-[16px] text-white items-center mx-3 px-2 pl-10 py-3 hover:bg-primary rounded-xl ${
+              pathname === '/simple-report' ? 'bg-primary' : ''
+            }`}
+          >
+            역학조사분석보고서
+          </Link>
         </>
       )}
       {children && children}

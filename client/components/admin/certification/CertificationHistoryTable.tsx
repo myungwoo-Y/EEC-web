@@ -1,5 +1,5 @@
 import ClassOrderOption from '@/components/ClassOrderOption';
-import Date from '@/components/Date';
+import DatePeriod from '@/components/DatePeriod';
 import InputWithIcon from '@/components/InputIcon';
 import Select from '@/components/Select';
 import { toInputDate } from '@/lib/date';
@@ -91,7 +91,7 @@ function ResultTable() {
           <div className="flex items-center gap-1">
             <span>발급기간</span>
             <span>:</span>
-            <Date
+            <DatePeriod
               register={register}
               firstDateName="startDate"
               secondDateName="endDate"

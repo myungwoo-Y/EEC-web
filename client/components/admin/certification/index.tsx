@@ -1,4 +1,4 @@
-import Date from '@/components/Date';
+import DatePeriod from '@/components/DatePeriod';
 import Input from '@/components/Input';
 import UserSelector from '@/components/UserSelector';
 import { CertificationUser, User } from '@/model/user';
@@ -107,7 +107,7 @@ function Certification() {
           <div className="flex items-center gap-1">
             <span>교육기간</span>
             <span>:</span>
-            <Date
+            <DatePeriod
               register={register}
               firstDateName="startDate"
               secondDateName="endDate"

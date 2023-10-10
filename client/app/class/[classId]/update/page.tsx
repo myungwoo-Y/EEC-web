@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import { defaultClassDetail } from '@/model/table';
 import Input from '@/components/Input';
 import UploadFile from '@/components/UploadFile';
-import Date from '@/components/Date';
+import DatePeriod from '@/components/DatePeriod';
 import TextEditor from '@/components/TextEditor';
 import { getFileFromUrl } from '@/lib/downloadFile';
 import { toISOString, toInputDate } from '@/lib/date';
@@ -135,7 +135,7 @@ function UpdateClass({ params: { classId } }: UpdateClassProps) {
           />
         </div>
 
-        <Date
+        <DatePeriod
           name="교육기간"
           register={register}
           firstDateName="classStart"
@@ -143,7 +143,7 @@ function UpdateClass({ params: { classId } }: UpdateClassProps) {
           option={{ required: true }}
           className="w-full"
         />
-        <Date
+        <DatePeriod
           name="신청기간"
           register={register}
           firstDateName="registerStart"

@@ -3,6 +3,7 @@ import { Certification } from './certification';
 import { BaseEntity } from './common';
 import { Lecture } from './lecture';
 import { Report } from './report';
+import { SimpleReport } from './simpleReport';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -46,6 +47,8 @@ export type User = {
   memo: string;
 
   lastLogin: string;
+
+  simpleReport: SimpleReport;
 } & BaseEntity
 
 

@@ -1,6 +1,6 @@
 'use client';
 
-import Date from '@/components/Date';
+import DatePeriod from '@/components/DatePeriod';
 import Input from '@/components/Input';
 import TextEditor from '@/components/TextEditor';
 import UploadFile from '@/components/UploadFile';
@@ -97,7 +97,7 @@ function Page() {
           />
         </div>
 
-        <Date
+        <DatePeriod
           name="교육기간"
           register={register}
           firstDateName="classStart"
@@ -105,7 +105,7 @@ function Page() {
           option={{ required: true }}
           className="w-full"
         />
-        <Date
+        <DatePeriod
           name="신청기간"
           register={register}
           firstDateName="registerStart"

@@ -1,6 +1,12 @@
-import { CreateUser, UpdateRegisterStatus, UpdateUser, User } from '@/model/user';
+import {
+  CreateUser,
+  UpdateRegisterStatus,
+  UpdateUser,
+  User,
+} from '@/model/user';
 import { emptySplitApi } from './base';
 import { CertificationHistory } from '@/model/certification';
+import { SimpleReport } from '@/model/simpleReport';
 
 export const userApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -34,7 +40,7 @@ export const userApi = emptySplitApi.injectEndpoints({
       invalidatesTags: ['User'],
     }),
     addClassToUser: builder.mutation({
-      query: (user: { userId: number, classId: number }) => ({
+      query: (user: { userId: number; classId: number }) => ({
         url: '/user/class',
         method: 'PUT',
         body: user,
@@ -64,8 +70,11 @@ export const userApi = emptySplitApi.injectEndpoints({
       }),
       providesTags: ['Certification'],
     }),
-    getUserCertificationPdf: builder.query<CertificationHistory[], {userId: number, certificationId: number}>({
-      query: ({userId, certificationId}) => ({
+    getUserCertificationPdf: builder.query<
+      CertificationHistory[],
+      { userId: number; certificationId: number }
+    >({
+      query: ({ userId, certificationId }) => ({
         url: `/certification/${certificationId}/user/${userId}`,
         method: 'GET',
       }),
@@ -78,7 +87,36 @@ export const userApi = emptySplitApi.injectEndpoints({
       }),
       providesTags: ['User'],
     }),
+    updateSimpleReport: builder.mutation<
+      void,
+      {
+        userId: number;
+        updateSimpleReport: Omit<SimpleReport, 'simpleReportId'> & {
+          simpleReportId: number | null;
+        };
+      }
+    >({
+      query: ({ userId, updateSimpleReport }) => ({
+        url: `/user/${userId}/simple-report`,
+        method: 'PUT',
+        body: updateSimpleReport,
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
-export const { useAddUserMutation, useLazyGetUserQuery, useGetUserQuery, useGetUsersQuery, useGetUsersByQueryQuery, useUpdateUserMutation, useUpdateUsersMutation, useAddClassToUserMutation, useGetUserCertificationsQuery, useLazyGetUserCertificationPdfQuery, useGetUserResultsQuery } = userApi;
+export const {
+  useAddUserMutation,
+  useLazyGetUserQuery,
+  useGetUserQuery,
+  useGetUsersQuery,
+  useGetUsersByQueryQuery,
+  useUpdateUserMutation,
+  useUpdateUsersMutation,
+  useAddClassToUserMutation,
+  useGetUserCertificationsQuery,
+  useLazyGetUserCertificationPdfQuery,
+  useGetUserResultsQuery,
+  useUpdateSimpleReportMutation,
+} = userApi;

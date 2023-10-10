@@ -23,11 +23,11 @@ function Button({
     <button
       onClick={onClick}
       className={classNames(
+        className,
         variant === 'outline' &&
           `border-[1px] rounded-md w-fit px-4 py-1 ${color === 'pirmary' ? 'text-primary border-primary': ''} ${color === 'gray' ? 'text-gray-400 border-gray-400': ''}`,
         variant === 'solid' &&
-          `text-white rounded-md w-fit px-4 py-1 ${color === 'pirmary' ? 'bg-primary': ''} ${color === 'gray' ? 'bg-gray-400': ''}`,
-        className
+          `text-white rounded-md w-fit px-4 py-1 ${color === 'pirmary' ? 'bg-primary': ''} ${color === 'gray' ? 'bg-gray-400': ''}`
       )}
     >
       {children}

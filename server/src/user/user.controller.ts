@@ -1,10 +1,11 @@
-import { Body, Controller, Get, NotFoundException, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, NotFoundException, Param, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
 import { User, UserRole } from "src/model/user.entity";
-import { CreateUserDto, UpdateClassToUserDto, UpdateUserDto } from "./user.dto";
+import { CreateUserDto, UpdateClassToUserDto, UpdateSimpleReportDto, UpdateUserDto } from "./user.dto";
 import { UserService } from "./user.service";
 import { JwtAuthGuard } from "src/auth/strategies/jwt-auth.guard";
 import { HasRoles } from "src/auth/has-role.decorator";
 import { RoleGuard } from "src/auth/role.guard";
+import { Request } from "express";
 
 @Controller('/user')
 export class UserController {
@@ -57,5 +58,11 @@ export class UserController {
   @Get()
   async findAll(@Query('isActive') isActive: boolean) {
     return await this.userService.findAll({ isActive });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put(':userId/simple-report')
+  async updateSimpleReport(@Param('userId') userId: number, @Body() updateSimpleReportDto: UpdateSimpleReportDto) {
+    return await this.userService.updateSimpleReport(userId, updateSimpleReportDto);
   }
 }

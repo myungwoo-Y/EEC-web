@@ -10,7 +10,7 @@ import { useGetUsersQuery } from '@/services/user';
 import { EyeIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Date from '../Date';
+import DatePeriod from '../DatePeriod';
 import Input from '../Input';
 import Select from '../Select';
 import UploadFiles from '../UploadFiles';
@@ -236,7 +236,7 @@ function UpdateLectureModal({ lecture, closeModal }: UpdateLectureModalProps) {
               <tr className="border-[1px] border-t-0">
                 <td className="bg-gray-100 w-36 py-4 text-center">일정</td>
                 <td className="px-3">
-                  <Date
+                  <DatePeriod
                     firstDateName="startDate"
                     secondDateName="endDate"
                     register={register}
@@ -307,7 +307,7 @@ function UpdateLectureModal({ lecture, closeModal }: UpdateLectureModalProps) {
                   학습평가 일정
                 </td>
                 <td className="px-3">
-                  <Date
+                  <DatePeriod
                     firstDateName="evaluateStartDate"
                     secondDateName="evaluateEndDate"
                     register={register}
@@ -356,7 +356,7 @@ function UpdateLectureModal({ lecture, closeModal }: UpdateLectureModalProps) {
                   강사평가 일정
                 </td>
                 <td className="px-3">
-                  <Date
+                  <DatePeriod
                     firstDateName="lecturerEvaluateStartDate"
                     secondDateName="lecturerEvaluateEndDate"
                     register={register}

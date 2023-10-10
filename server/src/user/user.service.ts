@@ -5,8 +5,9 @@ import { Application } from 'src/model/application.entity';
 import Class from 'src/model/class.entity';
 import { User, UserRole } from 'src/model/user.entity';
 import { InsertResult, Repository } from 'typeorm';
-import { CreateUserDto, UpdateClassToUserDto, UpdateUserDto } from './user.dto';
+import { CreateUserDto, UpdateClassToUserDto, UpdateSimpleReportDto, UpdateUserDto } from './user.dto';
 import { getNow } from 'src/lib/date';
+import { SimpleReport } from 'src/model/simpleReport.entity';
 
 @Injectable()
 export class UserService {
@@ -17,6 +18,8 @@ export class UserService {
     private classRepository: Repository<Class>,
     @InjectRepository(Application)
     private applicationRepository: Repository<Application>,
+    @InjectRepository(SimpleReport)
+    private simpleReortRepository: Repository<SimpleReport>,
   ) {}
 
   updateLastLoginDate(userId: number) {
@@ -58,6 +61,7 @@ export class UserService {
         applications: {
           class: true,
         },
+        simpleReport: true
       },
     });
   }
@@ -111,5 +115,26 @@ export class UserService {
       isActive: false,
     });
     return true;
+  }
+
+  async updateSimpleReport(userId: number, updateSimpleReportDto: UpdateSimpleReportDto) {
+    const { simpleReportId, submitDate, title } = updateSimpleReportDto;
+
+    const updateQuery = {
+      title: title || '',
+      submitDate: submitDate || null
+    };
+
+    if (!updateSimpleReportDto.simpleReportId) {
+      const result = await this.simpleReortRepository.insert(updateQuery);
+
+      this.usersRepository.update(userId, {
+        simpleReport: {
+          simpleReportId: result.raw[0].simpleReportId
+        }
+      });
+    } else {
+      this.simpleReortRepository.update(simpleReportId, updateQuery);
+    }
   }
 }

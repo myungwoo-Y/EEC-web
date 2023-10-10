@@ -4,7 +4,6 @@ import { getUserRoleName } from '@/lib/user';
 import {
   CheckedUser,
   UpdateRegisterStatus,
-  User,
   UserRole,
   UserRoles,
 } from '@/model/user';
@@ -15,7 +14,6 @@ import {
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import checkboxStyles from '../../Checkbox.module.scss';
-import classNames from 'classnames';
 
 function ActiveUserManagement() {
   const { data } = useGetUsersByQueryQuery({ isActive: true });
@@ -198,9 +196,6 @@ function ActiveUserManagement() {
         </div>
         <div className="float-right">
           <div className="flex gap-2 mt-4">
-            <button className="px-3 py-1 text-center border-[1px] border-blue-700 text-blue-500 rounded-md">
-              선택된 수강생 카카오톡 알림 발송
-            </button>
             <button
               className="px-3 py-1 text-center border-[1px] border-blue-700 text-blue-500 rounded-md"
               onClick={() => {

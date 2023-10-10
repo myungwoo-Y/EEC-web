@@ -9,7 +9,7 @@ function isAllowedRequest(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
 
-  if (path === '/' || path.includes('/login')) {
+  if (path === '/' || path.includes('/login') || path.includes('/signup')) {
     return true;
   }
 

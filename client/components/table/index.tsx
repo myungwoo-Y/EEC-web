@@ -10,12 +10,23 @@ type TableSpan = {
   rowSpan?: number;
 };
 
+export function TableContainer({
+  className,
+  children,
+}: PropsWithChildren<{ className?: string }>) {
+  return (
+    <div className={classNames('overflow-x-auto overflow-y-auto', className)}>{children}</div>
+  );
+}
+
 export function Table({ className, children }: PropsWithChildren<TableProps>) {
   return <table className={classNames('w-full', className)}>{children}</table>;
 }
 
 export function THead({ className, children }: PropsWithChildren<TableProps>) {
-  return <thead className={classNames('bg-gray-100', className)}>{children}</thead>;
+  return (
+    <thead className={classNames('bg-gray-100', className)}>{children}</thead>
+  );
 }
 
 export function TBody({ className, children }: PropsWithChildren<TableProps>) {

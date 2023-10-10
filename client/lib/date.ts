@@ -23,27 +23,35 @@ export function toInputDate(date: string) {
   if (!date || date === '-infinity') {
     return '';
   }
-  return dayjs.utc(date).format('YYYY-MM-DD');
+  return dayjs.utc(date).tz('Asia/Seoul').format('YYYY-MM-DD');
 }
 
 export function toKrDate(date: string) {
   if (!date || date === '-infinity') {
     return '';
   }
-  return dayjs.utc(date).format('YYYY년 M월 D일');
+  return dayjs.utc(date).tz('Asia/Seoul').format('YYYY년 M월 D일');
 }
 
 export function toSixBirthday(date: string) {
   if (!date || date === '-infinity') {
     return '';
   }
-  return dayjs.utc(date).format('YYMMDD');
+  return dayjs.utc(date).tz('Asia/Seoul').format('YYMMDD');
 }
 
 export function toISOString(date: string | number) {
   if (!date || date === '-infinity') {
     return '-infinity';
   }
-  return dayjs.utc(date).toISOString();
+  return dayjs.utc(date).tz('Asia/Seoul').toISOString();
+}
+
+export function toDetailDate(date: string) {
+  if (!date || date === '-infinity') {
+    return '';
+  } 
+
+  return dayjs.utc(date).tz('Asia/Seoul').format('YYYY-MM-DD HH:mm');
 }
 

@@ -6,6 +6,7 @@ import Class from 'src/model/class.entity';
 import { User, UserRole } from 'src/model/user.entity';
 import { InsertResult, Repository } from 'typeorm';
 import { CreateUserDto, UpdateClassToUserDto, UpdateUserDto } from './user.dto';
+import { getNow } from 'src/lib/date';
 
 @Injectable()
 export class UserService {
@@ -17,6 +18,12 @@ export class UserService {
     @InjectRepository(Application)
     private applicationRepository: Repository<Application>,
   ) {}
+
+  updateLastLoginDate(userId: number) {
+    this.usersRepository.update(userId, {
+      lastLogin: getNow()
+    });
+  }
 
   findAll(params: Partial<User>): Promise<User[]> {
     const option = removeEmpty(params) as Partial<User>;

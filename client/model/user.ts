@@ -44,6 +44,8 @@ export type User = {
   reports: Report[];
 
   memo: string;
+
+  lastLogin: string;
 } & BaseEntity
 
 

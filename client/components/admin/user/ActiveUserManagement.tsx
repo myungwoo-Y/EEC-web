@@ -14,6 +14,7 @@ import {
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import checkboxStyles from '../../Checkbox.module.scss';
+import { toDetailDate } from '@/lib/date';
 
 function ActiveUserManagement() {
   const { data } = useGetUsersByQueryQuery({ isActive: true });
@@ -191,6 +192,9 @@ function ActiveUserManagement() {
                         </div>
                       ))}
                     </div>
+                  </td>
+                  <td className="border-gray-300 border-[1px] border-t-black py-3">
+                    {toDetailDate(user.lastLogin)}
                   </td>
                 </tr>
               ))}

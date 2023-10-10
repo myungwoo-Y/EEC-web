@@ -15,7 +15,7 @@ import Lecture from './lecture.entity';
 import { Application } from './application.entity';
 import { Comment } from './comment.entity';
 import { Report } from './report.entity';
-import { SimpleReport } from './simpleReport';
+import { SimpleReport } from './simpleReport.entity';
 
 export enum UserRole {
   ADMIN = 'admin',

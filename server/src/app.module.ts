@@ -20,13 +20,14 @@ import { Application } from './model/application.entity';
 import { ApplicationModule } from './application/application.module';
 import { Comment } from './model/comment.entity';
 import { ReportModule } from './report/report.module';
+import { SimpleReport } from './model/simpleReport.entity';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(process.cwd(), '/upload/'),
     }),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
-    TypeOrmModule.forFeature([User, Class, Application, Comment, Comment]),
+    TypeOrmModule.forFeature([User, Class, Application, Comment, Comment, SimpleReport]),
     UserModule,
     AuthModule,
     PostModule,

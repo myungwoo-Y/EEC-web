@@ -24,6 +24,11 @@ export class AppController {
   @Post('auth/login')
   async login(@Request() req, @Res({ passthrough: true }) response: Response) {
     const loginResponse = await this.authService.login(req.user);
+    
+    if (loginResponse.user?.userId) {
+      this.userService.updateLastLoginDate(loginResponse.user.userId);
+    }
+
     CookieUtil.setCookie('token', loginResponse.token, response, { httpOnly: true });
     return loginResponse;
   }

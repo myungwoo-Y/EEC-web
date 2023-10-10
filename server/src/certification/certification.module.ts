@@ -9,10 +9,11 @@ import { User } from 'src/model/user.entity';
 import Class from 'src/model/class.entity';
 import { Application } from 'src/model/application.entity';
 import { Comment } from 'src/model/comment.entity';
+import { SimpleReport } from 'src/model/simpleReport.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Certification, Class, Application, Comment]),
+    TypeOrmModule.forFeature([User, Certification, Class, Application, Comment, SimpleReport]),
     UserModule
   ],
   controllers: [CertificationController],

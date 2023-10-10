@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
 import configMap from './config/config-map';
+import { getNow } from './lib/date';
 
 async function bootstrap() {
   config();
@@ -17,5 +18,7 @@ async function bootstrap() {
   app.use(cors({credentials: true, origin: configMap.domain}));
 
   await app.listen(process.env.PORT);
+
+  console.log(getNow());
 }
 bootstrap();

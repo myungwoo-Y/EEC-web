@@ -12,6 +12,7 @@ import { Application } from 'src/model/application.entity';
 import { Comment } from 'src/model/comment.entity';
 import { Report } from 'src/model/report.entity';
 import configMap from 'src/config/config-map';
+import { SimpleReport } from 'src/model/simpleReport';
 
 export default new DataSource({
   type: 'postgres',
@@ -22,7 +23,7 @@ export default new DataSource({
   username: configService.getValue('POSTGRES_USER'),
   password: configService.getValue('POSTGRES_PASSWORD'),
   database: configService.getValue('POSTGRES_DATABASE'),
-  entities: [User, Post, PostCategory, File, Class, Curriculum, Lecture, Certification, Application, Comment, Report],
+  entities: [User, Post, PostCategory, File, Class, Curriculum, Lecture, Certification, Application, Comment, Report, SimpleReport],
   migrationsTableName: 'eec_web_migration',
   migrations: configMap.migrations,
   synchronize: false,

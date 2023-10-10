@@ -97,7 +97,7 @@ function ActiveUserManagement() {
       </div>
       <div className="overflow-x-auto">
         <div className="max-h-[600px] overflow-y-auto my-4">
-          <table className="min-w-[1300px] w-full text-center">
+          <table className="min-w-[1700px] w-full text-center">
             <thead>
               <tr className="bg-gray-100">
                 <th className="border-gray-300 border-[1px] border-t-black py-3 w-20">
@@ -128,11 +128,14 @@ function ActiveUserManagement() {
                 <th className="border-gray-300 border-[1px] border-t-black py-3">
                   직급
                 </th>
-                <th className="border-gray-300 border-[1px] border-t-black py-3">
+                <th className="border-gray-300 border-[1px] border-t-black py-3 w-10">
                   기수
                 </th>
                 <th className="border-gray-300 border-[1px] border-t-black py-3">
                   권한구분
+                </th>
+                <th className="border-gray-300 border-[1px] border-t-black py-3">
+                  최종로그인
                 </th>
               </tr>
             </thead>

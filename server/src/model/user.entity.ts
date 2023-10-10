@@ -3,9 +3,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BaseEntity } from './base.entity';
@@ -13,6 +15,7 @@ import Lecture from './lecture.entity';
 import { Application } from './application.entity';
 import { Comment } from './comment.entity';
 import { Report } from './report.entity';
+import { SimpleReport } from './simpleReport';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -63,6 +66,9 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 500, default: '' })
   memo: string;
 
+  @Column({ type: 'timestamptz', nullable: true })
+  lastLogin: Date;
+
   @OneToMany((type) => Lecture, (lecture) => lecture.admin)
   lectures: Lecture[];
 
@@ -79,6 +85,10 @@ export class User extends BaseEntity {
 
   @OneToMany((type) => Report, (report) => report.user)
   reports: Report[];
+
+  @OneToOne(() => SimpleReport)
+  @JoinColumn()
+  public simpleReport?: SimpleReport;
 }
 
 export type AuthUser = Omit<User, 'password'>;

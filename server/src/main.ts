@@ -18,7 +18,5 @@ async function bootstrap() {
   app.use(cors({credentials: true, origin: configMap.domain}));
 
   await app.listen(process.env.PORT);
-
-  console.log(getNow());
 }
 bootstrap();

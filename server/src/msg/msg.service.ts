@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { SolapiMessageService } from 'solapi';
 import { SendMessageDto } from './msg.dto';
 
@@ -11,9 +11,14 @@ export class MsgService {
 
   async sendMessage(sendMessageDtos: SendMessageDto[]) {
     return await Promise.all(
-      sendMessageDtos.map((sendMessageDto) =>
-        this.solapiMessageService.send(sendMessageDto),
-      ),
+      sendMessageDtos.map(async (sendMessageDto) => {
+        try {
+          await this.solapiMessageService.send(sendMessageDto);
+        } catch (e) {
+          console.log(e);
+          throw new InternalServerErrorException();
+        }
+      })
     );
   }
 }

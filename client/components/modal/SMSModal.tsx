@@ -10,11 +10,14 @@ type SMSModalProps = {
 };
 
 function SMSModal({ users, closeModal }: SMSModalProps) {
-  const [sendSms, { isSuccess }] = useSendSmsMutation();
+  const [sendSms, { isSuccess, isError }] = useSendSmsMutation();
   const [text ,setText] = useState('');
 
   if (isSuccess) {
     alert(`${users.length}건 문자 발송했습니다.`);
+    closeModal();
+  } else if (isError) {
+    alert('전송에 실패해습니다. 관리자에게 문의해주세요');
     closeModal();
   }
 

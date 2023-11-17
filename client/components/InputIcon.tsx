@@ -16,7 +16,7 @@ interface InputWithIconProps {
   className?: string;
 }
 
-function InputWithIcon({error, register = () => null, name, option, disabled, Icon, placeholder = '', className = 'w-full', type}: InputWithIconProps) {
+function InputWithIcon({error, register = () => null, name, option, disabled, Icon, placeholder = '', className = 'w-full', type, onChange}: InputWithIconProps) {
   return (
     <div className="relative">
       <Icon className="w-4 h-4 absolute top-1/2 left-1 -translate-y-1/2" />
@@ -28,6 +28,7 @@ function InputWithIcon({error, register = () => null, name, option, disabled, Ic
         disabled={disabled}
         placeholder={placeholder}
         type={type}
+        onChange={onChange}
       />
     </div>
   );

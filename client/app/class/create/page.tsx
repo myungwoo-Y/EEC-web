@@ -2,7 +2,6 @@
 
 import DatePeriod from '@/components/DatePeriod';
 import Input from '@/components/Input';
-import TextEditor from '@/components/TextEditor';
 import UploadFile from '@/components/UploadFile';
 import { defaultClassDetail } from '@/model/table';
 import { useAddClassMutation } from '@/services/class';
@@ -22,7 +21,7 @@ function Page() {
 
   const [detail, setDetail] = useState(defaultClassDetail);
   const [addClass, { isError, isSuccess }] = useAddClassMutation();
-
+  
   const onSubmitClass = (data: Record<string, any>) => {
     const formData  = new FormData();
     formData.append('title', data.title);
@@ -116,12 +115,12 @@ function Page() {
 
         <div className="w-full mt-4">
           <p>교과목상세</p>
-          <TextEditor
+          {/* <TextEditor
             content={detail}
             setContent={setDetail}
             addTable={true}
             className="w-full mt-1"
-          />
+          /> */}
         </div>
 
         <button

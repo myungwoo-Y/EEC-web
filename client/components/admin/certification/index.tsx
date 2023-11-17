@@ -28,11 +28,18 @@ function Certification() {
 
   const onFillAll = () => {
     const certificationInfo = getValues();
-    setUsers(users.map((user, idx) => ({
-      ...user,
-      ...certificationInfo,
-      issueNumber: (idx+1).toString().padStart(3, '0')
-    })))
+    let checkedCount = 0;
+    setUsers(users.map((user) => {
+      if (!user.checked) {
+        return user;
+      }
+
+      return {
+        ...user,
+        ...certificationInfo,
+        issueNumber: (++checkedCount).toString().padStart(3, '0')
+      }
+    }))
   }
 
   useEffect(() => {

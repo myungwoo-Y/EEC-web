@@ -41,6 +41,7 @@ export class UserService {
       relations: {
         reports: true,
         applications: true,
+        simpleReport: true
       },
       order: {
         reports: {

@@ -2,13 +2,19 @@ import Button from '@/components/Button';
 import Filter from '@/components/Filter/indx';
 import { useGetUserResultsQuery } from '@/services/user';
 import { FlagIcon, UserIcon } from '@heroicons/react/24/solid';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import UserResultTable from './UserResultTable';
+import { User } from '@/model/user';
 
 function UserResultManagement() {
   const { data: users } = useGetUserResultsQuery();
-  const filterName = (name: string) => null;
-  const filterClassOrder = (classOrder: string) => null;
+  const [filteredUsers, setFilteredUsers] = useState<User[] | undefined>(undefined);
+  const filterName = (name: string) => setFilteredUsers(users?.filter(user => !name || user.name.includes(name)));
+  const filterClassOrder = (classOrder: string) => setFilteredUsers(users?.filter(user => !classOrder || user.classOrder === parseInt(classOrder)));
+
+  useEffect(() => {
+    setFilteredUsers(users);
+  }, [users])
 
   return (
     <div>
@@ -40,7 +46,7 @@ function UserResultManagement() {
           <Button variant='solid' onClick={() => null}>엑셀다운로드</Button>
         </div>
       </div>
-      <UserResultTable users={users} />
+      <UserResultTable users={filteredUsers} />
     </div>
   );
 }

@@ -55,3 +55,7 @@ export function toDetailDate(date: string) {
   return dayjs.utc(date).tz('Asia/Seoul').format('YYYY-MM-DD HH:mm');
 }
 
+export function getSimpleNow() {
+  return dayjs.utc(Date.now()).tz('Asia/Seoul').format('YYMMDD');
+}
+

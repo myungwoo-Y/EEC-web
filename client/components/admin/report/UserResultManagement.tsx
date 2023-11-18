@@ -5,16 +5,27 @@ import {
   useUpdateUsersMutation,
 } from '@/services/user';
 import { FlagIcon, UserIcon } from '@heroicons/react/24/solid';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import UserResultTable from './UserResultTable';
 import { User } from '@/model/user';
 import useAlertSave from '@/hooks/useAlertSave';
+import {utils, writeFile} from 'xlsx';
+import { getSimpleNow } from '@/lib/date';
 
 function UserResultManagement() {
+  const tableRef = useRef<HTMLTableElement>(null);
   const { data: users } = useGetUserResultsQuery();
   const [filteredUsers, setFilteredUsers] = useState<User[] | undefined>(
     undefined
   );
+
+  const [updateUsers, { isSuccess, isError }] = useUpdateUsersMutation();
+  const onDownloadExcel = () => {
+    const table = tableRef.current;
+    const wb = utils.table_to_book(table, { sheet: 'Sheet JS' });
+    writeFile(wb, `역학조사관현황_${getSimpleNow()}.xlsx`);
+  }
+
   const filterName = (name: string) =>
     setFilteredUsers(
       users?.filter((user) => !name || user.name.includes(name))
@@ -25,8 +36,6 @@ function UserResultManagement() {
         (user) => !classOrder || user.classOrder === parseInt(classOrder)
       )
     );
-  const [updateUsers, { isSuccess, isError }] = useUpdateUsersMutation();
-
   const onSave = () => {
     const memoChangedUsers: { userId: number; memo: string }[] =
       filteredUsers
@@ -75,12 +84,16 @@ function UserResultManagement() {
           <Button variant="solid" onClick={onSave}>
             저장
           </Button>
-          <Button variant="solid" onClick={() => null}>
+          <Button variant="solid" onClick={onDownloadExcel}>
             엑셀다운로드
           </Button>
         </div>
       </div>
-      <UserResultTable users={filteredUsers} setUsers={setFilteredUsers} />
+      <UserResultTable
+        users={filteredUsers}
+        setUsers={setFilteredUsers}
+        ref={tableRef}
+      />
     </div>
   );
 }

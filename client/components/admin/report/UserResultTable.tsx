@@ -18,7 +18,9 @@ function TableContainer({
   children,
 }: PropsWithChildren<{ className?: string }>) {
   return (
-    <div className={classNames('overflow-x-auto overflow-y-auto', className)}>{children}</div>
+    <div className={classNames('overflow-x-auto overflow-y-auto', className)}>
+      {children}
+    </div>
   );
 }
 
@@ -82,11 +84,30 @@ function Table({ className, children }: PropsWithChildren<TableProps>) {
 
 type UserResultTableProps = {
   users: User[] | undefined;
+  setUsers: (u: User[]) => void;
 };
 
-function UserResultTable({ users }: UserResultTableProps) {
+function UserResultTable({ users, setUsers }: UserResultTableProps) {
+  const updateMemo = (userId: number, newMemo: string) => {
+    if (!users) {
+      return;
+    }
+
+    setUsers(
+      users?.map((user) => {
+        if (user.userId !== userId) {
+          return user;
+        }
+        return {
+          ...user,
+          memo: newMemo,
+        };
+      })
+    );
+  };
+
   return (
-    <TableContainer className='mt-10 max-h-[800px]'>
+    <TableContainer className="mt-10 max-h-[800px]">
       <Table className="min-w-[1700px]">
         <THead>
           <Tr>
@@ -101,25 +122,45 @@ function UserResultTable({ users }: UserResultTableProps) {
             <Th rowSpan={3} className="w-28">
               역학조사 <br /> 분석보고서 <br /> (제목/제출일)
             </Th>
-            <Th rowSpan={3} className="w-28">신규교육수료일</Th>
+            <Th rowSpan={3} className="w-28">
+              신규교육수료일
+            </Th>
             <Th colSpan={5}>보수교육이수일</Th>
-            <Th rowSpan={3} className='w-30'>기타</Th>
+            <Th rowSpan={3} className="w-30">
+              기타
+            </Th>
           </Tr>
           <Tr>
             <Th rowSpan={2} className="w-12">
               기수
             </Th>
-            <Th rowSpan={2} className="w-52">소속</Th>
-            <Th rowSpan={2} className='w-24'>직급</Th>
-            <Th rowSpan={2} className="w-20">성명</Th>
+            <Th rowSpan={2} className="w-52">
+              소속
+            </Th>
+            <Th rowSpan={2} className="w-24">
+              직급
+            </Th>
+            <Th rowSpan={2} className="w-20">
+              성명
+            </Th>
             <Th rowSpan={2}>생년월일</Th>
             <Th colSpan={2}>1년차</Th>
             <Th className="w-20">2년차</Th>
-            <Th rowSpan={2} className="w-16">1회차</Th>
-            <Th rowSpan={2} className="w-16">2회차</Th>
-            <Th rowSpan={2} className="w-16">3회차</Th>
-            <Th rowSpan={2} className="w-16">4회차</Th>
-            <Th rowSpan={2} className="w-16">5회차</Th>
+            <Th rowSpan={2} className="w-16">
+              1회차
+            </Th>
+            <Th rowSpan={2} className="w-16">
+              2회차
+            </Th>
+            <Th rowSpan={2} className="w-16">
+              3회차
+            </Th>
+            <Th rowSpan={2} className="w-16">
+              4회차
+            </Th>
+            <Th rowSpan={2} className="w-16">
+              5회차
+            </Th>
           </Tr>
           <Tr>
             <Th className="w-20">기본교육</Th>
@@ -147,7 +188,13 @@ function UserResultTable({ users }: UserResultTableProps) {
               <Td>{/* 3회차 */}</Td>
               <Td>{/* 4회차 */}</Td>
               <Td>{/* 5회차 */}</Td>
-              <Td><TextArea value={user.memo} setValue={() => null} /></Td>
+              <Td>
+                <TextArea
+                  value={user.memo}
+                  setValue={(memo) => updateMemo(user.userId, memo)}
+                  className="w-full"
+                />
+              </Td>
             </Tr>
           ))}
         </TBody>

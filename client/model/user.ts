@@ -58,8 +58,9 @@ export type UpdateUser = Partial<Omit<User, 'role' | 'classOrder'| 'birthday'> &
 
 export type UpdateRegisterStatus = {
   userId: number;
-  isActive: boolean;
-  role: UserRole | string;
+  isActive?: boolean;
+  role?: UserRole | string;
+  memo?: string;
 };
 
 export type CheckedUser = User & { checked: boolean };

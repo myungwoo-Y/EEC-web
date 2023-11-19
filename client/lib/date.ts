@@ -59,3 +59,10 @@ export function getSimpleNow() {
   return dayjs.utc(Date.now()).tz('Asia/Seoul').format('YYMMDD');
 }
 
+export function getSimpleNowWithDot(date: string) {
+  if (!date || date === '-infinity') {
+    return '';
+  }
+  return dayjs.utc(date).tz('Asia/Seoul').format('YY.MM.DD');
+}
+

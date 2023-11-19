@@ -1,5 +1,5 @@
 import TextArea from '@/components/TextArea';
-import { toSixBirthday } from '@/lib/date';
+import { getSimpleNowWithDot, toKrDate, toSixBirthday } from '@/lib/date';
 import { User } from '@/model/user';
 import classNames from 'classnames';
 import React, { PropsWithChildren } from 'react';
@@ -183,7 +183,12 @@ const UserResultTable = React.forwardRef(
                 <Td>1년차</Td>
                 <Td>2년차</Td>
                 <Td>{user.reports?.length || 0}</Td>
-                <Td>{user.simpleReport?.title || ''}</Td>
+                <Td>
+                  {user.simpleReport?.title || ''} <br />{' '}
+                  {'(' +
+                    getSimpleNowWithDot(user.simpleReport?.submitDate) +
+                    ')'}
+                </Td>
                 <Td>{/* 수료일 */}</Td>
                 <Td>{/* 1회차 */}</Td>
                 <Td>{/* 2회차 */}</Td>
